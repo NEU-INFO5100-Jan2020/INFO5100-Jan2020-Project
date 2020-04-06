@@ -91,7 +91,7 @@ public class Search {
     needed by our services
      */
     input = sc.optionalSearchFilters;
-    String signature = sc.signature;
+    String signature = sc.mandatoryInput[0];
     if (signature.equals("Vehicle")) {
       factory = new SearchVehicle();
     } else if (signature.equals("Dealer")) {
