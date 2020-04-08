@@ -15,7 +15,6 @@ class DealerSorter implements Sorter {
 
 class VehicleSorter implements Sorter {
 
-
   @Override
   public Collection<? extends BigDataType> sort(Collection<? extends BigDataType> in) {
     return in;

@@ -9,7 +9,6 @@ class IncentiveGetter implements DataGetter{
 
   @Override
   public Collection<? extends BigDataType> get() {
-
     return null;
   }
 }
@@ -18,7 +17,6 @@ class VehicleGetter implements DataGetter{
 
   @Override
   public Collection<? extends BigDataType> get() {
-
     return null;
   }
 }

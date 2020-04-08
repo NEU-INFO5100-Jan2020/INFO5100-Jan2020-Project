@@ -85,29 +85,13 @@ public class Search {
   SearchFactory factory;
   String[] input;
 
-  public Search(SearchCriterion sc){
+  public Search(SearchCriterion sc, SortFilter sf){
     /*
     One option of constructor of Search class, the input should be a SearchCriterion object including the information
     needed by our services
      */
     input = sc.optionalSearchFilters;
     String signature = sc.mandatoryInput[0];
-    if (signature.equals("Vehicle")) {
-      factory = new SearchVehicle();
-    } else if (signature.equals("Dealer")) {
-      factory = new SearchDealer();
-    } else if (signature.equals("Incentive")) {
-      factory = new SearchIncentive();
-    } else {
-      throw new NoSuchElementException();
-    }
-  }
-  public Search(String[] optionalFilters, String signature) {
-    /*
-    The constructor of Search class, this constructor takes a array of Strings and another signature string to identify
-    which GUI is using our service
-     */
-    input = optionalFilters;
     if (signature.equals("Vehicle")) {
       factory = new SearchVehicle();
     } else if (signature.equals("Dealer")) {
