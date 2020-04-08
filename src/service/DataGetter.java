@@ -1,14 +1,15 @@
 package service;
 import java.util.Collection;
 
+
 public interface DataGetter {
-  Collection<? extends BigDataType> get();
+  Collection<? extends BigDataType> get(SearchCriterion sc);
 }
 
 class IncentiveGetter implements DataGetter{
 
   @Override
-  public Collection<? extends BigDataType> get() {
+  public Collection<? extends BigDataType> get(SearchCriterion sc) {
     return null;
   }
 }
@@ -16,7 +17,7 @@ class IncentiveGetter implements DataGetter{
 class VehicleGetter implements DataGetter{
 
   @Override
-  public Collection<? extends BigDataType> get() {
+  public Collection<? extends BigDataType> get(SearchCriterion sc) {
     return null;
   }
 }
@@ -24,8 +25,7 @@ class VehicleGetter implements DataGetter{
 class DealerGetter implements DataGetter{
 
   @Override
-  public Collection<? extends BigDataType> get() {
-
+  public Collection<? extends BigDataType> get(SearchCriterion sc) {
     return null;
   }
 }
