@@ -5,8 +5,8 @@ public interface DealerManager {
     /*Get a list of all the dealers from the Dealer table*/
     Collection<Dealer> getAListOfAllDealer();
 
-    /*Returns a list of Dealer details, based on the dealerIds passed*/
-    Collection<Dealer> getDealerDetails(int[] dealerIdList);
+    /*Returns a list of Dealer details, based on the dealerId passed*/
+    Collection<Dealer> getDealerDetails(int dealerId);
 
     /*Returns a list of Dealer details, based on the 'dealerName' / 'zipCode' / 'distanceInMiles' passed*/
     Collection<Dealer> getDealerDetails(String dealerName, String zipCode, String distanceInMiles);
