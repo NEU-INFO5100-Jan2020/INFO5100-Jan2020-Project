@@ -1,6 +1,9 @@
 import java.util.Collection;
 
 public interface VehicleManager {
+    /*Return Vehicle details based on Vehicle Id passed*/
+    Collection<Vehicle> getVehicleDetail(int vehicleId);
+
     /*Returns a list of Vehicles with its details, based on the vehicle ids passed*/
     Collection<Vehicle> getListOfVehiclesBasedOnVehicleIds(int[] vehicleIdList);
 

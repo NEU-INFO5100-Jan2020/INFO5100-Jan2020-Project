@@ -1,6 +1,10 @@
 import java.util.Collection;
 
 public interface DealerManager {
+
+    /*Get a list of all the dealers from the Dealer table*/
+    Collection<Dealer> getAListOfAllDealer();
+
     /*Returns a list of Dealer details, based on the dealerIds passed*/
     Collection<Dealer> getDealerDetails(int[] dealerIdList);
 

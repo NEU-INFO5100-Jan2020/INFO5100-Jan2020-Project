@@ -3,6 +3,8 @@ import java.util.Date;
 //import java.sql.Date;
 
 public interface IncentivesManager {
+    /*Returns list of all available incentives*/
+    Collection<Incentives> getListOfIncentives();
 
     /*Return incentive details based on the array of incentiveIds*/
     Collection<Incentives> getIncentiveDetails(int[] incentiveIdArray);
