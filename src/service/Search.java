@@ -1,8 +1,7 @@
 package service;
-import java.sql.Array;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 interface SearchFactory {
@@ -111,10 +110,9 @@ public class Search {
     Functions as the main method for our service, it creates Getter, Parser and Sorter instances to
      */
     DataGetter curGetter = this.factory.produceDataGetter();
-    Parser curParser = this.factory.produceParser();
     Sorter curSorter = this.factory.produceSorter();
-    SearchFilter sf = curParser.parse(this.input);
     Collection<?extends BigDataType> data = curGetter.get();
+    // TODO: 4/9/2020 Do modifications after change of IO with GUI 
     return curSorter.sort(data);
   }
 }
