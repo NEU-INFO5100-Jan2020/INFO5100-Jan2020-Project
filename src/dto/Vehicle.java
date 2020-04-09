@@ -131,7 +131,7 @@ public class Vehicle implements VehicleManager {
             v.price = (Float)temp.get(7);
             v.color = temp.get(8).toString();
             v.mileage = (Integer)temp.get(9);
-            v.image = (Image) temp.get(10);
+            //v.image = (Image) temp.get(10);
             v.incentiveId = (Integer) temp.get(11);
             v.discountPrice = (Float) temp.get(12);
 
