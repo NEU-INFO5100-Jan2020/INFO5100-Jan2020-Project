@@ -1,0 +1,2 @@
+public class IncentiveMenuPage {
+}
