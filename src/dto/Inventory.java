@@ -3,5 +3,5 @@ package dto;
 import java.util.Collection;
 
 public class Inventory {
-	private Collection<Car> cars;
+	private Collection<Vehicle> cars;
 }
