@@ -1,13 +1,17 @@
+package persist;
+
+import dto.Incentive;
+
 import java.util.Collection;
 import java.util.Date;
 //import java.sql.Date;
 
 public interface IncentivesManager {
     /*Returns list of all available incentives*/
-    Collection<Incentives> getListOfIncentives();
+    Collection<Incentive> getListOfIncentives();
 
     /*Return incentive details based on the array of incentiveIds*/
-    Collection<Incentives> getIncentiveDetails(int[] incentiveIdArray);
+    Collection<Incentive> getIncentiveDetails(int[] incentiveIdArray);
 
     /*Add a new entry in 'Incentives' table with the parameters as listed.
      * Returns true - if incentive is added successfully
