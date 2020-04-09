@@ -1,6 +1,5 @@
 package ui.UC2_SearchVehicles;
 
-import com.sun.deploy.panel.JavaPanel;
 
 import javax.swing.*;
 import java.awt.*;

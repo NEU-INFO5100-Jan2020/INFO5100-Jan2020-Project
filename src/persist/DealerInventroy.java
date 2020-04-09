@@ -1,7 +1,7 @@
-package project.persist;
+package persist;
 
-import project.dto.Inventory;
-import project.dto.Vehicle;
+import dto.Inventory;
+import dto.Vehicle;
 
 public interface DealerInventroy {
 	public void addVehicle(Vehicle vehicle);

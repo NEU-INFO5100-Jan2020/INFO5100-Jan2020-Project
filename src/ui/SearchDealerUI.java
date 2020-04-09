@@ -1,5 +1,7 @@
-package project.ui;
+package ui;
 
-public class SearchDealerUI extends JFrame{
+import javax.swing.*;
+
+public class SearchDealerUI extends JFrame {
 
 }

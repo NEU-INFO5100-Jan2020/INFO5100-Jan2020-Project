@@ -1,3 +1,8 @@
+package persist;
+
+
+import dto.Vehicle;
+
 import java.util.Collection;
 
 public interface VehicleManager {
