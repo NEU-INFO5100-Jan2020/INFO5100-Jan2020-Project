@@ -3,13 +3,16 @@ import java.util.Collection;
 
 
 public interface DataGetter {
-  Collection<? extends BigDataType> get(SearchCriterion sc);
+  /*
+  Interface DataGetter,
+   */
+  Collection<? extends BigDataType> get(SearchFilter sf);
 }
 
 class IncentiveGetter implements DataGetter{
 
   @Override
-  public Collection<? extends BigDataType> get(SearchCriterion sc) {
+  public Collection<? extends BigDataType> get(SearchFilter sf) {
     return null;
   }
 }
@@ -17,15 +20,16 @@ class IncentiveGetter implements DataGetter{
 class VehicleGetter implements DataGetter{
 
   @Override
-  public Collection<? extends BigDataType> get(SearchCriterion sc) {
+  public Collection<? extends BigDataType> get(SearchFilter sf) {
     return null;
   }
 }
 
 class DealerGetter implements DataGetter{
 
+
   @Override
-  public Collection<? extends BigDataType> get(SearchCriterion sc) {
+  public Collection<? extends BigDataType> get(SearchFilter sf) {
     return null;
   }
 }

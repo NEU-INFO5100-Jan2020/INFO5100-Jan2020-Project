@@ -93,7 +93,7 @@ public class Search {
     }
   }
 
-  public ArrayList<? extends BigDataType> doSearch() { // TODO: 4/9/2020 Discuss with other teams on what data type is convenient for their GUI
+  public ArrayList<? extends BigDataType> doSearch() { // TODO: 4/9/2020 Discuss with other teams on what data type is convenient for their GUI, do they need more encapsulation
     /*
     Functions as the main method for our service, it creates Getter, Parser and Sorter instances to
      */
