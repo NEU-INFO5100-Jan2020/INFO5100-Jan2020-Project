@@ -92,7 +92,7 @@ public class CheckVehicles extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jp.setVisible(true);
-                lbl_gif.setVisible(false);
+                lbl_gif.setVisible(lbl_gif.isVisible() == true? false : true);
             }
         });
         jbList.add(search);
