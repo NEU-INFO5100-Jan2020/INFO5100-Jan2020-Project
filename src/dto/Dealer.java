@@ -40,8 +40,19 @@ public class Dealer implements DealerManager {
     }
 
     @Override
-    public Collection<Dealer> getDealerDetails(String dealerName, String zipCode, String distanceInMiles) {
-        String query = "SELECT * from Dealer WHERE DealerName = '"+dealerName+"' and ZipCode= '"+zipCode+"' ;";
+    public Collection<Dealer> getDealerDetails(String dealerName, String[] zipCode/*, String distanceInMiles*/) {
+        String zipCodeString = "";
+
+        for(int i=0;i<zipCode.length;i++){
+            if(i == 0){
+                zipCodeString += "'"+zipCode[i]+"'";
+                continue;
+            }
+            zipCodeString += " , '"+zipCode[i]+"'";
+        }
+
+        String query = "SELECT * from Dealer " +
+                "WHERE DealerName = '"+dealerName+"' and ZipCode IN ("+zipCodeString+") ;";
 
         /*Call 'executeQuery' method to run the query*/
         ArrayList<ArrayList> result = connect.executeQuery(query, "Dealer", "SELECT");
