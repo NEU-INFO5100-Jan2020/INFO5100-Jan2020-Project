@@ -18,9 +18,9 @@ public class SortFilter {
 
 class SortFilterElement {
   SortKey key;
-  SortOrder filter;
-  SortFilterElement(SortKey key, SortOrder filter){
+  SortOrder order;
+  SortFilterElement(SortKey key, SortOrder order){
     this.key = key;
-    this.filter = filter;
+    this.order = order;
   }
 }
