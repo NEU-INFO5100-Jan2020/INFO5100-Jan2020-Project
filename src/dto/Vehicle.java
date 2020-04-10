@@ -52,9 +52,27 @@ public class Vehicle implements VehicleManager {
     }
 
     @Override
-    public Collection<Vehicle> getVehicleDetails(String vehicleModel, String vehicleMake, String year, String vehiclePrice) {
-        String query = "SELECT * from VehicleTable WHERE Model='"+vehicleModel+"' " +
-                "and Make='"+vehicleMake+"' and Year='"+year+"' and Price='"+vehiclePrice+"';";
+    public Collection<Vehicle> getVehicleDetails(int dealerId, String vehicleModel, String vehicleMake, String year, String vehiclePrice) {
+        
+        /*Make , Model , Year , Price are optional fields. If passed, then add to the query*/
+        /*DealerId is mandatory passed*/
+        String queryString = "DealerId = '"+dealerId+"'";
+
+        if(vehicleModel!= "" ){
+            queryString += " and Model='"+vehicleModel+"'";
+        }
+        if(vehicleMake != ""){
+            queryString += " and Make='"+vehicleMake+"'";
+        }
+        if(year != ""){
+            queryString += " and Year='"+year+"'";
+        }
+        if(vehiclePrice != ""){
+            queryString += " and Price='"+vehiclePrice+"'";
+        }
+
+        /*Final select query*/
+        String query = "SELECT * from VehicleTable WHERE "+queryString+" ;";
 
         /*Call 'executeQuery' method to run the query*/
         ArrayList<ArrayList> result = connect.executeQuery(query, "VehicleTable", "SELECT");
