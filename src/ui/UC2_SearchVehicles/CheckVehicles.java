@@ -11,13 +11,18 @@ import java.util.ArrayList;
 
 public class CheckVehicles extends JFrame {
     ArrayList<JLabel> lblList;
-    JLabel lbl_headline, lbl_make, lbl_module, lbl_year, lbl_price;
+    JLabel lbl_headline, lbl_make, lbl_module, lbl_year, lbl_price, lbl_gif;
+    ImageIcon コナー;
 
     ArrayList<JTextField> txtList;
     JTextField txt_year, txt_price;
 
     ArrayList<JComboBox<String>> cbbList;
     JComboBox cbb_make, cbb_module;
+
+    ArrayList<JButton> jbList;
+
+    ArrayList<ImageIcon> imageList;
 
     JPanel jp;
     JLabel lbl_jp_hl;
@@ -50,29 +55,62 @@ public class CheckVehicles extends JFrame {
         for (JTextField jTextField : txtList) {
             getContentPane().add(jTextField);
         }
+
+        for(JButton jb : jbList){
+            getContentPane().add(jb);
+        }
+
+
         getContentPane().add(jp);
 
     }
-
     private void InitialComponents() {
+
         InitFrame();
         InitPanel();
         InitLabels();
         InitTextFields();
         InitComboBox();
+        InitButtons();
+        InitImageIcon();
     }
+    private void InitImageIcon(){
+        ImageIcon コナー = new ImageIcon("/Users/sf/Desktop/照片/康纳酱.gif");
+        lbl_gif = new JLabel(コナー);
+        lbl_gif.setBounds(350, 100, 400, 400);
+        getContentPane().add(lbl_gif);
+    }
+    private void InitButtons(){
+        jbList = new ArrayList<JButton>();
+        JButton search = new JButton("Search");
+        search.setBounds(lbl_price.getX() + xInterval * 1 / 2, lbl_price.getY() + yInternal * 2 / 3, 100, 20);
+        search.setBackground(Color.orange);
+//        search.setOpaque(true);
+        search.setFont(new Font("Arial", Font.PLAIN, 15));
+        search.addActionListener(new ActionListener(){
 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jp.setVisible(true);
+                lbl_gif.setVisible(false);
+            }
+        });
+        jbList.add(search);
+    }
     private void InitPanel() {
         jp = new JPanel();
         jp.setBounds(350, 100, 400, 400);
         jp.setBorder(BorderFactory.createLineBorder(Color.black));
-        jp.setBackground(Color.lightGray);
+        jp.setBackground(Color.orange);
         jp.setLayout(null);
         InitPanelComponent();
-
+        jp.setVisible(false);
     }
 
+
     private void InitPanelComponent() {
+
+
         lbl_jp_hl = new JLabel("List of Vehicles of Dealer " + dealerName);
         lbl_jp_hl.setBounds(80,0,300,30);
         jp.add(lbl_jp_hl);
@@ -110,7 +148,6 @@ public class CheckVehicles extends JFrame {
 
             }
         });
-
     }
 
 
