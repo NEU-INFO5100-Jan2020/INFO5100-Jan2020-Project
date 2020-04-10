@@ -1,6 +1,6 @@
 package service;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.*;
+import java.lang.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -155,19 +155,19 @@ class IncentiveSearchFilter extends SearchFilter {
 }
 
 class DealerSearchFilter extends SearchFilter{
+  private final int minradius = 0;
+  private final int maxradius = 100;
+  private final String zip = " ";
   /*
-  SearchFilter implementation for Dealer Search GUI
- */
+    SearchFilter implementation for Dealer Search GUI
+   */
   public DealerSearchFilter(String zip, int minradius, int maxradius) {
     super();
-    this.maxradius;
-    this.minradius;
-    this.zip;
   }
 
   public ArrayList<String> zipCodeRadius(String zip, int minradius, int maxradius)
   {
-    String url = "https://api.zip-codes.com/ZipCodesAPI.svc/1.0/FindZipCodesInRadius?zipcode=" + zip + "&minimumradius=" + min + "&maximumradius=" + max + "&key=CKJ5LCW9PZAFNVNA8WFN";
+    String url = "https://api.zip-codes.com/ZipCodesAPI.svc/1.0/FindZipCodesInRadius?zipcode=" + zip + "&minimumradius=" + minradius + "&maximumradius=" + maxradius + "&key=CKJ5LCW9PZAFNVNA8WFN";
     URL obj = new URL(url);
     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
     con.setRequestMethod("GET");
@@ -191,7 +191,7 @@ class DealerSearchFilter extends SearchFilter{
     JSONArray DataList = myResponse.getJSONArray("DataList");
     //Uncomment below code to see the length of response from the API call for a particular zip code
     //Iterating through the indexes of the Array but skipping element 0 as it is the entered zip code
-    ArrayList<String> arr = new ArrayList<String>();
+    ArrayList<String> arr = new ArrayList<>();
     for (int index = 1; index < DataList.length(); index++)
     {
       JSONObject obj1 = DataList.getJSONObject(index);
