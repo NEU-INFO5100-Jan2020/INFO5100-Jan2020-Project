@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f5a8a84a-ae97-4b66-b4fa-2cc4759d85f4" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/INFO5100-Jan2020-Project.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/persist/ConnectionToSql.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/persist/ConnectionToSql.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/persist/DealerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/persist/DealerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/persist/IncentivesManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/persist/IncentivesManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/persist/VehicleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/persist/VehicleManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,38 +80,47 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-2349" y="-317" width="1657" height="869" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586482138900">
+    <state x="-1930" y="-493" key="#CheckVehicles" timestamp="1586497880628">
       <screen x="-2560" y="-642" width="2560" height="1440" />
     </state>
-    <state x="-2349" y="-317" width="1657" height="869" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900/-2560.-642.2560.1440@-2560.-642.2560.1440" timestamp="1586482138900" />
+    <state x="-1930" y="-493" key="#CheckVehicles/0.0.1440.900/-2560.-642.2560.1440@-2560.-642.2560.1440" timestamp="1586497880628" />
+    <state x="-2349" y="-317" width="1657" height="935" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586498036722">
+      <screen x="-2560" y="-642" width="2560" height="1440" />
+    </state>
+    <state x="-2349" y="-317" width="1657" height="935" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900/-2560.-642.2560.1440@-2560.-642.2560.1440" timestamp="1586498036722" />
     <state x="-1890" y="-317" width="1657" height="869" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.877/-2560.-619.2560.1417@-2560.-619.2560.1417" timestamp="1586413967593" />
     <state x="-1599" y="-400" key="#com.intellij.ide.util.MemberChooser" timestamp="1586476739514">
       <screen x="-2560" y="-642" width="2560" height="1440" />
     </state>
     <state x="-1599" y="-400" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900/-2560.-642.2560.1440@-2560.-642.2560.1440" timestamp="1586476739514" />
-    <state x="-1353" y="-30" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1586413926468">
-      <screen x="-2560" y="-619" width="2560" height="1417" />
+    <state x="-1971" y="-191" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1586498034692">
+      <screen x="-2560" y="-642" width="2560" height="1440" />
     </state>
+    <state x="-1971" y="-191" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1440.900/-2560.-642.2560.1440@-2560.-642.2560.1440" timestamp="1586498034692" />
+    <state x="-1353" y="-43" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1586497942426">
+      <screen x="-2560" y="-642" width="2560" height="1440" />
+    </state>
+    <state x="-1353" y="-43" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1440.900/-2560.-642.2560.1440@-2560.-642.2560.1440" timestamp="1586497942426" />
     <state x="-1353" y="-30" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.23.1440.877/-2560.-619.2560.1417@-2560.-619.2560.1417" timestamp="1586413926468" />
-    <state width="2560" height="236" key="GridCell.Tab.0.bottom" timestamp="1586497793066">
+    <state width="2560" height="236" key="GridCell.Tab.0.bottom" timestamp="1586498038502">
       <screen x="-2560" y="-642" width="2560" height="1440" />
     </state>
-    <state width="2560" height="236" key="GridCell.Tab.0.bottom/0.0.1440.900/-2560.-642.2560.1440@-2560.-642.2560.1440" timestamp="1586497793066" />
+    <state width="2560" height="236" key="GridCell.Tab.0.bottom/0.0.1440.900/-2560.-642.2560.1440@-2560.-642.2560.1440" timestamp="1586498038502" />
     <state width="2151" height="381" key="GridCell.Tab.0.bottom/0.23.1440.877/-2560.-619.2560.1417@-2560.-619.2560.1417" timestamp="1586414040190" />
-    <state width="2560" height="236" key="GridCell.Tab.0.center" timestamp="1586497793058">
+    <state width="2560" height="236" key="GridCell.Tab.0.center" timestamp="1586498038500">
       <screen x="-2560" y="-642" width="2560" height="1440" />
     </state>
-    <state width="2560" height="236" key="GridCell.Tab.0.center/0.0.1440.900/-2560.-642.2560.1440@-2560.-642.2560.1440" timestamp="1586497793058" />
+    <state width="2560" height="236" key="GridCell.Tab.0.center/0.0.1440.900/-2560.-642.2560.1440@-2560.-642.2560.1440" timestamp="1586498038500" />
     <state width="2151" height="381" key="GridCell.Tab.0.center/0.23.1440.877/-2560.-619.2560.1417@-2560.-619.2560.1417" timestamp="1586414040189" />
-    <state width="2560" height="236" key="GridCell.Tab.0.left" timestamp="1586497793057">
+    <state width="2560" height="236" key="GridCell.Tab.0.left" timestamp="1586498038498">
       <screen x="-2560" y="-642" width="2560" height="1440" />
     </state>
-    <state width="2560" height="236" key="GridCell.Tab.0.left/0.0.1440.900/-2560.-642.2560.1440@-2560.-642.2560.1440" timestamp="1586497793057" />
+    <state width="2560" height="236" key="GridCell.Tab.0.left/0.0.1440.900/-2560.-642.2560.1440@-2560.-642.2560.1440" timestamp="1586498038498" />
     <state width="2151" height="381" key="GridCell.Tab.0.left/0.23.1440.877/-2560.-619.2560.1417@-2560.-619.2560.1417" timestamp="1586414040189" />
-    <state width="2560" height="236" key="GridCell.Tab.0.right" timestamp="1586497793065">
+    <state width="2560" height="236" key="GridCell.Tab.0.right" timestamp="1586498038501">
       <screen x="-2560" y="-642" width="2560" height="1440" />
     </state>
-    <state width="2560" height="236" key="GridCell.Tab.0.right/0.0.1440.900/-2560.-642.2560.1440@-2560.-642.2560.1440" timestamp="1586497793065" />
+    <state width="2560" height="236" key="GridCell.Tab.0.right/0.0.1440.900/-2560.-642.2560.1440@-2560.-642.2560.1440" timestamp="1586498038501" />
     <state width="2151" height="381" key="GridCell.Tab.0.right/0.23.1440.877/-2560.-619.2560.1417@-2560.-619.2560.1417" timestamp="1586414040190" />
     <state width="2560" height="491" key="GridCell.Tab.1.bottom" timestamp="1586476325504">
       <screen x="-2560" y="-642" width="2560" height="1440" />
@@ -120,10 +138,10 @@
       <screen x="-2560" y="-642" width="2560" height="1440" />
     </state>
     <state width="2560" height="491" key="GridCell.Tab.1.right/0.0.1440.900/-2560.-642.2560.1440@-2560.-642.2560.1440" timestamp="1586476325503" />
-    <state x="-1711" y="-209" key="com.intellij.ide.util.TipDialog" timestamp="1586481893077">
+    <state x="-1711" y="-209" key="com.intellij.ide.util.TipDialog" timestamp="1586497933320">
       <screen x="-2560" y="-642" width="2560" height="1440" />
     </state>
-    <state x="-1711" y="-209" key="com.intellij.ide.util.TipDialog/0.0.1440.900/-2560.-642.2560.1440@-2560.-642.2560.1440" timestamp="1586481893077" />
+    <state x="-1711" y="-209" key="com.intellij.ide.util.TipDialog/0.0.1440.900/-2560.-642.2560.1440@-2560.-642.2560.1440" timestamp="1586497933320" />
     <state x="-1711" y="-193" key="com.intellij.ide.util.TipDialog/0.23.1440.877/-2560.-619.2560.1417@-2560.-619.2560.1417" timestamp="1586413912248" />
     <state x="-2054" y="-357" width="1547" height="958" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1586476311305">
       <screen x="-2560" y="-642" width="2560" height="1440" />
