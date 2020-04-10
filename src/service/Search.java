@@ -93,14 +93,15 @@ public class Search {
     }
   }
 
-  public ArrayList<? extends BigDataType> doSearch() { // TODO: 4/9/2020 Discuss with other teams on what data type is convenient for their GUI
+  public ArrayList<? extends BigDataType> doSearch() { // TODO: 4/9/2020 Discuss with other teams on what data type is convenient for their GUI, do they need more encapsulation
     /*
     Functions as the main method for our service, it creates Getter, Parser and Sorter instances to
      */
     DataGetter curGetter = this.factory.produceDataGetter(serf);
     Sorter curSorter = this.factory.produceSorter(sorf);
-    Collection<?extends BigDataType> data = curGetter.get();
+    //Collection<?extends BigDataType> data = curGetter.get();
     // TODO: 4/9/2020 Do modifications after change of IO with GUI 
-    return curSorter.sort(data);
+    //return curSorter.sort(data);
+    return null;
   }
 }
