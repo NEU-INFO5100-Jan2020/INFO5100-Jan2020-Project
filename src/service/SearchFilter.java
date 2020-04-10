@@ -96,6 +96,10 @@ public class SearchFilter {
     // method that add SearchFilterElement to SearchFilter
     this.elements.add(element);
   }
+
+  public List<SearchFilterElement> getElements(){
+    return this.elements;
+  }
 }
 
 
