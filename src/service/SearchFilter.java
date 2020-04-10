@@ -189,7 +189,6 @@ class DealerSearchFilter extends SearchFilter{
     /*Within the JSON response from the API, there is a JSONArray which has different keys and their corresponding values
      * example: "City" is a key and the value would be Bellevue*/
     JSONArray DataList = myResponse.getJSONArray("DataList");
-    //System.out.println(DataList);
     //Uncomment below code to see the length of response from the API call for a particular zip code
     //System.out.println("Length:"+DataList.length());
     //Iterating through the indexes of the Array but skipping element 0 as it is the entered zip code
