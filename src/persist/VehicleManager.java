@@ -1,8 +1,8 @@
 package persist;
 
-
 import dto.Vehicle;
 
+import java.awt.*;
 import java.util.Collection;
 
 public interface VehicleManager {
@@ -29,7 +29,10 @@ public interface VehicleManager {
                        String category,
                        int price,
                        String color,
-                       int miles );
+                       int miles,
+                       Image image,
+                       int incentiveId,
+                       float discountPrice);
 
     /*Update 'VehicleTable' table for the provided 'vehicleId' , with the parameters as listed
     * Returns true - if vehicle is updated successfully
@@ -43,7 +46,10 @@ public interface VehicleManager {
                           String category,
                           int price,
                           String color,
-                          int miles  );
+                          int miles,
+                          Image image,
+                          int incentiveId,
+                          float discountPrice);
 
 
     /*Delete entry from 'VehicleTable' table with given 'vehicleId' */
