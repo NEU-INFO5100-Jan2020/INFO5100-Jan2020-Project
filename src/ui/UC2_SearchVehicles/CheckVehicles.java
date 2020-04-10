@@ -91,7 +91,7 @@ public class CheckVehicles extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                jp.setVisible(true);
+                jp.setVisible(jp.isVisible() == true? false : true);
                 lbl_gif.setVisible(lbl_gif.isVisible() == true? false : true);
             }
         });
