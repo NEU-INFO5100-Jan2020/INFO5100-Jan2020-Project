@@ -1,17 +1,24 @@
 package ui.UC2_SearchVehicles;
 
 
+import dto.Vehicle;
+import javafx.scene.input.DataFormat;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
 
 public class CheckVehicles extends JFrame {
     ArrayList<JLabel> lblList;
-    JLabel lbl_headline, lbl_make, lbl_module, lbl_year, lbl_price, lbl_gif;
+    JLabel lbl_headline, lbl_make, lbl_module, lbl_year, lbl_gif, lbl_price, lbl_Err_Year, lbl_Err_Price;
     ImageIcon コナー;
 
     ArrayList<JTextField> txtList;
@@ -24,6 +31,7 @@ public class CheckVehicles extends JFrame {
 
     ArrayList<ImageIcon> imageList;
 
+    JFrame jf;
     JPanel jp;
     JLabel lbl_jp_hl;
     JButton btn_jp_viewDetail;
@@ -91,8 +99,65 @@ public class CheckVehicles extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                jp.setVisible(jp.isVisible() == true? false : true);
-                lbl_gif.setVisible(lbl_gif.isVisible() == true? false : true);
+                boolean priceValid = false, yearValid = false;
+                String yearInput = txt_year.getText();
+                String priceInput = txt_price.getText();
+
+                if (isValidPrice(priceInput)) {
+                    getContentPane().remove(lbl_Err_Price);
+                    priceValid = true;
+                } else {
+                    getContentPane().add(lbl_Err_Price);
+                }
+
+                if (isValidYear(yearInput)) {
+                    getContentPane().remove(lbl_Err_Year);
+                    yearValid = true;
+                } else {
+                    getContentPane().add(lbl_Err_Year);
+                }
+
+                if (priceValid && yearValid) {
+                    jp.setVisible(true);
+                    // lbl_gif.setVisible(lbl_gif.isVisible() == true? false : true);
+                    getContentPane().remove(lbl_Err_Year);
+                    getContentPane().remove(lbl_Err_Price);
+                }
+
+                repaint();
+            }
+
+            private boolean isValidPrice(String priceInput) {
+                if (priceInput.isEmpty()) {
+                    return false;
+                }
+                char[] priceArray = priceInput.toCharArray();
+                for (char c : priceArray) {
+                    if (!Character.isDigit(c)) {
+                        return false;
+                    }
+                }
+                return true;
+
+            }
+
+            private boolean isValidYear(String yearInput) {
+                if (yearInput.isEmpty()) {
+                    return false;
+                }
+                if (yearInput.length() != 4) {
+                    return false;
+                }
+                for (char c : yearInput.toCharArray()) {
+                    if (!Character.isDigit(c)) {
+                        return false;
+                    }
+                }
+                int year = Integer.parseInt(yearInput);
+                if ( year < 1950 || year > 2021 ) {
+                    return false;
+                }
+                return true;
             }
         });
         jbList.add(search);
@@ -116,18 +181,22 @@ public class CheckVehicles extends JFrame {
         jp.add(lbl_jp_hl);
 
         JList list_jp_vList = new JList<>();
-        // list_jp_vList.setBounds(110, 50, 170, 200);
+        list_jp_vList.setCellRenderer(new Render());
         list_jp_vList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list_jp_vList.setVisibleRowCount(5);
+        DefaultListModel<VehicleTester> lm = new DefaultListModel();
 
-        DefaultListModel<Vehicle> lm = new DefaultListModel();
         // For Testing
-        Vehicle[] vgroup = Vehicle.createTestVehicles();
-        for (Vehicle vehicle : vgroup) {
+        VehicleTester[] vehicles = VehicleTester.createTestVehicles();
+        // Collection<Vehicle> vehicles = VehicleTester.callDB(3);
+        for (VehicleTester vehicle : vehicles) {
             lm.addElement(vehicle);
         }
         list_jp_vList.setModel(lm);
+
         JScrollPane js = new JScrollPane(list_jp_vList);
         js.setBounds(100,50,240,200);
+        js.setLocation(100, 50);
         jp.add(js);
 
 
@@ -166,8 +235,8 @@ public class CheckVehicles extends JFrame {
 
 
         // For Testing
-        cbb_make.setModel(new DefaultComboBoxModel(Vehicle.createMake()));
-        cbb_module.setModel(new DefaultComboBoxModel(Vehicle.createModel(cbb_make.getSelectedItem().toString())));
+        cbb_make.setModel(new DefaultComboBoxModel(VehicleTester.createMake()));
+        cbb_module.setModel(new DefaultComboBoxModel(VehicleTester.createModel(cbb_make.getSelectedItem().toString())));
 
         cbb_make.addItemListener(new ItemListener() {
             @Override
@@ -175,7 +244,7 @@ public class CheckVehicles extends JFrame {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     System.out.println("User Select" + cbb_make.getSelectedItem());
                 }
-                cbb_module.setModel(new DefaultComboBoxModel(Vehicle.createModel(cbb_make.getSelectedItem().toString())));
+                cbb_module.setModel(new DefaultComboBoxModel(VehicleTester.createModel(cbb_make.getSelectedItem().toString())));
             }
         });
     }
@@ -213,12 +282,26 @@ public class CheckVehicles extends JFrame {
         lbl_year = new JLabel("Year", 4);
         lbl_year.setFont(new Font("Arial", Font.PLAIN, 14));
         lbl_year.setBounds(lbl_make.getX(), lbl_module.getY() + yInternal, 50,20);
+        lbl_year.setBackground(Color.red);
         lblList.add(lbl_year);
+
+        lbl_Err_Year = new JLabel("Invalid Year !");
+        lbl_Err_Year.setFont(new Font("Arial", Font.BOLD, 12));
+        lbl_Err_Year.setForeground(Color.red);
+        lbl_Err_Year.setBounds(lbl_year.getX() +xInterval, lbl_year.getY() + 20, 170,20);
+        // lblList.add(lbl_Err_Year);
 
         lbl_price = new JLabel("Price", JLabel.RIGHT);
         lbl_price.setFont(new Font("Arial", Font.PLAIN, 14));
         lbl_price.setBounds(lbl_make.getX(), lbl_year.getY() + yInternal, 50,20);
         lblList.add(lbl_price);
+
+
+        lbl_Err_Price = new JLabel("Invalid Price !");
+        lbl_Err_Price.setFont(new Font("Arial", Font.BOLD, 12));
+        lbl_Err_Price.setForeground(Color.red);
+        lbl_Err_Price.setBounds(lbl_price.getX() +xInterval, lbl_price.getY() + 20, 170,20);
+        // lblList.add(lbl_Err_Price);
     }
 
     private void InitFrame() {
@@ -229,7 +312,7 @@ public class CheckVehicles extends JFrame {
         setTitle("5100 Final Project UserCase 2");
 
         getContentPane().setLayout(null);
-
+        jf =this;
     }
 
     public static void main(String[] args) {

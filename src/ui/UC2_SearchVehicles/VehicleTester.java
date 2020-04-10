@@ -1,10 +1,14 @@
 package ui.UC2_SearchVehicles;
 
-public class Vehicle {
+import dto.Vehicle;
+
+import java.util.Collection;
+
+public class VehicleTester {
     String make;
     int price;
     int VIN;
-    public Vehicle(String make, int price, int VIN) {
+    public VehicleTester(String make, int price, int VIN) {
         this.make = make;
         this.price = price;
         this.VIN = VIN;
@@ -12,16 +16,15 @@ public class Vehicle {
 
     @Override
     public String toString() {
-        return "Vehicle: " +
-                "Make : " + make +
+        return "Make : " + make +
                 "price : " + price
                  ;
     }
 
-    public static Vehicle[] createTestVehicles() {
-        Vehicle[] vGroups = new Vehicle[20];
+    public static VehicleTester[] createTestVehicles() {
+        VehicleTester[] vGroups = new VehicleTester[20];
         for (int i = 0; i < vGroups.length; i++) {
-            vGroups[i] = new Vehicle("Make1", 1000+i*100, i*100323+i);
+            vGroups[i] = new VehicleTester("Make1", 1000+i*100, i*100323+i);
         }
         return vGroups;
     }
@@ -46,4 +49,11 @@ public class Vehicle {
             return new String[]{"No Model"};
 
     }
+
+    public static Collection<Vehicle> callDB(int dealerID) {
+        Vehicle vhDB = new Vehicle();
+        Collection<Vehicle> vehicles = vhDB.getListOfVehiclesBasedOnDealerId(dealerID);
+        return vehicles;
+    }
+
 }
