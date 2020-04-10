@@ -1,5 +1,7 @@
 package service;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public interface Parser {
   Collection<String> parse(String[] k);
@@ -9,7 +11,8 @@ public interface Parser {
 class VehicleParser implements Parser {
   @Override
   public Collection<String> parse(String[] k) {
-    return null;
+    List<String> out  = new ArrayList<>();
+    return out;
   }
 }
 

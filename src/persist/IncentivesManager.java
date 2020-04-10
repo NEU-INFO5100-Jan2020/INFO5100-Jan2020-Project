@@ -8,10 +8,10 @@ import java.util.Date;
 
 public interface IncentivesManager {
     /*Returns list of all available incentives*/
-    Collection<Incentive> getListOfIncentives();
+    Collection<Incentives> getListOfIncentives();
 
     /*Return incentive details based on the array of incentiveIds*/
-    Collection<Incentive> getIncentiveDetails(int[] incentiveIdArray);
+    Collection<Incentives> getIncentiveDetails(int[] incentiveIdArray);
 
     /*Add a new entry in 'Incentives' table with the parameters as listed.
      * Returns true - if incentive is added successfully
@@ -23,11 +23,6 @@ public interface IncentivesManager {
                           Date endDate,
                           int discountValue,
                           String discountType);
-
-    /*Apply given incentive with 'incentiveId' to the list of provided array of 'vehicleId'
-    Returns true - if incentive is applied successfully
-           false - if there is an error in operation and incentive isn't applied*/
-    boolean applyIncentive(int incentiveId, int[] vehicleIdsArray);
 
     /*Update the 'Incentives' table for given 'incentivesId' in  with the parameters as listed.
      * Returns true - if incentive is updated successfully
@@ -43,4 +38,14 @@ public interface IncentivesManager {
 
     /*Delete entry from 'Incentives' table with given 'incentivesId' */
     boolean deleteIncentive(int incentivesId);
+
+    /*Apply given incentive with 'incentiveId' to the list of provided array of 'vehicleId'
+     Returns true - if incentive is applied successfully
+            false - if there is an error in operation and incentive isn't applied*/
+    boolean applyIncentive(int incentiveId, int[] vehicleIdsArray);
+
+    /*De-Apply given incentive with 'incentiveId' to the list of provided array of 'vehicleId'
+      Returns true - if incentive is de-applied successfully
+             false - if there is an error in operation and incentive isn't de-applied*/
+    boolean deApplyIncentive(int incentiveId, int[] vehicleIdsArray);
 }
