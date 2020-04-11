@@ -29,8 +29,9 @@ public class CheckVehicles extends JFrame {
 
     ArrayList<ImageIcon> imageList;
 
-    JFrame jf;
-    JPanel jp;
+
+    JFrame jf,frame2;
+//    JPanel jp;
     JLabel lbl_jp_hl;
     JButton btn_jp_viewDetail;
 
@@ -71,13 +72,13 @@ public class CheckVehicles extends JFrame {
         }
 
 
-        getContentPane().add(jp);
+//        getContentPane().add(jp);
 
     }
     private void InitialComponents() {
 
         InitFrame();
-        InitPanel();
+        InitFrame2();
         InitLabels();
         InitTextFields();
         InitComboBox();
@@ -120,16 +121,15 @@ public class CheckVehicles extends JFrame {
                 }
 
                 if (priceValid && yearValid) {
-                    jp.setVisible(true);
+                    frame2.setVisible(true);
                     lbl_gif.setVisible(false);
                     getContentPane().remove(lbl_Err_Year);
                     getContentPane().remove(lbl_Err_Price);
                 }
                 else{
-                    jp.setVisible(false);
+                    frame2.setVisible(false);
                     lbl_gif.setVisible(true);
                 }
-
 //                repaint();
             }
 
@@ -168,23 +168,23 @@ public class CheckVehicles extends JFrame {
         });
         jbList.add(search);
     }
-    private void InitPanel() {
-        jp = new JPanel();
-        jp.setBounds(350, 100, 400, 400);
-        jp.setBorder(BorderFactory.createLineBorder(Color.black));
-        jp.setBackground(Color.orange);
-        jp.setLayout(null);
-        InitPanelComponent();
-        jp.setVisible(false);
+    private void InitFrame2() {
+        frame2 = new JFrame();
+        frame2.setBounds(350, 100, 400, 400);
+//        frame2.setBorder(BorderFactory.createLineBorder(Color.black));
+        frame2.setBackground(Color.orange);
+        frame2.setLayout(null);
+        InitFrame2Component();
+        frame2.setVisible(false);
     }
 
 
-    private void InitPanelComponent() {
+    private void InitFrame2Component() {
 
 
         lbl_jp_hl = new JLabel("List of Vehicles of Dealer " + dealerName);
         lbl_jp_hl.setBounds(80,0,300,30);
-        jp.add(lbl_jp_hl);
+        frame2.add(lbl_jp_hl);
 
         JList list_jp_vList = new JList<>();
         list_jp_vList.setCellRenderer(new Render());
@@ -212,13 +212,13 @@ public class CheckVehicles extends JFrame {
         JScrollPane js = new JScrollPane(list_jp_vList);
         js.setBounds(100,50,240,200);
         js.setLocation(100, 50);
-        jp.add(js);
+        frame2.add(js);
 
 
 
         btn_jp_viewDetail = new JButton("View Detail");
         btn_jp_viewDetail.setBounds(130,320, 130, 30);
-        jp.add(btn_jp_viewDetail);
+        frame2.add(btn_jp_viewDetail);
         btn_jp_viewDetail.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
