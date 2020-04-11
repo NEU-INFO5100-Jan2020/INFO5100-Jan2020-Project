@@ -1,6 +1,6 @@
 package persist;
 
-import dto.Incentive;
+import dto.Incentives;
 
 import java.util.Collection;
 import java.util.Date;
