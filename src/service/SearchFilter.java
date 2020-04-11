@@ -192,6 +192,7 @@ class DealerSearchFilter extends SearchFilter{
     super();
   }
 
+
   public ArrayList<String> zipCodeRadius(String zip, int minradius, int maxradius)
   {
     String url = "https://api.zip-codes.com/ZipCodesAPI.svc/1.0/FindZipCodesInRadius?zipcode=" + zip + "&minimumradius=" + minradius + "&maximumradius=" + maxradius + "&key=CKJ5LCW9PZAFNVNA8WFN";
@@ -222,7 +223,7 @@ class DealerSearchFilter extends SearchFilter{
     for (int index = 1; index < DataList.length(); index++)
     {
       JSONObject obj1 = DataList.getJSONObject(index);
-
+      
       /*The result below can be String Array, List or Collection based on preference for your GUI output*/
       //System.out.println(obj1.getString("City") + " " + obj1.getString("Code") + " " + obj1.getString("County") + " COUNTY" + " " + obj1.getDouble("Distance"));
       String str = obj1.getString("Code");
