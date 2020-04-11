@@ -13,7 +13,7 @@ public class DealerManagerImpl implements DealerManager {
         String query = "SELECT * from Dealer;";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "Dealer", "SELECT");
+        ArrayList<ArrayList> result = connect.executeDealerQuery(query, "SELECT");
 
         /*Convert to Dealer object*/
         ArrayList<Dealer> dealerResult = convertToDealerObject(result);
@@ -23,10 +23,10 @@ public class DealerManagerImpl implements DealerManager {
 
     @Override
     public Collection<Dealer> getDealerDetails(int dealerId) {
-        String query = "SELECT * from Dealer WHERE DealerId='"+dealerId+"' ;";
+        String query = "SELECT * from Dealer WHERE DealerId="+dealerId+" ;";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "Dealer", "SELECT");
+        ArrayList<ArrayList> result = connect.executeDealerQuery(query, "SELECT");
 
         /*Convert to Dealer object*/
         ArrayList<Dealer> dealerResult = convertToDealerObject(result);
@@ -50,7 +50,7 @@ public class DealerManagerImpl implements DealerManager {
                 "WHERE DealerName = '"+dealerName+"' and ZipCode IN ("+zipCodeString+") ;";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "Dealer", "SELECT");
+        ArrayList<ArrayList> result = connect.executeDealerQuery(query, "SELECT");
 
         /*Convert to Dealer object*/
         ArrayList<Dealer> dealerResult = convertToDealerObject(result);
@@ -59,11 +59,15 @@ public class DealerManagerImpl implements DealerManager {
     }
 
     @Override
-    public boolean addDealer(String dealerName, String dealerAddress) {
-        String query = "INSERT INTO Dealer (DealerName , DealerAddress) VALUES ('"+dealerName+"' , '"+dealerAddress+"' ;";
+    public boolean addDealer(Dealer dealer
+            /*String dealerName, String dealerAddress, String phoneNumber, String zipCode, String city,String country*/) {
+        String query = "INSERT INTO Dealer (DealerName , DealerAddress , PhoneNumber , ZipCode , City , Country) " +
+                "VALUES ('"+dealer.getDealerName()+"' , '"+dealer.getDealerAddress()+"' , '"+dealer.getPhoneNumber()+"' , '"
+                + dealer.getZipCode()+"' , '"+dealer.getCity()+"' , '"+dealer.getCountry()+"'"+
+                " ;";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "Dealer", "INSERT");
+        ArrayList<ArrayList> result = connect.executeDealerQuery(query, "INSERT");
 
         if(result != null)
             return true;
@@ -72,12 +76,15 @@ public class DealerManagerImpl implements DealerManager {
     }
 
     @Override
-    public boolean updateDealer(int dealerId, String dealerName, String dealerAddress) {
-        String query = "UPDATE Dealer SET DealerName = '"+dealerName+"'" +
-                " , DealerAddress='"+dealerAddress+"' WHERE DealerId='"+dealerId+"';";
+    public boolean updateDealer(Dealer dealer/*int dealerId, String dealerName, String dealerAddress, String phoneNumber, String zipCode, String city,String country*/) {
+        String query = "UPDATE Dealer SET DealerName = '"+dealer.getDealerName()+"'" +
+                " , DealerAddress='"+dealer.getDealerAddress()+"' , PhoneNumber = '" +dealer.getPhoneNumber()+"' ,"+
+                " ZipCode = '"+dealer.getZipCode()+"' , City='"+dealer.getCity()+"' , Country ='"+dealer.getCountry()+"' "+
+                "WHERE DealerId="+dealer.getDealerId()+
+                " ;";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "Dealer", "UPDATE");
+        ArrayList<ArrayList> result = connect.executeDealerQuery(query, "UPDATE");
 
         if(result != null)
             return true;
@@ -87,10 +94,10 @@ public class DealerManagerImpl implements DealerManager {
 
     @Override
     public boolean deleteDealer(int dealerId) {
-        String query = "DELETE FROM Dealer WHERE DealerId ='"+dealerId+"' ;";
+        String query = "DELETE FROM Dealer WHERE DealerId ="+dealerId+" ;";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "Dealer", "UPDATE");
+        ArrayList<ArrayList> result = connect.executeDealerQuery(query, "UPDATE");
 
         if(result != null)
             return true;
@@ -105,6 +112,7 @@ public class DealerManagerImpl implements DealerManager {
             ArrayList temp = sqlQueryOutput.get(i);
 
             Dealer d = new Dealer();
+
             d.setDealerId((Integer)temp.get(0));
             d.setDealerName(temp.get(1).toString());
             d.setDealerAddress(temp.get(2).toString());
