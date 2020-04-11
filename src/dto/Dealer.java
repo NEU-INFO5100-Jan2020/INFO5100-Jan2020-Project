@@ -1,126 +1,69 @@
 package dto;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import persist.*;
 
-public class Dealer implements DealerManager {
-    ConnectionToSql connect = new ConnectionToSql();
-    public int dealerId;
-    public String dealerName;
-    public String dealerAddress;
-    public String phoneNumber;
-    public String zipCode;
-    public String city;
-    public String country;
+public class Dealer extends BigDataType{
+    private int dealerId;
+    private String dealerName;
+    private String dealerAddress;
+    private String phoneNumber;
+    private String zipCode;
+    private String city;
+    private String country;
 
-    @Override
-    public Collection<Dealer> getAListOfAllDealer() {
-        String query = "SELECT * from Dealer;";
-
-        /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "Dealer", "SELECT");
-
-        /*Convert to Dealer object*/
-        ArrayList<Dealer> dealerResult = convertToDealerObject(result);
-
-        return dealerResult;
+    public int getDealerId() {
+        return dealerId;
     }
 
-    @Override
-    public Collection<Dealer> getDealerDetails(int dealerId) {
-        String query = "SELECT * from Dealer WHERE DealerId='"+dealerId+"' ;";
-
-        /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "Dealer", "SELECT");
-
-        /*Convert to Dealer object*/
-        ArrayList<Dealer> dealerResult = convertToDealerObject(result);
-
-        return dealerResult;
+    public void setDealerId(int dealerId) {
+        this.dealerId = dealerId;
     }
 
-    @Override
-    public Collection<Dealer> getDealerDetails(String dealerName, String[] zipCode/*, String distanceInMiles*/) {
-        String zipCodeString = "";
-
-        for(int i=0;i<zipCode.length;i++){
-            if(i == 0){
-                zipCodeString += "'"+zipCode[i]+"'";
-                continue;
-            }
-            zipCodeString += " , '"+zipCode[i]+"'";
-        }
-
-        String query = "SELECT * from Dealer " +
-                "WHERE DealerName = '"+dealerName+"' and ZipCode IN ("+zipCodeString+") ;";
-
-        /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "Dealer", "SELECT");
-
-        /*Convert to Dealer object*/
-        ArrayList<Dealer> dealerResult = convertToDealerObject(result);
-
-        return dealerResult;
+    public String getDealerName() {
+        return dealerName;
     }
 
-    @Override
-    public boolean addDealer(String dealerName, String dealerAddress) {
-        String query = "INSERT INTO Dealer (DealerName , DealerAddress) VALUES ('"+dealerName+"' , '"+dealerAddress+"' ;";
-
-        /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "Dealer", "INSERT");
-
-        if(result != null)
-            return true;
-
-        return false;
+    public void setDealerName(String dealerName) {
+        this.dealerName = dealerName;
     }
 
-    @Override
-    public boolean updateDealer(int dealerId, String dealerName, String dealerAddress) {
-        String query = "UPDATE Dealer SET DealerName = '"+dealerName+"'" +
-                " , DealerAddress='"+dealerAddress+"' WHERE DealerId='"+dealerId+"';";
-
-        /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "Dealer", "UPDATE");
-
-        if(result != null)
-            return true;
-
-        return false;
+    public String getDealerAddress() {
+        return dealerAddress;
     }
 
-    @Override
-    public boolean deleteDealer(int dealerId) {
-        String query = "DELETE FROM Dealer WHERE DealerId ='"+dealerId+"' ;";
-
-        /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "Dealer", "UPDATE");
-
-        if(result != null)
-            return true;
-
-        return false;
+    public void setDealerAddress(String dealerAddress) {
+        this.dealerAddress = dealerAddress;
     }
 
-    private ArrayList<Dealer> convertToDealerObject(ArrayList<ArrayList> sqlQueryOutput) {
-        ArrayList<Dealer> dealerResult = new ArrayList<>();
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-        for(int i=0;i<sqlQueryOutput.size();i++){
-            ArrayList temp = sqlQueryOutput.get(i);
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-            Dealer d = new Dealer();
-            d.dealerId = (Integer)temp.get(0);
-            d.dealerName = temp.get(1).toString();
-            d.dealerAddress = temp.get(2).toString();
-            d.phoneNumber = temp.get(3).toString();
-            d.zipCode = temp.get(4).toString();
-            d.city = temp.get(5).toString();
-            d.country = temp.get(6).toString();
+    public String getZipCode() {
+        return zipCode;
+    }
 
-            dealerResult.add(d);
-        }
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
 
-        return dealerResult;
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }
