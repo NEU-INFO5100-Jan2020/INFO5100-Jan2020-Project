@@ -11,10 +11,10 @@ public class VehicleManagerImpl implements VehicleManager {
 
     @Override
     public Collection<Vehicle> getVehicleDetail(int vehicleId) {
-        String query = "SELECT * from VehicleTable WHERE VehicleId='"+vehicleId+"' ;";
+        String query = "SELECT * from VehicleTable WHERE VehicleId="+vehicleId+" ;";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "VehicleTable", "SELECT");
+        ArrayList<ArrayList> result = connect.executeVehicleQuery(query,  "SELECT");
 
         /*Convert to Vehicle object*/
         ArrayList<Vehicle> vehicle = convertToVehicleObject(result);
@@ -29,10 +29,10 @@ public class VehicleManagerImpl implements VehicleManager {
 
     @Override
     public Collection<Vehicle> getListOfVehiclesBasedOnDealerId(int dealerId) {
-        String query = "SELECT * from VehicleTable WHERE DealerId='"+dealerId+"' ;";
+        String query = "SELECT * from VehicleTable WHERE DealerId="+dealerId+" ;";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "VehicleTable", "SELECT");
+        ArrayList<ArrayList> result = connect.executeVehicleQuery(query,  "SELECT");
 
         /*Convert to Vehicle object*/
         ArrayList<Vehicle> vehicle = convertToVehicleObject(result);
@@ -45,7 +45,7 @@ public class VehicleManagerImpl implements VehicleManager {
 
         /*Make , Model , Year , Price are optional fields. If passed, then add to the query*/
         /*DealerId is mandatory passed*/
-        String queryString = "DealerId = '"+dealerId+"'";
+        String queryString = "DealerId = "+dealerId+" ";
 
         if(vehicleModel!= "" ){
             queryString += " and Model='"+vehicleModel+"'";
@@ -54,17 +54,17 @@ public class VehicleManagerImpl implements VehicleManager {
             queryString += " and Make='"+vehicleMake+"'";
         }
         if(year != ""){
-            queryString += " and Year='"+year+"'";
+            queryString += " and Year= "+year+" ";
         }
         if(vehiclePrice != ""){
-            queryString += " and Price='"+vehiclePrice+"'";
+            queryString += " and Price= "+vehiclePrice+" ";
         }
 
         /*Final select query*/
         String query = "SELECT * from VehicleTable WHERE "+queryString+" ;";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "VehicleTable", "SELECT");
+        ArrayList<ArrayList> result = connect.executeVehicleQuery(query,  "SELECT");
 
         /*Convert to Vehicle object*/
         ArrayList<Vehicle> vehicle = convertToVehicleObject(result);
@@ -73,16 +73,16 @@ public class VehicleManagerImpl implements VehicleManager {
     }
 
     @Override
-    public boolean addVehicle(String VIN, String dealerId, String make, String model, int year,
-                              String category, int price, String color, int miles,
-                              Image image, int incentiveId, float discountPrice) {
+    public boolean addVehicle(Vehicle vehicle) {
        String query = "INSERT INTO Dealer (VIN , DealerId ,Make , Model , Year , " +
                "Category , Price , Color , Miles , Image , IncentiveId , DiscountPrice) " +
-               "VALUES ('"+VIN+"' , '"+dealerId+"' , '"+make+"' , '"+model+"' , '"+year+"' , " +
-               "'"+category+"' , '"+price+"' , '"+color+"' , '"+miles+"' , '"+image+"' , '"+incentiveId+"' , '"+discountPrice+"') ;";
+               "VALUES ('"+vehicle.getVin()+"' , "+vehicle.getDealerId()+" , '"+vehicle.getMake()+"' , '"+vehicle.getModel()+
+               "' , "+vehicle.getYear()+" , '"+vehicle.getCategory()+"' , "+vehicle.getPrice()+" , '"+vehicle.getColor()+
+               "' , "+vehicle.getMileage()+" , '"+vehicle.getImage()+"' , "+vehicle.getIncentiveId()+" , "+vehicle.getDiscountPrice()+
+               ") ;";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "VehicleTable", "INSERT");
+        ArrayList<ArrayList> result = connect.executeVehicleQuery(query,  "INSERT");
 
         if(result != null)
             return true;
@@ -91,16 +91,16 @@ public class VehicleManagerImpl implements VehicleManager {
     }
 
     @Override
-    public boolean updateVehicle(int vehicleId, String VIN, String dealerId, String make, String model, int year,
-                                 String category, int price, String color, int miles , Image image, int incentiveId , float discountPrice) {
-        String query = "UPDATE VehicleTable SET VIN='"+VIN+"' , DealerId='"+dealerId+"' , Make='"+make+"' , " +
-                "Model='"+model+"' , Year='"+year+"' , Category = '"+category+"' , " +
-                "Price = '"+price+"' , Color = '"+color+"' , Miles = '"+miles+"' , " +
-                "Image = '"+image+"' , IncentiveId= '"+incentiveId+"' , DiscountPrice = '"+discountPrice+"' "+
-                "WHERE VehicleId='"+vehicleId+"';";
+    public boolean updateVehicle(Vehicle vehicle) {
+        String query = "UPDATE VehicleTable SET VIN='"+vehicle.getVin()+"' , DealerId="+vehicle.getDealerId()+
+                " , Make='"+vehicle.getMake()+"' , Model='"+vehicle.getModel()+"' , Year= "+vehicle.getYear()+
+                " , Category = '"+vehicle.getCategory()+"' , Price = "+vehicle.getPrice()+" , Color = '"+vehicle.getColor()+
+                "' , Miles = "+vehicle.getMileage()+" , Image = '"+vehicle.getImage()+"' , IncentiveId= "+vehicle.getIncentiveId()+
+                " , DiscountPrice = "+vehicle.getDiscountPrice()+" WHERE VehicleId="+vehicle.getVehicleId()+
+                " ;";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "VehicleTable", "UPDATE");
+        ArrayList<ArrayList> result = connect.executeVehicleQuery(query, "UPDATE");
 
         if(result != null)
             return true;
@@ -110,10 +110,10 @@ public class VehicleManagerImpl implements VehicleManager {
 
     @Override
     public boolean deleteVehicle(int vehicleId) {
-        String query = "DELETE FROM VehicleTable WHERE VehicleId ='"+vehicleId+"';";
+        String query = "DELETE FROM VehicleTable WHERE VehicleId = "+vehicleId+" ;";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "VehicleTable", "UPDATE");
+        ArrayList<ArrayList> result = connect.executeVehicleQuery(query, "UPDATE");
 
         if(result != null)
             return true;
@@ -128,6 +128,7 @@ public class VehicleManagerImpl implements VehicleManager {
             ArrayList temp = sqlQueryOutput.get(i);
 
             Vehicle v = new Vehicle();
+
             v.setVehicleId( (Integer)temp.get(0));
             v.setVin((Integer)temp.get(1));
             v.setDealerId((Integer)temp.get(2));
