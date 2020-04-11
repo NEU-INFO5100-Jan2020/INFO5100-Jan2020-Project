@@ -13,6 +13,10 @@ public class Incentives extends BigDataType{
     private Date endDate;
     private int discountValue;
     private String discountType;
+    private int dealerId;
+    private boolean isDeleted;
+    private String filterList;
+    private String vehicleIdList;
 
     public int getIncentiveId() {
         return incentiveId;
@@ -76,5 +80,37 @@ public class Incentives extends BigDataType{
 
     public void setDiscountType(String discountType) {
         this.discountType = discountType;
+    }
+    
+    public int getDealerId() {
+        return dealerId;
+    }
+
+    public void setDealerId(int dealerId) {
+        this.dealerId = dealerId;
+    }
+
+    public boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public String getFilterList() {
+        return filterList;
+    }
+
+    public void setFilterList(String filterList) {
+        this.filterList = filterList;
+    }
+
+    public String getVehicleIdList() {
+        return vehicleIdList;
+    }
+
+    public void setVehicleIdList(String vehicleIdList) {
+        this.vehicleIdList = vehicleIdList;
     }
 }
