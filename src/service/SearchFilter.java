@@ -66,11 +66,35 @@ class VehicleSearchFilterElement extends SearchFilterElement {
 }
 
 class IncentiveSearchFilterElement extends SearchFilterElement {
-  /*
-  FilterElement for Incentive GUI: case 5, team 3
-  @Ekie may implement this class based on my implementation above
-   */
+    /*
+    FilterElement for Incentive GUI: case 5, team 3
+    @Ekie may implement this class based on my implementation above
+     */
+    public IncentiveSearchFilterElement(IncentiveSearchCriterion key, String value) {
+        this.name = key.key;
+        this.value = value;
+    }
 
+    public enum IncentiveSearchCriterion {
+        /*
+        Enum objects include all possible optional search filter of Vehicle Search GUI
+         */
+        MaxPrice("MaxPrice"),
+        MinPrice("MinPrice"),
+        New("New");
+
+        private final String key; // key is the String value of each enum element
+
+        private IncentiveSearchCriterion(String key) {
+            // private constructor that binds key string to enum element
+            this.key = key;
+        }
+
+        public String getKey() {
+            // getter of key of enum
+            return key;
+        }
+    }
 }
 
 class DealerSearchFilterElement extends SearchFilterElement {
@@ -146,13 +170,16 @@ class VehicleSearchFilter extends SearchFilter {
 }
 
 class IncentiveSearchFilter extends SearchFilter {
-  /*
-  SearchFilter implementation for Incentive GUI
- */
-  public IncentiveSearchFilter() {
-    super();
-  }
-}
+        /*
+        SearchFilter implementation for Incentive GUI
+       */
+        int dealerID;
+
+        public IncentiveSearchFilter(int dealerID) {
+            super();
+            this.dealerID = dealerID;
+        }
+    }
 
 class DealerSearchFilter extends SearchFilter{
   private final int minradius = 0;
@@ -164,6 +191,7 @@ class DealerSearchFilter extends SearchFilter{
   public DealerSearchFilter(String zip, int minradius, int maxradius) {
     super();
   }
+
 
   public ArrayList<String> zipCodeRadius(String zip, int minradius, int maxradius)
   {
@@ -195,7 +223,7 @@ class DealerSearchFilter extends SearchFilter{
     for (int index = 1; index < DataList.length(); index++)
     {
       JSONObject obj1 = DataList.getJSONObject(index);
-
+      
       /*The result below can be String Array, List or Collection based on preference for your GUI output*/
       //System.out.println(obj1.getString("City") + " " + obj1.getString("Code") + " " + obj1.getString("County") + " COUNTY" + " " + obj1.getDouble("Distance"));
       String str = obj1.getString("Code");
