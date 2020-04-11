@@ -251,7 +251,7 @@ public class EditPage extends JFrame {
         newVehicleButton.setBounds(100, 450, 50, 50);
 
 
-        welcomeLabel.setBounds(750,10,150,20);
+        welcomeLabel.setBounds(750,10,200,20);
 
     }
 

@@ -1,4 +1,5 @@
 package ui.incentiveui;
+import ui.incentiveui.JTextFieldHintListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,8 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 // import javax.swing.JOptionPane;
 import com.toedter.calendar.JDateChooser;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+
 
 //        import lombok.Data;
 
@@ -31,7 +31,7 @@ public class CreatePage extends JFrame {
     protected JTextField vehicleIDText, minimumInt, maximumInt;
     protected JComboBox makeCombobox;
     protected Checkbox newVehicleButton;
-    private String[] makelist = {"Toyota","Buick","Honda","Audi","Jaguar","Kia","Mercedes-Benz"," Land Rover", "Mazda","Volvo", "Ford", "BMW","Jeep","Tesla","Porsche","Acura", "Aston Martin","Chevrolet","Ferrari","Cadillac","Infiniti","Volkswagen","Subaru","Nissan"};
+    private String[] makelist = {"Default", "Toyota","Buick","Honda","Audi","Jaguar","Kia","Mercedes-Benz"," Land Rover", "Mazda","Volvo", "Ford", "BMW","Jeep","Tesla","Porsche","Acura", "Aston Martin","Chevrolet","Ferrari","Cadillac","Infiniti","Volkswagen","Subaru","Nissan"};
     private Integer minimumPrice, maximumPrice;
 
     private JLabel rightTitle, titleLabel, valueLabel, descriptionLabel, disclaimerLabel, dateLabel, slashLabel, incenitveTypeLabel;
@@ -127,13 +127,13 @@ public class CreatePage extends JFrame {
         makeLabel.setFont(mainCommonFont);
         minimumInt = new JTextField(7);
 //        maximumInt.addFocusListener(new JTextFieldHintListener(minimumInt, "min"));
+        minimumInt.addFocusListener(new JTextFieldHintListener("Minimum", minimumInt));
         maximumInt = new JTextField(7);
-//        maximumInt.addFocusListener(new JTextFieldHintListener(maximumInt, "Max"));
+        maximumInt.addFocusListener(new JTextFieldHintListener("Maximum", maximumInt));
         welcomeLabel = new JLabel("Welcome, " + dealerID);
         welcomeLabel.setFont(mainCommonFont);
         cautionLabel = new JLabel("Enter min and max integers.");
         Font cautionFont = new Font("Courier", Font.PLAIN,5);
-
         makeCombobox = new JComboBox(makelist);
         makeCombobox.setFont(mainCommonFont);
 //        priceComboBox = new JComboBox();
@@ -149,12 +149,8 @@ public class CreatePage extends JFrame {
 
 
     private void createRightsComponent() {
-        rightTitle = new JLabel(
-                "<html><body><p align=\"center\">Add Incentive Details for A Certain Vehicle<br>Or Group of Vehicles</p><body</html>");
-        // <html><body><p>Add Incentive Details for A Certain Vehicle Or Group of
-        // Vehicles</p><body></html>
-        // <html><body><p align=\"center\">Add Incentive Details for A Certain
-        // Vehicle<br>Or Group of Vehicles<\p><\body<\html>
+        rightTitle = new JLabel("<html><body><p align=\"center\">Add Incentive Details for A Certain Vehicle<br>Or Group of Vehicles</p><body</html>");
+
         Font rightTitleFont = new Font("Courier", Font.BOLD, 17);
         rightTitle.setFont(rightTitleFont);
         Font rightCommonFont = new Font("Courier", Font.PLAIN, 15);
@@ -256,7 +252,7 @@ public class CreatePage extends JFrame {
         newVehicleButton.setBounds(100, 450, 50, 50);
         searchButton.setBounds(150, 550, 130, 40);
 
-        welcomeLabel.setBounds(750,10,150,20);
+        welcomeLabel.setBounds(750,10,200,20);
         cautionLabel.setBounds(mainTextX,280,200,20);
     }
 

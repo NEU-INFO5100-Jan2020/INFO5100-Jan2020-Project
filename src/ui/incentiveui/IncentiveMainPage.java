@@ -1,5 +1,8 @@
 package ui.incentiveui;
 
+import ui.incentiveui.CreatePage;
+import ui.incentiveui.EditPage;
+
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.Border;
@@ -15,9 +18,9 @@ public class IncentiveMainPage extends JFrame {
     /**
      * Creates new form NewJFrame
      */
-    public IncentiveMainPage() {
+    public IncentiveMainPage(String dearlerID) {
         initComponents();
-        addActionListener();
+        addActionListener(dearlerID);
 
     }
 
@@ -29,15 +32,15 @@ public class IncentiveMainPage extends JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
-    private void addActionListener() {
+    private void addActionListener(String dearlerID) {
         jButton2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new ui.incentiveui.CreatePage("D5");
+                new CreatePage(dearlerID);
             }
         });
         jButton4.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new ui.incentiveui.EditPage("D5");
+                new EditPage(dearlerID);
             }
         });
     }
@@ -184,7 +187,7 @@ public class IncentiveMainPage extends JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new IncentiveMainPage().setVisible(true);
+                new IncentiveMainPage("JingBaBa").setVisible(true);
             }
         });
     }
