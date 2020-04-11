@@ -1,6 +1,6 @@
 package ui.UC2_SearchVehicles;
 
-import dto.Vehicle;
+//import dto.*;
 
 import java.util.Collection;
 
@@ -50,10 +50,10 @@ public class VehicleTester {
 
     }
 
-    public static Collection<Vehicle> callDB(int dealerID) {
-        Vehicle vhDB = new Vehicle();
-        Collection<Vehicle> vehicles = vhDB.getListOfVehiclesBasedOnDealerId(dealerID);
-        return vehicles;
-    }
+//    public static Collection<Vehicle> callDB(int dealerID) {
+//        Vehicle vhDB = new Vehicle();
+//        Collection<Vehicle> vehicles = vhDB.getListOfVehiclesBasedOnDealerId(dealerID);
+//        return vehicles;
+//    }
 
 }

@@ -1,7 +1,7 @@
 package ui.UC2_SearchVehicles;
 
 
-import dto.Vehicle;
+//import dto.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,15 +10,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class CheckVehicles extends JFrame {
 
-    ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
+//    ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 
     ArrayList<JLabel> lblList;
     JLabel lbl_headline, lbl_make, lbl_module, lbl_year, lbl_gif, lbl_price, lbl_Err_Year, lbl_Err_Price;
-    ImageIcon コナー;
+    ImageIcon icon;
 
     ArrayList<JTextField> txtList;
     JTextField txt_year, txt_price;
@@ -86,8 +85,8 @@ public class CheckVehicles extends JFrame {
         InitImageIcon();
     }
     private void InitImageIcon(){
-        ImageIcon コナー = new ImageIcon("/Users/sf/Desktop/照片/康纳酱.gif");
-        lbl_gif = new JLabel(コナー);
+        ImageIcon icon = new ImageIcon("src/ui/UC2_SearchVehicles/来点色图.gif");
+        lbl_gif = new JLabel(icon);
         lbl_gif.setBounds(350, 100, 400, 400);
         getContentPane().add(lbl_gif);
     }
@@ -122,12 +121,16 @@ public class CheckVehicles extends JFrame {
 
                 if (priceValid && yearValid) {
                     jp.setVisible(true);
-                    // lbl_gif.setVisible(lbl_gif.isVisible() == true? false : true);
+                    lbl_gif.setVisible(false);
                     getContentPane().remove(lbl_Err_Year);
                     getContentPane().remove(lbl_Err_Price);
                 }
+                else{
+                    jp.setVisible(false);
+                    lbl_gif.setVisible(true);
+                }
 
-                repaint();
+//                repaint();
             }
 
             private boolean isValidPrice(String priceInput) {
