@@ -14,7 +14,7 @@ public class IncentivesManagerImpl implements IncentivesManager {
         String query = "SELECT * FROM Incentives";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "Incentives", "SELECT");
+        ArrayList<ArrayList> result = connect.executeIncentivesQuery(query, "SELECT");
 
         /*Convert to Incentives object*/
         ArrayList<Incentives> incentivesResult = convertToIncentivesObject(result);
@@ -28,14 +28,16 @@ public class IncentivesManagerImpl implements IncentivesManager {
     }
 
     @Override
-    public boolean addIncentive(String title, String description, String disclaimer, Date startDate, Date endDate, int discountValue, String discountType) {
+    public boolean addIncentive(Incentives incentives) {
         String query = "INSERT INTO Incentives (Title , Description , Disclaimer , " +
                 "StartDate , EndDate , DiscountValue , DiscountType) " +
-                "VALUES ('"+title+"' , '"+description+"' , '"+disclaimer+"' , " +
-                "'"+startDate+"' , '"+endDate+"' , '"+discountValue+"' , '"+discountType+"') ;";
+                "VALUES ('"+incentives.getTitle()+"' , '"+incentives.getDescription()+"' , '"+incentives.getDisclaimer()+"' , " +
+                "'"+incentives.getStartDate()+"' , '"+incentives.getEndDate()+"' , "+incentives.getDiscountValue()+
+                " , '"+incentives.getDiscountType()+"')" +
+                " ;";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "Incentives", "INSERT");
+        ArrayList<ArrayList> result = connect.executeIncentivesQuery(query, "INSERT");
 
         if(result != null)
             return true;
@@ -54,13 +56,14 @@ public class IncentivesManagerImpl implements IncentivesManager {
     }
 
     @Override
-    public boolean updateIncentive(int incentivesId, String title, String description, String disclaimer, Date startDate, Date endDate, int discountValue, String discountType) {
-        String query = "UPDATE Incentives SET Title='"+title+"' , Description ='"+description+"' , Disclaimer='"+disclaimer+"' ," +
-                " StartDate='"+startDate+"' , EndDate='"+endDate+"' , DiscountValue = '"+discountValue+"', DiscountType = '"+discountType+"'" +
-                " WHERE IncentiveId = '"+incentivesId+"' ;";
+    public boolean updateIncentive(Incentives incentives) {
+        String query = "UPDATE Incentives SET Title='"+incentives.getTitle()+"' , Description ='"+incentives.getDescription()+
+                "' , Disclaimer='"+incentives.getDisclaimer()+"' , StartDate='"+incentives.getStartDate()+"' , EndDate='"+incentives.getEndDate()+
+                "' , DiscountValue = "+incentives.getDiscountValue()+" , DiscountType = '"+incentives.getDiscountType()+"'" +
+                " WHERE IncentiveId = "+incentives.getIncentiveId()+" ;";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "Incentives", "UPDATE");
+        ArrayList<ArrayList> result = connect.executeIncentivesQuery(query, "UPDATE");
 
         if(result != null)
             return true;
@@ -73,7 +76,7 @@ public class IncentivesManagerImpl implements IncentivesManager {
         String query = "DELETE FROM Incentives WHERE IncentiveId ='"+incentivesId+"' ;";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeQuery(query, "Incentives", "UPDATE");
+        ArrayList<ArrayList> result = connect.executeIncentivesQuery(query, "UPDATE");
 
         if(result != null)
             return true;
@@ -88,6 +91,7 @@ public class IncentivesManagerImpl implements IncentivesManager {
             ArrayList temp = sqlQueryOutput.get(i);
 
             Incentives in = new Incentives();
+
             in.setIncentiveId((Integer)temp.get(0));
             in.setTitle(temp.get(1).toString());
             in.setDescription(temp.get(2).toString());
@@ -96,6 +100,10 @@ public class IncentivesManagerImpl implements IncentivesManager {
             in.setEndDate((Date)temp.get(5));
             in.setDiscountValue((Integer)temp.get(6));
             in.setDiscountType(temp.get(7).toString());
+            in.setDealerId((Integer) temp.get(8));
+            in.setIsDeleted(Boolean.parseBoolean(temp.get(9)));
+            in.setFilterList(temp.get(10));
+            in.setVehicleIdList(temp.get(11));
 
             incentivesResult.add(in);
         }
