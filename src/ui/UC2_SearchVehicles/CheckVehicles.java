@@ -2,7 +2,6 @@ package ui.UC2_SearchVehicles;
 
 
 import dto.Vehicle;
-import javafx.scene.input.DataFormat;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,13 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 
 public class CheckVehicles extends JFrame {
+
+    ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
+
     ArrayList<JLabel> lblList;
     JLabel lbl_headline, lbl_make, lbl_module, lbl_year, lbl_gif, lbl_price, lbl_Err_Year, lbl_Err_Price;
     ImageIcon コナー;
@@ -45,6 +44,10 @@ public class CheckVehicles extends JFrame {
 
     public CheckVehicles(int dearID) {
         this.DearID = dearID;
+        // querty database and fill ArrayList<Vehicles> with data;
+        // page has 5 element, vehiclsList 5 elementlf
+
+
         InitialComponents();
         AddComponents();
 
@@ -93,7 +96,7 @@ public class CheckVehicles extends JFrame {
         JButton search = new JButton("Search");
         search.setBounds(lbl_price.getX() + xInterval * 1 / 2, lbl_price.getY() + yInternal * 2 / 3, 100, 20);
         search.setBackground(Color.orange);
-//        search.setOpaque(true);
+//      search.setOpaque(true);
         search.setFont(new Font("Arial", Font.PLAIN, 15));
         search.addActionListener(new ActionListener(){
 
@@ -183,15 +186,24 @@ public class CheckVehicles extends JFrame {
         JList list_jp_vList = new JList<>();
         list_jp_vList.setCellRenderer(new Render());
         list_jp_vList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list_jp_vList.setVisibleRowCount(5);
-        DefaultListModel<VehicleTester> lm = new DefaultListModel();
 
-        // For Testing
+
+//        DefaultListModel<Vehicle> lm = new DefaultListModel();
+//        Collection<Vehicle> vehicles = VehicleTester.callDB(10);
+//
+//        for (Vehicle vehicle : vehicles) {
+//            lm.addElement(vehicle);
+//        }
+
+
+         //For Testing
+        DefaultListModel<VehicleTester> lm = new DefaultListModel();
         VehicleTester[] vehicles = VehicleTester.createTestVehicles();
-        // Collection<Vehicle> vehicles = VehicleTester.callDB(3);
         for (VehicleTester vehicle : vehicles) {
             lm.addElement(vehicle);
         }
+
+
         list_jp_vList.setModel(lm);
 
         JScrollPane js = new JScrollPane(list_jp_vList);
