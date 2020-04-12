@@ -79,9 +79,9 @@ class IncentiveSearchFilterElement extends SearchFilterElement {
         /*
         Enum objects include all possible optional search filter of Vehicle Search GUI
          */
-        MaxPrice("MaxPrice"),
-        MinPrice("MinPrice"),
-        New("New");
+        MAXPrice("MaxPrice"),
+        MINPrice("MinPrice"),
+        NEW("New");
 
         private final String key; // key is the String value of each enum element
 
