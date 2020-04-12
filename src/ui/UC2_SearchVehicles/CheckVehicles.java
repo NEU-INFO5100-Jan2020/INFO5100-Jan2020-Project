@@ -18,6 +18,7 @@ public class CheckVehicles extends JFrame {
     ArrayList<JLabel> lblList;
     JLabel lbl_headline, lbl_make, lbl_module, lbl_year, lbl_gif, lbl_price, lbl_Err_Year, lbl_Err_Price;
     ImageIcon icon;
+    JTable jt;
 
     ArrayList<JTextField> txtList;
     JTextField txt_year, txt_price;
@@ -170,7 +171,7 @@ public class CheckVehicles extends JFrame {
     }
     private void InitFrame2() {
         frame2 = new JFrame();
-        frame2.setBounds(350, 100, 400, 400);
+        frame2.setBounds(350, 100, 800, 900);
 //        frame2.setBorder(BorderFactory.createLineBorder(Color.black));
         frame2.setBackground(Color.orange);
         frame2.setLayout(null);
@@ -180,58 +181,55 @@ public class CheckVehicles extends JFrame {
 
 
     private void InitFrame2Component() {
-
-
         lbl_jp_hl = new JLabel("List of Vehicles of Dealer " + dealerName);
-        lbl_jp_hl.setBounds(80,0,300,30);
+        lbl_jp_hl.setBounds(300,50,300,30);
         frame2.add(lbl_jp_hl);
-
-        JList list_jp_vList = new JList<>();
-        list_jp_vList.setCellRenderer(new Render());
-        list_jp_vList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-
-//        DefaultListModel<Vehicle> lm = new DefaultListModel();
-//        Collection<Vehicle> vehicles = VehicleTester.callDB(10);
-//
-//        for (Vehicle vehicle : vehicles) {
-//            lm.addElement(vehicle);
-//        }
-
-
-         //For Testing
-        DefaultListModel<VehicleTester> lm = new DefaultListModel();
+        //For Testing
+//      DefaultListModel<VehicleTester> lm = new DefaultListModel();
+        String[] header = {"Make", "Price", "Vin"};
         VehicleTester[] vehicles = VehicleTester.createTestVehicles();
+        String[][] jt_data = new String[vehicles.length][header.length];
+        int row = 0;
         for (VehicleTester vehicle : vehicles) {
-            lm.addElement(vehicle);
+            jt_data[row++] = new String[]{vehicle.make, String.valueOf(vehicle.price), String.valueOf(vehicle.VIN)};
+//            lm.addElement(vehicle);
         }
 
-
-        list_jp_vList.setModel(lm);
-
-        JScrollPane js = new JScrollPane(list_jp_vList);
-        js.setBounds(100,50,240,200);
-        js.setLocation(100, 50);
-        frame2.add(js);
-
-
-
+//        jt.setBounds(80, 80, 600, 400);
+//        jt.setColumnSelectionAllowed(true);
+        jt = new JTable(jt_data, header);
+        JPanel f2_panel = new JPanel();
+        f2_panel.add(new JScrollPane(jt));
+        f2_panel.setBounds(80, 80, 600, 400);
+        f2_panel.setVisible(true);
+        frame2.add(f2_panel);
+//        frame2.add(jt);
+//        JList list_jp_vList = new JList<>();
+//        list_jp_vList.setCellRenderer(new Render());
+//        list_jp_vList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//        DefaultListModel<Vehicle> lm = new DefaultListModel();
+//        Collection<Vehicle> vehicles = VehicleTester.callDB(10);
+//        list_jp_vList.setModel(lm);
+//        JScrollPane js = new JScrollPane(list_jp_vList);
+//        js.setBounds(100,50,240,200);
+//        js.setLocation(100, 50);
+//        frame2.add(js);
         btn_jp_viewDetail = new JButton("View Detail");
-        btn_jp_viewDetail.setBounds(130,320, 130, 30);
+        btn_jp_viewDetail.setBounds(400 ,500, 130, 30);
         frame2.add(btn_jp_viewDetail);
-        btn_jp_viewDetail.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int index = list_jp_vList.getSelectedIndex();
-                if (index >= 0) {
-                    int myVin = lm.getElementAt(index).VIN;
-                    System.out.println("index : " + index + " value : " +list_jp_vList.getSelectedValue() + " Vin :" + myVin);
-                } else {
-                    System.out.println("Please Select a Vehicle");
-                }
-
-            }
-        });
+//        btn_jp_viewDetail.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                int index = list_jp_vList.getSelectedIndex();
+//                if (index >= 0) {
+//                    int myVin = lm.getElementAt(index).VIN;
+//                    System.out.println("index : " + index + " value : " +list_jp_vList.getSelectedValue() + " Vin :" + myVin);
+//                } else {
+//                    System.out.println("Please Select a Vehicle");
+//                }
+//
+//            }
+//        });
     }
 
 
