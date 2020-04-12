@@ -13,12 +13,13 @@ public interface DataGetter {
 }
 
 class IncentiveGetter implements DataGetter{
-
+  IncentiveSearchFilter isf;
   @Override
-  public List<?extends BigDataType> get(VehicleSearchFilter sf) {
-    return null;
+  public List<dto.Vehicle> get() {
+    VehicleManager v = new VehicleManagerImpl(); // Team 1 should have a VehicleManagerImpl which implements VehicleManager
+    List<Vehicle> vehicles =  v.getListOfVehiclesBasedOnDealerId(isf); // They should change the input to sf object and use vsf.id as id and vsf.elements as Optional filters
+    return vehicles;
   }
-}
 
 class VehicleGetter implements DataGetter{
   VehicleSearchFilter vsf;
