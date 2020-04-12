@@ -12,6 +12,7 @@ import com.toedter.calendar.JDateChooser;
 
 //        import lombok.Data;
 
+import java.text.DateFormat;
 import java.util.Date;
 
 // import javax.swing.JCalendar;
@@ -44,7 +45,7 @@ public class CreatePage extends JFrame {
 
     protected String vehicleID, title, description, disclaimer, dealerID;
     protected int maximum, minimum;
-    protected Integer value;
+    protected int value;
     protected boolean isNewVehicle;
     protected Date startDate, endDate;
 
@@ -74,20 +75,39 @@ public class CreatePage extends JFrame {
 
         applyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(jframe, "Apply");
+                startDate = startDateChooser.getDate();
+                String DateOfStart = DateFormat.getDateInstance().format(startDate);
+                endDate = endDateChooser.getDate();
+                String DateOfEnd = DateFormat.getDateInstance().format(endDate);
+
+                //getApplyInput();
+//                System.out.println(title+value+description+disclaimer);
+                // JOptionPane.showMessageDialog(jframe, applyInput.title + " + " + applyInput.value + " + "
+                //         + applyInput.description + " + " + applyInput.disclaimer);
+
+                CreateIncentives ci = new CreateIncentives();
+                ci.SaveApplicationData(titleText.getText(), valueText.getText(), disclaimerText.getText(),descriptionText.getText(),DateOfStart,DateOfEnd);
+
             }
         });
-        // applyButton.addActionListener(new ActionListener() {
-        // public void actionPerformed(ActionEvent e) {
-        //// Form form = new
-        // Form(titleText.toString(),valueText.toString(),descriptionText.toString(),disclaimerText.toString());
-        // System.out.println(title+value+description+disclaimer);
-        //// return form;
-        // // JOptionPane.showMessageDialog(jframe, applyInput.title + " + " +
-        // applyInput.value + " + "
-        // // + applyInput.description + " + " + applyInput.disclaimer);
-        // }
-        // });
+
+    }
+
+    public void setTitle() {
+        this.title = titleText.toString();
+        // return title;
+    }
+
+    public void setValue() {
+        this.value = Integer.parseInt(valueText.toString());
+    }
+
+    public void setDescription() {
+        this.description = descriptionText.toString();
+    }
+
+    public void setDisclaimer() {
+        this.disclaimer = disclaimerText.toString();
     }
 
     private void createComponents(String dealerID) {
@@ -281,4 +301,22 @@ public class CreatePage extends JFrame {
 
     }
 
+    public class CreateIncentives {
+        CreatePage incentive = new CreatePage();
+        public int SaveApplicationData(String titleText, String valueText, String disclaimerText, String descriptionText, String startDate, String endDate) {
+            System.out.println(titleText+ " + "+valueText+" + "+disclaimerText+" + "+descriptionText+" + "+startDate+" + "+endDate );
+
+
+
+            return 0;
+
+        }
+
+    }
+
+
+
+
 }
+
+
