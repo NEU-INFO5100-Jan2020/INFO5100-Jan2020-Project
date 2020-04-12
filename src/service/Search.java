@@ -22,7 +22,7 @@ class SearchDealer implements SearchFactory {
 
   @Override
   public DataGetter produceDataGetter(SearchFilter serf) {
-    return new DealerGetter();
+    return new DealerGetter((DealerSearchFilter) serf);
   }
 
   @Override
@@ -56,7 +56,7 @@ class SearchIncentive implements SearchFactory {
 
   @Override
   public DataGetter produceDataGetter(SearchFilter serf) {
-    return new IncentiveGetter();
+    return new IncentiveGetter(serf);
   }
 
   @Override
