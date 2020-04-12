@@ -12,11 +12,12 @@ import java.awt.event.FocusListener;
 
 //        import lombok.Data;
 
+import java.text.DateFormat;
 import java.util.Date;
 
 // import javax.swing.JCalendar;
 //@Data
-public class EditPage extends JFrame {
+class EditPage extends JFrame {
     /**
      * ng
      */
@@ -36,17 +37,17 @@ public class EditPage extends JFrame {
 
     private JLabel rightTitle, titleLabel, valueLabel, descriptionLabel, disclaimerLabel, dateLabel, slashLabel, incenitveTypeLabel;
     private JComboBox incentiveTypeBox;
-    protected JTextField titleText, valueText;
-    protected JTextArea descriptionText, disclaimerText;
-    protected JDateChooser startDateChooser, endDateChooser;
+    private JTextField titleText, valueText;
+    private JTextArea descriptionText, disclaimerText;
+    private JDateChooser startDateChooser, endDateChooser;
 
     // IncentiveInput searchInput, applyInput;
 
-    protected String vehicleID, title, description, disclaimer, dealerID;
-    protected int maximum, minimum;
-    protected Integer value;
-    protected boolean isNewVehicle;
-    protected Date startDate, endDate;
+    private String vehicleID, title, description, disclaimer, dealerID, incentiveType;
+    private int maximum, minimum;
+    private String value;
+    private boolean isNewVehicle;
+    private String startDate, endDate;
 
     // public int[][] priceRangeArray;
 
@@ -70,8 +71,16 @@ public class EditPage extends JFrame {
 
         applyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(jframe, "Apply");
+                title = titleText.getText();
+                incentiveType = incentiveTypeBox.getSelectedItem().toString();
+                value = valueText.getText();
+                description = descriptionText.getText();
+                disclaimer = disclaimerText.getText();
+                startDate = DateFormat.getDateInstance().format(startDateChooser.getDate());
+                endDate = DateFormat.getDateInstance().format(endDateChooser.getDate());
+                saveApplicationData(title,incentiveType,value,description,disclaimer,startDate,endDate);
             }
+
         });
         // applyButton.addActionListener(new ActionListener() {
         // public void actionPerformed(ActionEvent e) {
@@ -87,7 +96,7 @@ public class EditPage extends JFrame {
     }
 
     private void createComponents(String dealerID) {
-        jframe = new JFrame("Incentives GUI");
+        jframe = new JFrame("Incentive Management");
         jframe.setLayout(null);
         // jframe.setDefaultCloseOperation(jframe.EXIT_ON_CLOSE);
 
@@ -126,18 +135,9 @@ public class EditPage extends JFrame {
 //        maximumInt.addFocusListener(new JTextFieldHintListener(maximumInt, "Max"));
         welcomeLabel = new JLabel("Welcome, " + dealerID);
         welcomeLabel.setFont(mainCommonFont);
-//        cautionLabel = new JLabel("Enter min and max integers.");
+
         Font cautionFont = new Font("Courier", Font.PLAIN,5);
 
-//        makeCombobox = new JComboBox(makelist);
-//        makeCombobox.setFont(mainCommonFont);
-//        priceComboBox = new JComboBox();
-//        priceComboBox.setFont(mainCommonFont);
-//        priceComboBox.addItem("25000-35000");
-//        priceComboBox.addItem("35000-45000");
-//        priceComboBox.addItem("45000-55000");
-//        priceComboBox.addItem("55000-65000");
-//        priceComboBox.addItem("Above 65000");
 
         newVehicleButton = new Checkbox();
     }
@@ -146,10 +146,7 @@ public class EditPage extends JFrame {
     private void createRightsComponent() {
         rightTitle = new JLabel(
                 "<html><body><p align=\"center\">Edit Incentive Details for A Certain Vehicle<br>Or Group of Vehicles</p><body</html>");
-        // <html><body><p>Add Incentive Details for A Certain Vehicle Or Group of
-        // Vehicles</p><body></html>
-        // <html><body><p align=\"center\">Add Incentive Details for A Certain
-        // Vehicle<br>Or Group of Vehicles<\p><\body<\html>
+
         Font rightTitleFont = new Font("Courier", Font.BOLD, 17);
         rightTitle.setFont(rightTitleFont);
         Font rightCommonFont = new Font("Courier", Font.PLAIN, 15);
@@ -278,6 +275,11 @@ public class EditPage extends JFrame {
 
         applyButton.setBounds(215, 535, 100, 40);
 
+    }
+
+    private void saveApplicationData(String titleText, String incentiveType,String valueText, String descriptionTextring, String disclaimerText, String startDate, String endDate) {
+        System.out.println("This Is Updated Incentive Details.");
+        System.out.println(titleText+ " + "+ incentiveType+" + "+valueText + " + "+descriptionTextring+" + "+ disclaimerText+ " + " + startDate+" + "+endDate );
     }
 
 }
