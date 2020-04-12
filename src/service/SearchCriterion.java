@@ -1,3 +1,8 @@
+/*
+This is obsolete and SearchFilter is the replica
+ */
+
+
 package service;
 public class SearchCriterion {
   /*

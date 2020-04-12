@@ -1,8 +1,8 @@
 package persist;
 
-
 import dto.Vehicle;
 
+import java.awt.*;
 import java.util.Collection;
 
 public interface VehicleManager {
@@ -21,30 +21,12 @@ public interface VehicleManager {
     /*Add new entry in 'VehicleTable' with the parameters as listed.
      * Returns true - if vehicle is added successfully
      *        false - if there is an error in operation and vehicle isn't added to the db*/
-    boolean addVehicle(String VIN,
-                       String dealerId,
-                       String make,
-                       String model,
-                       int year,
-                       String category,
-                       int price,
-                       String color,
-                       int miles );
+    boolean addVehicle(Vehicle vehicle);
 
     /*Update 'VehicleTable' table for the provided 'vehicleId' , with the parameters as listed
     * Returns true - if vehicle is updated successfully
     *        false - if there is an error in operation and vehicle isn't added to the db*/
-    boolean updateVehicle(int vehicleId,
-                          String VIN,
-                          String dealerId,
-                          String make,
-                          String model,
-                          int year,
-                          String category,
-                          int price,
-                          String color,
-                          int miles  );
-
+    boolean updateVehicle(Vehicle vehicle);
 
     /*Delete entry from 'VehicleTable' table with given 'vehicleId' */
     boolean deleteVehicle(int vehicleId);
