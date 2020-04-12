@@ -26,14 +26,11 @@ class EditPage extends JFrame {
     private JFrame jframe;
     private JPanel mainPanel, rightPanel;
 
-    private JButton applyButton;
+
 
     private JLabel mainTitle, vehicleIDLabel, selectPriceLabel, newVehicleLabel, makeLabel, welcomeLabel;
-//    protected JTextField vehicleIDText;
-//    protected JComboBox makeCombobox;
-    protected Checkbox newVehicleButton;
-//    private String[] makelist = {"Toyota","Buick","Honda","Audi","Jaguar","Kia","Mercedes-Benz"," Land Rover", "Mazda","Volvo", "Ford", "BMW","Jeep","Tesla","Porsche","Acura", "Aston Martin","Chevrolet","Ferrari","Cadillac","Infiniti","Volkswagen","Subaru","Nissan"};
-    private Integer minimumPrice, maximumPrice;
+    private JRadioButton newVehicleButton;
+    private JButton applyButton;
 
     private JLabel rightTitle, titleLabel, valueLabel, descriptionLabel, disclaimerLabel, dateLabel, slashLabel, incenitveTypeLabel;
     private JComboBox incentiveTypeBox;
@@ -80,19 +77,7 @@ class EditPage extends JFrame {
                 endDate = DateFormat.getDateInstance().format(endDateChooser.getDate());
                 saveApplicationData(title,incentiveType,value,description,disclaimer,startDate,endDate);
             }
-
         });
-        // applyButton.addActionListener(new ActionListener() {
-        // public void actionPerformed(ActionEvent e) {
-        //// Form form = new
-        // Form(titleText.toString(),valueText.toString(),descriptionText.toString(),disclaimerText.toString());
-        // System.out.println(title+value+description+disclaimer);
-        //// return form;
-        // // JOptionPane.showMessageDialog(jframe, applyInput.title + " + " +
-        // applyInput.value + " + "
-        // // + applyInput.description + " + " + applyInput.disclaimer);
-        // }
-        // });
     }
 
     private void createComponents(String dealerID) {
@@ -139,7 +124,7 @@ class EditPage extends JFrame {
         Font cautionFont = new Font("Courier", Font.PLAIN,5);
 
 
-        newVehicleButton = new Checkbox();
+        newVehicleButton = new JRadioButton();
     }
 
 
@@ -181,9 +166,9 @@ class EditPage extends JFrame {
     }
 
     private void addComponents() {
-        mainPanel.setBounds(20, 20, 960, 740);
+        mainPanel.setBounds(20, 20, 550, 840);
         jframe.add(mainPanel);
-        rightPanel.setBounds(420, 90, 510, 620);
+        rightPanel.setBounds(20, 200, 510, 620);
         mainPanel.add(rightPanel, null);
         addMainPanel();
         addRightPanel();
@@ -226,7 +211,7 @@ class EditPage extends JFrame {
     }
 
     private void placeComponents() {
-        jframe.setSize(1000, 800);
+        jframe.setSize(590, 900);
         placeMainComponents();
         placeRightComponents();
     }
@@ -234,21 +219,22 @@ class EditPage extends JFrame {
     private void placeMainComponents() {
         int mainLabelX = 40;
         int mainTextX = 180;
-        mainTitle.setBounds(325, 40, 800, 20);
-        vehicleIDLabel.setBounds(mainLabelX, 150, 150, 40);
-        selectPriceLabel.setBounds(mainLabelX, 230, 150, 60);
-        newVehicleLabel.setBounds(150, 450, 200, 50);
+        mainTitle.setBounds(150, 40, 250, 20);
+        welcomeLabel.setBounds(300,10,200,20);
+        vehicleIDLabel.setBounds(mainLabelX, 100, 150, 20);
+        selectPriceLabel.setBounds(mainLabelX, 120, 150, 20);
+        newVehicleLabel.setBounds(mainLabelX, 160, 200, 20);
 
 //        vehicleIDText.setBounds(mainTextX, 150, 175, 40);
 //        priceComboBox.setBounds(mainTextX, 310, 175, 40);
 //        minimumInt.setBounds(mainTextX,230,75,40);
 //        maximumInt.setBounds(mainTextX+100,230,75,40);
-        makeLabel.setBounds(mainLabelX,375,150,60);
+        makeLabel.setBounds(mainLabelX,140,150,20);
 //        makeCombobox.setBounds(mainTextX,375,175,40);
-        newVehicleButton.setBounds(100, 450, 50, 50);
+        newVehicleButton.setBounds(240, 160, 50, 20);
 
 
-        welcomeLabel.setBounds(750,10,200,20);
+
 
     }
 

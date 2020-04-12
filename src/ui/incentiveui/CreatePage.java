@@ -31,7 +31,7 @@ class CreatePage extends JFrame {
     private JLabel mainTitle, vehicleIDLabel, selectPriceLabel, newVehicleLabel, makeLabel, welcomeLabel, cautionLabel;
     private JTextField vehicleIDText, minimumInt, maximumInt;
     private JComboBox makeCombobox;
-    private Checkbox newVehicleButton;
+    private JRadioButton newVehicleButton;
     private String[] makelist = {"Default", "Toyota","Buick","Honda","Audi","Jaguar","Kia","Mercedes-Benz"," Land Rover", "Mazda","Volvo", "Ford", "BMW","Jeep","Tesla","Porsche","Acura", "Aston Martin","Chevrolet","Ferrari","Cadillac","Infiniti","Volkswagen","Subaru","Nissan"};
     private Integer minimumPrice, maximumPrice;
 
@@ -172,7 +172,7 @@ class CreatePage extends JFrame {
         Font cautionFont = new Font("Courier", Font.PLAIN,5);
         makeCombobox = new JComboBox(makelist);
         makeCombobox.setFont(mainCommonFont);
-        newVehicleButton = new Checkbox();
+        newVehicleButton = new JRadioButton();
     }
 
 
