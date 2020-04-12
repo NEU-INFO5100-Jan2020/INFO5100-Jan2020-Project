@@ -1,5 +1,7 @@
 package service;
 
+import dto.BigDataType;
+
 import java.util.Collection;
 import java.util.NoSuchElementException;
 

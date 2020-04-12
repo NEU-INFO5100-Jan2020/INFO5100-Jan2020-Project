@@ -1,8 +1,14 @@
 package service;
-import java.util.List;
 
+import dto.BigDataType;
+import dto.Dealer;
 import dto.Vehicle;
+import persist.DealerManager;
+import persist.DealerManagerImpl;
 import persist.VehicleManager;
+import persist.VehicleManagerImpl;
+
+import java.util.List;
 
 
 public interface DataGetter {
@@ -12,37 +18,42 @@ public interface DataGetter {
   List<? extends BigDataType> get();
 }
 
-class IncentiveGetter implements DataGetter{
+class IncentiveGetter implements DataGetter {
   IncentiveSearchFilter isf;
+
   @Override
   public List<dto.Vehicle> get() {
     VehicleManager v = new VehicleManagerImpl(); // Team 1 should have a VehicleManagerImpl which implements VehicleManager
-    List<Vehicle> vehicles =  v.getListOfVehiclesBasedOnDealerId(isf); // They should change the input to sf object and use vsf.id as id and vsf.elements as Optional filters
-    return vehicles;
+    return (List<Vehicle>) v.getListOfVehiclesBasedOnDealerId(isf);
   }
 
-class VehicleGetter implements DataGetter{
-  VehicleSearchFilter vsf;
-  @Override
-  public List<dto.Vehicle> get() {
-    VehicleManager v = new VehicleManagerImpl(); // Team 1 should have a VehicleManagerImpl which implements VehicleManager
-    List<Vehicle> vehicles =  v.getListOfVehiclesBasedOnDealerId(vsf); // They should change the input to sf object and use vsf.id as id and vsf.elements as Optional filters
-    return vehicles;
-  }
+  class VehicleGetter implements DataGetter {
+    VehicleSearchFilter vsf;
 
-  public VehicleGetter(VehicleSearchFilter vsf){
+    public VehicleGetter(VehicleSearchFilter vsf) {
     /*
     Constructor of Vehicle getter
      */
-    this.vsf = vsf;
+      this.vsf = vsf;
+    }
+
+    @Override
+    public List<dto.Vehicle> get() {
+      VehicleManager v = new VehicleManagerImpl(); // Team 1 should have a VehicleManagerImpl which implements VehicleManager
+      return (List<Vehicle>) v.getListOfVehiclesBasedOnDealerId(vsf);
+    }
   }
-}
 
-class DealerGetter implements DataGetter{
+  class DealerGetter implements DataGetter {
+    DealerSearchFilter dsf;
+    public DealerGetter(DealerSearchFilter dsf) {
+      this.dsf = dsf;
+    }
 
-
-  @Override
-  public List<Vehicle> get(SearchFilter sf) {
-    return null;
+    @Override
+    public List<Dealer> get() {
+      DealerManager d = new DealerManagerImpl();
+      return (List<Dealer>) d.getDealerDetails(dsf); // TODO: 4/12/2020 Connect with Poonam to finalize the input of get functions
+    }
   }
 }
