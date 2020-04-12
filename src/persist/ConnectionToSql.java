@@ -1,3 +1,7 @@
+package persist;
+
+import dto.*;
+
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -12,13 +16,10 @@ public class ConnectionToSql {
     private Connection connection = null;
     private static final String jdbcDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static final String linkForConnection = "jdbc:sqlserver://%s:1433;database=%s;user=%s;password=%s;encrypt=true;trustServerCertificate=true;"
-            + "hostNameInCertificate=*.database.windows.net;loginTimeout=30;" ;
+            + "hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
 
-    /*This method connects to the DB -> then executes the query -> then disconnects from database*/
-    public ArrayList<ArrayList> executeQuery(String queryToExecute, String tableName, String queryType ){
-        ArrayList<ArrayList> result = new ArrayList<ArrayList>();
-
-        try{
+    public void connectToDB() {
+        try {
             Class.forName(jdbcDriver);
             String url = String.format(linkForConnection, hostName, dbName, user, password);
 
@@ -26,74 +27,146 @@ public class ConnectionToSql {
             connection = DriverManager.getConnection(url);
             String schema = connection.getSchema();
             System.out.println("Successful connection - Schema: " + schema);
-
-            /*Execute the query*/
-            try(Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(queryToExecute)){
-
-                    if(tableName.equals("VehicleTable")){
-
-                        while (resultSet.next()) {
-                            ArrayList temp = new ArrayList();
-                            temp.add(resultSet.getInt(1)); //VehicleId
-                            temp.add(resultSet.getInt(2)); //VIN
-                            temp.add(resultSet.getInt(3)); //DealerId
-                            temp.add(resultSet.getString(4)); //Make
-                            temp.add(resultSet.getString(5)); //Model
-                            temp.add(resultSet.getInt(6)); //Year
-                            temp.add(resultSet.getString(7)); //Category
-                            temp.add(resultSet.getFloat(8)); //Price
-                            temp.add(resultSet.getString(9)); //Color
-                            temp.add(resultSet.getInt(10)); //Mileage
-                            temp.add(resultSet.getObject(11)) ; //Image
-                            temp.add(resultSet.getInt(12)); //IncentiveId
-                            temp.add(resultSet.getFloat(13)); //DiscountPrice
-
-                            //Adding each row to the result
-                            result.add(temp);
-                        }
-                    }
-                    else if(tableName.equals("Dealer")){
-                        while (resultSet.next()) {
-                            ArrayList temp = new ArrayList();
-
-                            temp.add(resultSet.getInt(1)); //DealerId
-                            temp.add(resultSet.getString(2)); //DealerName
-                            temp.add(resultSet.getString(3)); //DealerAddress
-                            temp.add(resultSet.getString(4)); //PhoneNumber
-                            temp.add(resultSet.getString(5)); //ZipCode
-                            temp.add(resultSet.getString(6)); //City
-                            temp.add(resultSet.getString(7)); //Country
-
-                            result.add(temp);
-                        }
-                    }
-                    else if(tableName.equals("Incentives")){
-                        while (resultSet.next()) {
-                            ArrayList temp = new ArrayList();
-
-                            temp.add(resultSet.getInt(1)); //IncentiveId
-                            temp.add(resultSet.getString(2)); //Title
-                            temp.add(resultSet.getString(3)); //Description
-                            temp.add(resultSet.getString(4)); //Disclaimer
-                            temp.add(resultSet.getDate(5)); //StartDate
-                            temp.add(resultSet.getDate(6)); //EndDate
-                            temp.add(resultSet.getInt(7)); //DiscountValue
-                            temp.add(resultSet.getString(8)); //DiscountType
-
-                            result.add(temp);
-                        }
-                    }
-
-                /*Disconnect from DB*/
-                connection.close();
-            }
+        } catch (Exception e) {
+            System.out.println("Exception :" + e.getMessage());
+            return;
         }
-        catch (Exception e){
-            System.out.println("Exception :"+e.getMessage());
+    }
+
+    public void disconnectFromDB() {
+        try {
+            /*Disconnect from DB*/
+            connection.close();
+        } catch (Exception e) {
+            System.out.println("Exception :" + e.getMessage());
+            return;
+        }
+    }
+    
+    public ArrayList<ArrayList> executeVehicleQuery(String queryToExecute, String queryType) {
+        ArrayList<ArrayList> result = new ArrayList<ArrayList>();
+
+        /*Connect to database*/
+        connectToDB();
+
+        try {
+            /*Execute the query*/
+            try (Statement statement = connection.createStatement();
+                 ResultSet resultSet = statement.executeQuery(queryToExecute)) {
+
+                while (resultSet.next()) {
+                    ArrayList temp = new ArrayList();
+                    temp.add(resultSet.getInt(1)); //VehicleId
+                    temp.add(resultSet.getInt(2)); //VIN
+                    temp.add(resultSet.getInt(3)); //DealerId
+                    temp.add(resultSet.getString(4)); //Make
+                    temp.add(resultSet.getString(5)); //Model
+                    temp.add(resultSet.getInt(6)); //Year
+                    temp.add(resultSet.getString(7)); //Category
+                    temp.add(resultSet.getFloat(8)); //Price
+                    temp.add(resultSet.getString(9)); //Color
+                    temp.add(resultSet.getInt(10)); //Mileage
+                    temp.add(resultSet.getObject(11)); //Image
+                    temp.add(resultSet.getInt(12)); //IncentiveId
+                    temp.add(resultSet.getFloat(13)); //DiscountPrice
+
+                    //Adding each row to the result
+                    result.add(temp);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Exception :" + e.getMessage());
             return null;
         }
 
+        /*Disconnect from DB*/
+        disconnectFromDB();
+
+        /*Return result*/
+        return result;
+    }
+
+    public ArrayList<ArrayList> executeDealerQuery(String queryToExecute, String queryType) {
+
+        ArrayList<ArrayList> result = new ArrayList<ArrayList>();
+
+        /*Connect to database*/
+        connectToDB();
+
+        try {
+            /*Execute the query*/
+            try (Statement statement = connection.createStatement();
+                 ResultSet resultSet = statement.executeQuery(queryToExecute)) {
+
+                while (resultSet.next()) {
+                    ArrayList temp = new ArrayList();
+
+                    temp.add(resultSet.getInt(1)); //DealerId
+                    temp.add(resultSet.getString(2)); //DealerName
+                    temp.add(resultSet.getString(3)); //DealerAddress
+                    temp.add(resultSet.getString(4)); //PhoneNumber
+                    temp.add(resultSet.getString(5)); //ZipCode
+                    temp.add(resultSet.getString(6)); //City
+                    temp.add(resultSet.getString(7)); //Country
+
+                    //Adding each row to the result
+                    result.add(temp);
+                }
+
+            }
+        } catch (Exception e) {
+            System.out.println("Exception :" + e.getMessage());
+            return null;
+        }
+
+        /*Disconnect from DB*/
+        disconnectFromDB();
+
+        /*Return result*/
+        return result;
+    }
+
+    public ArrayList<ArrayList> executeIncentivesQuery(String queryToExecute, String queryType) {
+
+        ArrayList<ArrayList> result = new ArrayList<ArrayList>();
+
+        /*Connect to database*/
+        connectToDB();
+
+        try {
+            /*Execute the query*/
+            try (Statement statement = connection.createStatement();
+                 ResultSet resultSet = statement.executeQuery(queryToExecute)) {
+
+                while (resultSet.next()) {
+                    ArrayList temp = new ArrayList();
+
+                    temp.add(resultSet.getInt(1)); //IncentiveId
+                    temp.add(resultSet.getString(2)); //Title
+                    temp.add(resultSet.getString(3)); //Description
+                    temp.add(resultSet.getString(4)); //Disclaimer
+                    temp.add(resultSet.getDate(5)); //StartDate
+                    temp.add(resultSet.getDate(6)); //EndDate
+                    temp.add(resultSet.getInt(7)); //DiscountValue
+                    temp.add(resultSet.getString(8)); //DiscountType
+                    temp.add(resultSet.getInt(9)); //DealerId
+                    temp.add(resultSet.getBoolean(10)); //IsDeleted
+                    temp.add(resultSet.getString(11)); //FilterList
+                    temp.add(resultSet.getString(12)); //VehicleIdList
+
+                    //Adding each row to the result
+                    result.add(temp);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Exception :" + e.getMessage());
+            return null;
+        }
+
+        /*Disconnect from DB*/
+        disconnectFromDB();
+
+        /*Return result*/
         return result;
     }
 }
