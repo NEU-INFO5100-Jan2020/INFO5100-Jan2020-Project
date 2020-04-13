@@ -146,6 +146,32 @@ public class IncentiveMainPage extends JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        
+        DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+                    //get select row or rows
+                int[] rows = jTable1.getSelectedRows();
+                if (rows.length == 0) {
+                    JOptionPane.showMessageDialog(null, "Please select row(s) to delete.");
+                    return;
+                }
+
+                IncentivesManager im = new IncentivesManagerImpl();
+                String success = "";
+                String fail = "";
+                for (int i = rows.length - 1; i >= 0; i--) {
+                    Integer incentiveID = (Integer)jTable1.getValueAt(rows[i], 0);
+                    boolean deleted = im.deleteIncentive(incentiveID);
+                    if (deleted) {
+                        success += " " + incentiveID + " ";
+                        tableModel.removeRow(jTable1.getSelectedRow());
+                    }else {
+                        fail += " " + incentiveID + " ";
+                    }
+                }
+
+                JOptionPane.showMessageDialog(null, "successful deleted IncentiveID: " + success +
+                        "\nFailed deleted IncentiveID: " + fail);
+
     }// GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton3ActionPerformed
