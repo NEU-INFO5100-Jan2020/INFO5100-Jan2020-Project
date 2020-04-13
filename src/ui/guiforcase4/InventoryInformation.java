@@ -1,4 +1,4 @@
-package com.neu.msis.guiforcase4;
+package ui.guiforcase4;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
