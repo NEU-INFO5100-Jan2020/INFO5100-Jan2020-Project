@@ -28,7 +28,7 @@ public class VehicleManagerImpl implements VehicleManager {
     }
 
     @Override
-    public Collection<Vehicle> getListOfVehiclesBasedOnDealerId(int dealerId) {
+    public Collection<Vehicle> getListOfVehiclesBasedOnDealerId(int dealerId , VehicleSearchFilter vehicleSearchFilter) {
         String query = "SELECT * from VehicleTable WHERE DealerId="+dealerId+" ;";
 
         /*Call 'executeQuery' method to run the query*/
