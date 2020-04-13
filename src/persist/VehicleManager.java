@@ -13,10 +13,10 @@ public interface VehicleManager {
     Collection<Vehicle> getListOfVehiclesBasedOnVehicleIds(int[] vehicleIdList);
 
     /*Returns a list of Vehicles with its details, based on the specific 'dealerId' passed*/
-    Collection<Vehicle> getListOfVehiclesBasedOnDealerId(int dealerId , VehicleSearchFilter vehicleSearchFilter);
+    Collection<Vehicle> getListOfVehiclesBasedOnDealerId(int dealerId);
 
     /*Returns a list of Vehicles with its details, based on 'vehicleModel' / 'vehicleMake' / 'year' / 'vehiclePrice'. Vehicle object is passeed as argument*/
-    Collection<Vehicle> getVehicleDetails(Vehicle vehicle);
+    Collection<Vehicle> getVehicleDetails(Vehicle vehicle, VehicleSearchFilter vehicleSearchFilter);
 
     /*Add new entry in 'VehicleTable' with the parameters as listed.
      * Returns true - if vehicle is added successfully
