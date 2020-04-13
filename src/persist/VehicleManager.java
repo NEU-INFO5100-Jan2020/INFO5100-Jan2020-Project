@@ -13,10 +13,10 @@ public interface VehicleManager {
     Collection<Vehicle> getListOfVehiclesBasedOnVehicleIds(int[] vehicleIdList);
 
     /*Returns a list of Vehicles with its details, based on the specific 'dealerId' passed*/
-    Collection<Vehicle> getListOfVehiclesBasedOnDealerId(int dealerId);
+    Collection<Vehicle> getListOfVehiclesBasedOnDealerId(int dealerId , VehicleSearchFilter vehicleSearchFilter);
 
-    /*Returns a list of Vehicles with its details, based on 'vehicleModel' / 'vehicleMake' / 'year' / 'vehiclePrice' passed*/
-    Collection<Vehicle> getVehicleDetails(String vehicleModel, String vehicleMake, String year, String vehiclePrice);
+    /*Returns a list of Vehicles with its details, based on 'vehicleModel' / 'vehicleMake' / 'year' / 'vehiclePrice'. Vehicle object is passeed as argument*/
+    Collection<Vehicle> getVehicleDetails(Vehicle vehicle);
 
     /*Add new entry in 'VehicleTable' with the parameters as listed.
      * Returns true - if vehicle is added successfully
