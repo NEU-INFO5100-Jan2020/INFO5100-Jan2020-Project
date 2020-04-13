@@ -1,9 +1,14 @@
 package service;
+
 import org.json.*;
-import java.lang.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 /*
 This file defines the general data transmission protocol between GUIs and our backend search algorithms.
 The idea is similar to what we designed before but the implementation and usage will be more elegant.
@@ -66,35 +71,35 @@ class VehicleSearchFilterElement extends SearchFilterElement {
 }
 
 class IncentiveSearchFilterElement extends SearchFilterElement {
+  /*
+  FilterElement for Incentive GUI: case 5, team 3
+  @Ekie may implement this class based on my implementation above
+   */
+  public IncentiveSearchFilterElement(IncentiveSearchCriterion key, String value) {
+    this.name = key.key;
+    this.value = value;
+  }
+
+  public enum IncentiveSearchCriterion {
     /*
-    FilterElement for Incentive GUI: case 5, team 3
-    @Ekie may implement this class based on my implementation above
+    Enum objects include all possible optional search filter of Vehicle Search GUI
      */
-    public IncentiveSearchFilterElement(IncentiveSearchCriterion key, String value) {
-        this.name = key.key;
-        this.value = value;
+    MAXPrice("MaxPrice"),
+    MINPrice("MinPrice"),
+    NEW("New");
+
+    private final String key; // key is the String value of each enum element
+
+    private IncentiveSearchCriterion(String key) {
+      // private constructor that binds key string to enum element
+      this.key = key;
     }
 
-    public enum IncentiveSearchCriterion {
-        /*
-        Enum objects include all possible optional search filter of Vehicle Search GUI
-         */
-        MAXPrice("MaxPrice"),
-        MINPrice("MinPrice"),
-        NEW("New");
-
-        private final String key; // key is the String value of each enum element
-
-        private IncentiveSearchCriterion(String key) {
-            // private constructor that binds key string to enum element
-            this.key = key;
-        }
-
-        public String getKey() {
-            // getter of key of enum
-            return key;
-        }
+    public String getKey() {
+      // getter of key of enum
+      return key;
     }
+  }
 }
 
 class DealerSearchFilterElement extends SearchFilterElement {
@@ -150,7 +155,7 @@ public class SearchFilter {
     this.elements.add(element);
   }
 
-  public List<SearchFilterElement> getElements(){
+  public List<SearchFilterElement> getElements() {
     return this.elements;
   }
 }
@@ -170,21 +175,22 @@ class VehicleSearchFilter extends SearchFilter {
 }
 
 class IncentiveSearchFilter extends SearchFilter {
-        /*
-        SearchFilter implementation for Incentive GUI
-       */
-        int dealerID;
+  /*
+  SearchFilter implementation for Incentive GUI
+ */
+  int dealerID;
 
-        public IncentiveSearchFilter(int dealerID) {
-            super();
-            this.dealerID = dealerID;
-        }
-    }
+  public IncentiveSearchFilter(int dealerID) {
+    super();
+    this.dealerID = dealerID;
+  }
+}
 
-class DealerSearchFilter extends SearchFilter{
+class DealerSearchFilter extends SearchFilter {
   private final int minradius = 0;
   private final int maxradius = 100;
   private final String zip = " ";
+
   /*
     SearchFilter implementation for Dealer Search GUI
    */
@@ -193,8 +199,7 @@ class DealerSearchFilter extends SearchFilter{
   }
 
 
-  public ArrayList<String> zipCodeRadius(String zip, int minradius, int maxradius)
-  {
+  public ArrayList<String> zipCodeRadius(String zip, int minradius, int maxradius) {
     String url = "https://api.zip-codes.com/ZipCodesAPI.svc/1.0/FindZipCodesInRadius?zipcode=" + zip + "&minimumradius=" + minradius + "&maximumradius=" + maxradius + "&key=CKJ5LCW9PZAFNVNA8WFN";
     URL obj = new URL(url);
     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -203,8 +208,7 @@ class DealerSearchFilter extends SearchFilter{
     BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
     String inputLine;
     StringBuffer response = new StringBuffer();
-    while ((inputLine = in.readLine()) != null)
-    {
+    while ((inputLine = in.readLine()) != null) {
       response.append(inputLine);
     }
     in.close();
@@ -220,14 +224,13 @@ class DealerSearchFilter extends SearchFilter{
     //Uncomment below code to see the length of response from the API call for a particular zip code
     //Iterating through the indexes of the Array but skipping element 0 as it is the entered zip code
     ArrayList<String> arr = new ArrayList<>();
-    for (int index = 1; index < DataList.length(); index++)
-    {
+    for (int index = 1; index < DataList.length(); index++) {
       JSONObject obj1 = DataList.getJSONObject(index);
-      
+
       /*The result below can be String Array, List or Collection based on preference for your GUI output*/
       //System.out.println(obj1.getString("City") + " " + obj1.getString("Code") + " " + obj1.getString("County") + " COUNTY" + " " + obj1.getDouble("Distance"));
       String str = obj1.getString("Code");
-      for(int i = 0; i < 1; i++) {
+      for (int i = 0; i < 1; i++) {
         arr.add(i, str);
       }
     }
