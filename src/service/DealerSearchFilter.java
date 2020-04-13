@@ -6,17 +6,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
-public class DealerSearchFilter extends SearchFilter {
+public class DealerSearchFilter implements SearchFilter {
   private final int minradius = 0;
   private final int maxradius = 100;
   private final String zip = " ";
+  List<DealerSearchFilterElement> elements;
 
   /*
     SearchFilter implementation for Dealer Search GUI
    */
   public DealerSearchFilter(String zip, int minradius, int maxradius) {
-    super();
+
   }
 
 
@@ -58,5 +60,10 @@ public class DealerSearchFilter extends SearchFilter {
     Collections.reverse(arr);
     //System.out.println(arr);
     return arr;
+  }
+
+  @Override
+  public List<? extends SearchFilterElement> getElements() {
+    return this.elements;
   }
 }
