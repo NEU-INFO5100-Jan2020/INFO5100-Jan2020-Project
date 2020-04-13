@@ -28,7 +28,7 @@ public class VehicleManagerImpl implements VehicleManager {
     }
 
     @Override
-    public Collection<Vehicle> getListOfVehiclesBasedOnDealerId(int dealerId , VehicleSearchFilter vehicleSearchFilter) {
+    public Collection<Vehicle> getListOfVehiclesBasedOnDealerId(int dealerId ) {
         String query = "SELECT * from VehicleTable WHERE DealerId="+dealerId+" ;";
 
         /*Call 'executeQuery' method to run the query*/
@@ -41,7 +41,7 @@ public class VehicleManagerImpl implements VehicleManager {
     }
 
     @Override
-    public Collection<Vehicle> getVehicleDetails(Vehicle vehicle) {
+    public Collection<Vehicle> getVehicleDetails(Vehicle vehicle , VehicleSearchFilter vehicleSearchFilter) {
 
         /*Make , Model , Year , Price are optional fields. If passed, then add to the query*/
         /*DealerId is mandatory passed*/
