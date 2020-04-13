@@ -1,5 +1,6 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class IncentiveSearchFilter implements SearchFilter {
@@ -10,8 +11,8 @@ public class IncentiveSearchFilter implements SearchFilter {
   List<IncentiveSearchFilterElement> elements;
 
   public IncentiveSearchFilter(int dealerID) {
-    super();
     this.dealerID = dealerID;
+    elements = new ArrayList<>();
   }
 
   @Override

@@ -26,6 +26,6 @@ public class VehicleSearchFilter implements SearchFilter {
 
   @Override
   public List<VehicleSearchFilterElement> getElements() {
-    return null;
+    return elements;
   }
 }
