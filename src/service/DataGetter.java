@@ -27,7 +27,7 @@ class IncentiveGetter implements DataGetter {
   @Override
   public List<dto.Vehicle> get() {
     VehicleManager v = new VehicleManagerImpl(); // Team 1 should have a VehicleManagerImpl which implements VehicleManager
-    return (List<Vehicle>) v.getListOfVehiclesBasedOnDealerId(isf);
+    return (List<Vehicle>) v.getVehicles(new VehicleSearchFilter(isf.dealerID)); // TODO: 4/13/2020 Not the best implementation here, need furthur update
   }
 }
 
@@ -44,7 +44,7 @@ class VehicleGetter implements DataGetter {
   @Override
   public List<dto.Vehicle> get() {
     VehicleManager v = new VehicleManagerImpl(); // Team 1 should have a VehicleManagerImpl which implements VehicleManager
-    return (List<Vehicle>) v.getListOfVehiclesBasedOnDealerId(vsf);
+    return (List<Vehicle>) v.getVehicles(vsf);
   }
 }
 
@@ -58,7 +58,9 @@ class DealerGetter implements DataGetter {
   @Override
   public List<Dealer> get() {
     DealerManager d = new DealerManagerImpl();
-    return (List<Dealer>) d.getDealerDetails(dsf); // TODO: 4/12/2020 Connect with Poonam to finalize the input of get functions
+    return null;
+    //return (List<Dealer>) d.getDealerDetails(dsf); 
+    // TODO: 4/13/2020  Refine this after improved implementation for DealerManager
   }
 }
 
