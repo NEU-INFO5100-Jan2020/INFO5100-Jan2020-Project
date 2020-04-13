@@ -28,7 +28,7 @@ public class VehicleManagerImpl implements VehicleManager {
     }
 
     @Override
-    public Collection<Vehicle> getListOfVehiclesBasedOnDealerId(int dealerId) {
+    public Collection<Vehicle> getListOfVehiclesBasedOnDealerId(int dealerId ) {
         String query = "SELECT * from VehicleTable WHERE DealerId="+dealerId+" ;";
 
         /*Call 'executeQuery' method to run the query*/
@@ -41,23 +41,23 @@ public class VehicleManagerImpl implements VehicleManager {
     }
 
     @Override
-    public Collection<Vehicle> getVehicleDetails(int dealerId, String vehicleModel, String vehicleMake, String year, String vehiclePrice) {
+    public Collection<Vehicle> getVehicleDetails(Vehicle vehicle , VehicleSearchFilter vehicleSearchFilter) {
 
         /*Make , Model , Year , Price are optional fields. If passed, then add to the query*/
         /*DealerId is mandatory passed*/
-        String queryString = "DealerId = "+dealerId+" ";
+        String queryString = "DealerId = "+vehicle.getDealerId()+" ";
 
-        if(vehicleModel!= "" ){
-            queryString += " and Model='"+vehicleModel+"'";
+        if(vehicle.getModel()!= "" ){
+            queryString += " and Model='"+vehicle.getModel()+"'";
         }
-        if(vehicleMake != ""){
-            queryString += " and Make='"+vehicleMake+"'";
+        if(vehicle.getMake() != ""){
+            queryString += " and Make='"+vehicle.getMake()+"'";
         }
-        if(year != ""){
-            queryString += " and Year= "+year+" ";
+        if(vehicle.getYear() != Integer.parseInt("")){
+            queryString += " and Year= "+vehicle.getYear()+" ";
         }
-        if(vehiclePrice != ""){
-            queryString += " and Price= "+vehiclePrice+" ";
+        if(vehicle.getPrice() != Integer.parseInt("")){
+            queryString += " and Price= "+vehicle.getPrice()+" ";
         }
 
         /*Final select query*/
@@ -67,9 +67,9 @@ public class VehicleManagerImpl implements VehicleManager {
         ArrayList<ArrayList> result = connect.executeVehicleQuery(query,  "SELECT");
 
         /*Convert to Vehicle object*/
-        ArrayList<Vehicle> vehicle = convertToVehicleObject(result);
+        ArrayList<Vehicle> vehicleResult = convertToVehicleObject(result);
 
-        return vehicle;
+        return vehicleResult;
     }
 
     @Override
