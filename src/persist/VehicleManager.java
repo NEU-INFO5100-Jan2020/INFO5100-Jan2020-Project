@@ -1,6 +1,8 @@
 package persist;
 
 import dto.Vehicle;
+import service.VehicleSearchFilter;
+
 
 import java.awt.*;
 import java.util.Collection;
