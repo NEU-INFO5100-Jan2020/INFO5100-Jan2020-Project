@@ -1,6 +1,7 @@
 package service;
 
-import java.util.ArrayList;
+import dto.BigDataType;
+
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
@@ -21,7 +22,7 @@ class SearchDealer implements SearchFactory {
 
   @Override
   public DataGetter produceDataGetter(SearchFilter serf) {
-    return new DealerGetter();
+    return new DealerGetter((DealerSearchFilter) serf);
   }
 
   @Override
@@ -39,7 +40,7 @@ class SearchVehicle implements SearchFactory {
 
   @Override
   public DataGetter produceDataGetter(SearchFilter serf) {
-    return new VehicleGetter();
+    return new VehicleGetter((VehicleSearchFilter) serf);
   }
 
   @Override
@@ -55,7 +56,7 @@ class SearchIncentive implements SearchFactory {
 
   @Override
   public DataGetter produceDataGetter(SearchFilter serf) {
-    return new IncentiveGetter();
+    return new IncentiveGetter(serf);
   }
 
   @Override
@@ -74,6 +75,7 @@ public class Search {
   SearchFactory factory;
   SearchFilter serf;
   SortFilter sorf;
+  Collection<? extends BigDataType> results;
 
   public Search(SearchFilter serf, SortFilter sorf){
     /*
@@ -93,15 +95,18 @@ public class Search {
     }
   }
 
-  public ArrayList<? extends BigDataType> doSearch() { // TODO: 4/9/2020 Discuss with other teams on what data type is convenient for their GUI, do they need more encapsulation
+  public void doSearch() { // TODO: 4/9/2020 Discuss with other teams on what data type is convenient for their GUI, do they need more encapsulation
     /*
     Functions as the main method for our service, it creates Getter, Parser and Sorter instances to
      */
     DataGetter curGetter = this.factory.produceDataGetter(serf);
     Sorter curSorter = this.factory.produceSorter(sorf);
-    //Collection<?extends BigDataType> data = curGetter.get();
+
+
+    // ask data team to do a inheritance
+    Collection<?extends BigDataType> data = curGetter.get();
     // TODO: 4/9/2020 Do modifications after change of IO with GUI 
     //return curSorter.sort(data);
-    return null;
+    results = curSorter.sort(curGetter.get());
   }
 }

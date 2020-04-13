@@ -1,35 +1,66 @@
 package service;
-import java.util.Collection;
+
+import dto.BigDataType;
+import dto.Dealer;
+import dto.Vehicle;
+import persist.DealerManager;
+import persist.DealerManagerImpl;
+import persist.VehicleManager;
+import persist.VehicleManagerImpl;
+
+import java.util.List;
 
 
 public interface DataGetter {
   /*
   Interface DataGetter,
    */
-  Collection<? extends BigDataType> get(SearchFilter sf);
+  List<? extends BigDataType> get();
 }
 
-class IncentiveGetter implements DataGetter{
+class IncentiveGetter implements DataGetter {
+  IncentiveSearchFilter isf;
+  public IncentiveGetter(SearchFilter sf){
+    isf = (IncentiveSearchFilter) sf;
+  }
 
   @Override
-  public Collection<? extends BigDataType> get(SearchFilter sf) {
-    return null;
+  public List<dto.Vehicle> get() {
+    VehicleManager v = new VehicleManagerImpl(); // Team 1 should have a VehicleManagerImpl which implements VehicleManager
+    return (List<Vehicle>) v.getVehicles(new VehicleSearchFilter(isf.dealerID)); // TODO: 4/13/2020 Not the best implementation here, need furthur update
   }
 }
 
-class VehicleGetter implements DataGetter{
+class VehicleGetter implements DataGetter {
+  VehicleSearchFilter vsf;
+
+  public VehicleGetter(VehicleSearchFilter vsf) {
+    /*
+    Constructor of Vehicle getter
+     */
+    this.vsf = vsf;
+  }
 
   @Override
-  public Collection<? extends BigDataType> get(SearchFilter sf) {
-    return null;
+  public List<dto.Vehicle> get() {
+    VehicleManager v = new VehicleManagerImpl(); // Team 1 should have a VehicleManagerImpl which implements VehicleManager
+    return (List<Vehicle>) v.getVehicles(vsf);
   }
 }
 
-class DealerGetter implements DataGetter{
+class DealerGetter implements DataGetter {
+  DealerSearchFilter dsf;
 
+  public DealerGetter(DealerSearchFilter dsf) {
+    this.dsf = dsf;
+  }
 
   @Override
-  public Collection<? extends BigDataType> get(SearchFilter sf) {
+  public List<Dealer> get() {
+    DealerManager d = new DealerManagerImpl();
     return null;
+    //return (List<Dealer>) d.getDealerDetails(dsf); 
+    // TODO: 4/13/2020  Refine this after improved implementation for DealerManager
   }
 }
+
