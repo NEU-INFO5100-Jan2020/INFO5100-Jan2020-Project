@@ -1,4 +1,5 @@
 package service;
+
 import java.util.List;
 /*
 This file defines the general data transmission protocol between GUIs and our backend search algorithms.
@@ -9,11 +10,11 @@ filter
 
 
 public interface SearchFilter {
+
   /*
   The base class of Search Filters, container of Search Elements.
    */
 
   public List<? extends SearchFilterElement> getElements();
 }
-
 
