@@ -29,16 +29,4 @@ class VehicleManagerImplTest {
     vmi.getVehicles(vsf);
 
   }
-
-  @Test
-  void addVehicle() {
-  }
-
-  @Test
-  void updateVehicle() {
-  }
-
-  @Test
-  void deleteVehicle() {
-  }
 }
