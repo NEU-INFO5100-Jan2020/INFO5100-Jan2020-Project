@@ -34,15 +34,15 @@ public class VehicleManagerImpl implements VehicleManager {
     // Iterate the list of VehicleFilterElement if it is not null, add info extracted from SearchFilterElement to StringBuilder
     if (vsf.getElements() != null) {
       for (VehicleSearchFilterElement vse : vsf.getElements()) {
-        filterString.append("and ").append(vse.getKey());
-        filterString.append("=").append(vse.getValue());
+        filterString.append(" and ").append(vse.getKey());
+        filterString.append("=").append("'").append(vse.getValue()).append("'");
       }
     }
     filterString.append(";");
 
     /*Final select query*/
     String finalQuery = filterString.toString();
-
+    System.out.println(finalQuery);
     /*Call 'executeQuery' method to run the query*/
     ArrayList<ArrayList> result = connect.executeVehicleQuery(finalQuery, "SELECT");
 
