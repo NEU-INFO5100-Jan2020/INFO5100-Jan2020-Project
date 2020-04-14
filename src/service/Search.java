@@ -77,13 +77,16 @@ public class Search {
   SortFilter sorf;
   Collection<? extends BigDataType> results;
 
-  public Search(SearchFilter serf, SortFilter sorf){
+  public Search(SearchFilter serf, SortFilter sorf) {
     /*
     One option of constructor of Search class, the input should be a SearchCriterion object including the information
     needed by our services
      */
     this.serf = serf;
     this.sorf = sorf;
+    if (serf == null) {
+      throw new NullPointerException("serf is null");
+    }
     if (serf.getClass() == VehicleSearchFilter.class) {
       factory = new SearchVehicle();
     } else if (serf.getClass() == DealerSearchFilter.class) {
@@ -91,7 +94,7 @@ public class Search {
     } else if (serf.getClass() == IncentiveSearchFilter.class) {
       factory = new SearchIncentive();
     } else {
-      throw new NoSuchElementException();
+      throw new NoSuchElementException("invalid type");
     }
   }
 
