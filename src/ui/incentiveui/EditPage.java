@@ -1,24 +1,23 @@
 package ui.incentiveui;
 
-
-import ui.incentiveui.JTextFieldHintListener;
-import service.Search;
-import service.IncentiveSearchFilter;
-import service.IncentiveSearchFilterElement;
-
-
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+// import javax.swing.JOptionPane;
 import com.toedter.calendar.JDateChooser;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
 //        import lombok.Data;
+
 import java.text.DateFormat;
 import java.util.Date;
-//@Data
 
-class CreatePage extends JFrame {
+// import javax.swing.JCalendar;
+//@Data
+class EditPage extends JFrame {
     /**
      * ng
      */
@@ -27,14 +26,11 @@ class CreatePage extends JFrame {
     private JFrame jframe;
     private JPanel mainPanel, rightPanel;
 
-    private JButton searchButton, applyButton;
 
-    private JLabel mainTitle, vehicleIDLabel, selectPriceLabel, newVehicleLabel, makeLabel, welcomeLabel, cautionLabel;
-    private JTextField vehicleIDText, minimumInt, maximumInt;
-    private JComboBox makeCombobox;
+
+    private JLabel mainTitle, vehicleIDLabel, selectPriceLabel, newVehicleLabel, makeLabel, welcomeLabel;
     private JRadioButton newVehicleButton;
-    private String[] makelist = {"Default", "Toyota","Buick","Honda","Audi","Jaguar","Kia","Mercedes-Benz"," Land Rover", "Mazda","Volvo", "Ford", "BMW","Jeep","Tesla","Porsche","Acura", "Aston Martin","Chevrolet","Ferrari","Cadillac","Infiniti","Volkswagen","Subaru","Nissan"};
-    private Integer minimumPrice, maximumPrice;
+    private JButton applyButton;
 
     private JLabel rightTitle, titleLabel, valueLabel, descriptionLabel, disclaimerLabel, dateLabel, slashLabel, incenitveTypeLabel;
     private JComboBox incentiveTypeBox;
@@ -54,24 +50,21 @@ class CreatePage extends JFrame {
 
     Font botton = new Font("Courier", Font.BOLD, 21);
 
-    public CreatePage() {
+    public EditPage() {
     }
 
-    public CreatePage(String dealerID) {
+    public EditPage(String dealerID) {
         createComponents(dealerID);
         placeComponents();
         addComponents();
         addListeners();
         // makeVisible();
         jframe.setVisible(true);
+
     }
 
     private void addListeners() {
-        searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(jframe, "Search");
-            }
-        });
+
 
         applyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -85,45 +78,6 @@ class CreatePage extends JFrame {
                 saveApplicationData(title,incentiveType,value,description,disclaimer,startDate,endDate);
             }
         });
-    }
-
-    private void setIncentiveApplyData() {
-        setTitle();
-        setIncentiveType();
-        setValue();
-        setDescription();
-        setDisclaimer();
-        setStartDate();
-        setEndDate();
-    }
-
-    private void setStartDate() {
-        startDate = DateFormat.getDateInstance().format(startDateChooser.getDate());
-    }
-
-    private void setEndDate() {
-        endDate = DateFormat.getDateInstance().format(endDateChooser.getDate());
-    }
-
-    private void setTitle() {
-        title = titleText.getText();
-        // return title;
-    }
-
-    private void setIncentiveType() {
-        incentiveType = incentiveTypeBox.getSelectedItem().toString();
-    }
-
-    private void setValue() {
-        value = valueText.getText();
-    }
-
-    private void setDescription() {
-        description = descriptionText.getText();
-    }
-
-    private void setDisclaimer() {
-        disclaimer = disclaimerText.getText();
     }
 
     private void createComponents(String dealerID) {
@@ -145,37 +99,38 @@ class CreatePage extends JFrame {
     }
 
     private void createMainComponent(String dealerID) {
-        mainTitle = new JLabel("Create Incentives");
+        mainTitle = new JLabel("Edit Incentives");
         Font mainTitleFont = new Font("Courier", Font.BOLD, 27);
         mainTitle.setFont(mainTitleFont);
         Font mainCommonFont = new Font("Courier", Font.PLAIN, 17);
         vehicleIDLabel = new JLabel("VIN");
         vehicleIDLabel.setFont(mainCommonFont);
+//        selectPriceLabel = new JLabel("<html><body><p>Select Price Range for Vehicles</p><body></html>");
         selectPriceLabel = new JLabel("<html><body><p>Price Range</p><body></html>");
         selectPriceLabel.setFont(mainCommonFont);
         newVehicleLabel = new JLabel("New Vehicles");
         newVehicleLabel.setFont(mainCommonFont);
-        searchButton = new JButton("Search");
-        searchButton.setFont(botton);
-        vehicleIDText = new JTextField(17);
+
+//        vehicleIDText = new JTextField(17);
         makeLabel = new JLabel("Make");
         makeLabel.setFont(mainCommonFont);
-        minimumInt = new JTextField(7);
-        minimumInt.addFocusListener(new JTextFieldHintListener("Minimum", minimumInt));
-        maximumInt = new JTextField(7);
-        maximumInt.addFocusListener(new JTextFieldHintListener("Maximum", maximumInt));
+//        minimumInt = new JTextField(7);
+//        maximumInt.addFocusListener(new JTextFieldHintListener(minimumInt, "min"));
+//        maximumInt = new JTextField(7);
+//        maximumInt.addFocusListener(new JTextFieldHintListener(maximumInt, "Max"));
         welcomeLabel = new JLabel("Welcome, " + dealerID);
         welcomeLabel.setFont(mainCommonFont);
-        cautionLabel = new JLabel("Enter min and max in integers.");
+
         Font cautionFont = new Font("Courier", Font.PLAIN,5);
-        makeCombobox = new JComboBox(makelist);
-        makeCombobox.setFont(mainCommonFont);
+
+
         newVehicleButton = new JRadioButton();
     }
 
 
     private void createRightsComponent() {
-        rightTitle = new JLabel("<html><body><p align=\"center\">Add Incentive Details for A Certain Vehicle<br>Or Group of Vehicles</p><body</html>");
+        rightTitle = new JLabel(
+                "<html><body><p align=\"center\">Edit Incentive Details for A Certain Vehicle<br>Or Group of Vehicles</p><body</html>");
 
         Font rightTitleFont = new Font("Courier", Font.BOLD, 17);
         rightTitle.setFont(rightTitleFont);
@@ -211,9 +166,9 @@ class CreatePage extends JFrame {
     }
 
     private void addComponents() {
-        mainPanel.setBounds(20, 20, 960, 740);
+        mainPanel.setBounds(20, 20, 550, 840);
         jframe.add(mainPanel);
-        rightPanel.setBounds(420, 90, 510, 620);
+        rightPanel.setBounds(20, 200, 510, 620);
         mainPanel.add(rightPanel, null);
         addMainPanel();
         addRightPanel();
@@ -222,17 +177,18 @@ class CreatePage extends JFrame {
     private void addMainPanel() {
         mainPanel.add(mainTitle);
         mainPanel.add(vehicleIDLabel);
-        mainPanel.add(vehicleIDText);
+//        mainPanel.add(vehicleIDText);
         mainPanel.add(selectPriceLabel);
-        mainPanel.add(makeCombobox);
-        mainPanel.add(minimumInt);
-        mainPanel.add(maximumInt);
+//        mainPanel.add(makeCombobox);
+//        mainPanel.add(priceComboBox);
+//        mainPanel.add(minimumInt);
+//        mainPanel.add(maximumInt);
         mainPanel.add(newVehicleButton);
         mainPanel.add(newVehicleLabel);
-        mainPanel.add(searchButton);
+
         mainPanel.add(makeLabel);
         mainPanel.add(welcomeLabel);
-        mainPanel.add(cautionLabel);
+
     }
 
     private void addRightPanel() {
@@ -255,7 +211,7 @@ class CreatePage extends JFrame {
     }
 
     private void placeComponents() {
-        jframe.setSize(1000, 800);
+        jframe.setSize(590, 900);
         placeMainComponents();
         placeRightComponents();
     }
@@ -263,21 +219,23 @@ class CreatePage extends JFrame {
     private void placeMainComponents() {
         int mainLabelX = 40;
         int mainTextX = 180;
-        mainTitle.setBounds(325, 40, 800, 20);
-        vehicleIDLabel.setBounds(mainLabelX, 150, 150, 40);
-        selectPriceLabel.setBounds(mainLabelX, 230, 150, 60);
-        newVehicleLabel.setBounds(150, 450, 200, 50);
+        mainTitle.setBounds(150, 40, 250, 20);
+        welcomeLabel.setBounds(300,10,200,20);
+        vehicleIDLabel.setBounds(mainLabelX, 100, 150, 20);
+        selectPriceLabel.setBounds(mainLabelX, 120, 150, 20);
+        newVehicleLabel.setBounds(mainLabelX, 160, 200, 20);
 
-        vehicleIDText.setBounds(mainTextX, 150, 175, 40);
-        minimumInt.setBounds(mainTextX,230,75,40);
-        maximumInt.setBounds(mainTextX+100,230,75,40);
-        makeLabel.setBounds(mainLabelX,375,150,60);
-        makeCombobox.setBounds(mainTextX,375,175,40);
-        newVehicleButton.setBounds(100, 450, 50, 50);
-        searchButton.setBounds(150, 550, 130, 40);
+//        vehicleIDText.setBounds(mainTextX, 150, 175, 40);
+//        priceComboBox.setBounds(mainTextX, 310, 175, 40);
+//        minimumInt.setBounds(mainTextX,230,75,40);
+//        maximumInt.setBounds(mainTextX+100,230,75,40);
+        makeLabel.setBounds(mainLabelX,140,150,20);
+//        makeCombobox.setBounds(mainTextX,375,175,40);
+        newVehicleButton.setBounds(240, 160, 50, 20);
 
-        welcomeLabel.setBounds(750,10,200,20);
-        cautionLabel.setBounds(mainTextX,280,200,20);
+
+
+
     }
 
     private void placeRightComponents() {
@@ -306,17 +264,8 @@ class CreatePage extends JFrame {
     }
 
     private void saveApplicationData(String titleText, String incentiveType,String valueText, String descriptionTextring, String disclaimerText, String startDate, String endDate) {
-        System.out.println("This Is Incentive Details for New Created One.");
+        System.out.println("This Is Updated Incentive Details.");
         System.out.println(titleText+ " + "+ incentiveType+" + "+valueText + " + "+descriptionTextring+" + "+ disclaimerText+ " + " + startDate+" + "+endDate );
     }
 
-//    public class CreateIncentives {
-////        CreatePage incentive = new CreatePage();
-//        public void SaveApplicationData(String titleText, String incentiveType,String valueText, String descriptionTextring, String disclaimerText, String startDate, String endDate) {
-//            System.out.println(titleText+ " + "+ incentiveType+" + "+valueText + " + "+descriptionTextring+" + "+ disclaimerText+ " + " + startDate+" + "+endDate );
-////            return 0;
-//        }
-//    }
 }
-
-

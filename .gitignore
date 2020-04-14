@@ -1,1 +1,7 @@
-.idea/
+
+/.idea
+src/ui/.DS_Store
+src/.DS_Store
+.DS_Store
+*.class
+*.kotlin_module
