@@ -29,8 +29,8 @@ class IncentiveSearchFilterTest {
     isf.addElement(isfe1);
     isf.addElement(isfe2);
     isf.addElement(isfe3);
-    List<SearchFilterElement> result = isf.getElements();
-    for (SearchFilterElement element : result) {
+    List<IncentiveSearchFilterElement> result = isf.getElements();
+    for (IncentiveSearchFilterElement element : result) {
       System.out.println(element.getName());
       System.out.println(element.getValue());
     }

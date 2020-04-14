@@ -16,7 +16,15 @@ public class IncentiveSearchFilter implements SearchFilter {
   }
 
   @Override
-  public List<? extends SearchFilterElement> getElements() {
+  public List<IncentiveSearchFilterElement> getElements() {
     return elements;
+  }
+
+  public void addElement(IncentiveSearchFilterElement isfe) {
+    elements.add(isfe);
+  }
+
+  public int getDealerID() {
+    return dealerID;
   }
 }
