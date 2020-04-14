@@ -18,13 +18,11 @@ public class DealerSearchFilterElement extends SearchFilterElement {
     Enum objects include all possible optional search filter of Dealer Search GUI
      */
     DEALERNAME("DealerName"),
-    ZIP("Zip"),
-    MINRADIUS("MinRadius"),
-    MAXRADIUS("MaxRadius");
+    ZIP("Zip");
 
     private final String key; // key is the String value of each enum element
 
-    private DealerSearchCriterion(String key) {
+    DealerSearchCriterion(String key) {
       // private constructor that binds key string to enum element
       this.key = key;
     }
