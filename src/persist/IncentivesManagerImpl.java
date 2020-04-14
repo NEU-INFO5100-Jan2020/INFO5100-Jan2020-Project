@@ -27,22 +27,67 @@ public class IncentivesManagerImpl implements IncentivesManager {
         return null;
     }
 
+    /**
+     * This method is used for saving data to incentive table.
+     */
+
     @Override
-    public boolean addIncentive(Incentives incentives) {
-        String query = "INSERT INTO Incentives (Title , Description , Disclaimer , " +
-                "StartDate , EndDate , DiscountValue , DiscountType) " +
-                "VALUES ('"+incentives.getTitle()+"' , '"+incentives.getDescription()+"' , '"+incentives.getDisclaimer()+"' , " +
-                "'"+incentives.getStartDate()+"' , '"+incentives.getEndDate()+"' , "+incentives.getDiscountValue()+
-                " , '"+incentives.getDiscountType()+"')" +
-                " ;";
+	public boolean addIncentive(Incentives incentives) {
+		Connection connection = connect.connectToDB();
+		Statement stmt;
+		ResultSet rs = null;
+		try {
+			String query = "INSERT INTO Incentives (Title , Description , Disclaimer , "
+					+ "StartDate , EndDate , DiscountValue , DiscountType,IsDeleted,FilterList,VehicleIdList) "
+					+ "VALUES ('" + incentives.getTitle() + "' , '" + incentives.getDescription() + "' , '"
+					+ incentives.getDisclaimer() + "' , " + "'" + incentives.getStartDate() + "' , '"
+					+ incentives.getEndDate() + "' , " + incentives.getDiscountValue() + " , '"
+					+ incentives.getDiscountType() + "' , '" + incentives.getDiscountType() + "','"
+					+ incentives.getIsDeleted() + "'," + "'" + incentives.getFilterList() + "','"
+					+ incentives.getVehicleIdList() + "')";
+			if (connection != null) {
+				stmt = connection.createStatement();
+				stmt.execute(query, stmt.RETURN_GENERATED_KEYS);
+				rs = stmt.getGeneratedKeys();
+				if (rs != null && rs.next()) {
+					int incentiveId = rs.getInt(1);
+					int[] arr = { 25, 40 };
+					applyIncentive(incentiveId, arr, connection);
+				}
+			}
+		} catch (SQLException e) {
+			return false;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
 
-        /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeIncentivesQuery(query, "INSERT");
-
-        if(result != null)
-            return true;
-
-        return false;
+    /**
+     * @author SwatiBhojwani
+     * @param incentiveId:This id is used for updating vehicleTable with incentivesId
+     * @param vehicleIdsArray:list of vehicleIds used for updating incentives
+     * @param conn:Existing DB Connection
+     * @return :True or False on the basis of query execution
+     */
+    public boolean applyIncentive(int incentiveId, int[] vehicleIdsArray,Connection conn) {
+    	Statement stmt;
+		String query;
+		String vehicleIdsArr = vehicleIdsArray.toString().replaceAll("(^\\[|\\]$)", "");
+		try {
+		    query="UPDATE VehicleTable SET INCENTIVEID ="+incentiveId+" WHERE VehicleId IN ("+vehicleIdsArr+")";
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+        return true;
     }
 
     @Override
@@ -71,17 +116,30 @@ public class IncentivesManagerImpl implements IncentivesManager {
         return false;
     }
 
+    /*
+     * When we wanted to delete the incentive we are updating that particular incentiveId with isDeleted Flag=true
+     */
     @Override
     public boolean deleteIncentive(int incentivesId) {
-        String query = "DELETE FROM Incentives WHERE IncentiveId ='"+incentivesId+"' ;";
-
-        /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeIncentivesQuery(query, "UPDATE");
-
-        if(result != null)
-            return true;
-
-        return false;
+    	Statement stmt = null;
+		String deleteQuery;
+		Connection connection = null;
+		try {
+			connection = connect.connectToDB();
+			deleteQuery = "Update Incentives SET isDeleted=1 WHERE IncentiveId ='" + incentivesId + "' ;";
+			stmt = connection.createStatement();
+			stmt.executeUpdate(deleteQuery);
+		} catch (SQLException e) {
+			return false;
+		} finally {
+			try {
+				stmt.close();
+				connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return true;
     }
 
     private ArrayList<Incentives> convertToIncentivesObject(ArrayList<ArrayList> sqlQueryOutput) {
