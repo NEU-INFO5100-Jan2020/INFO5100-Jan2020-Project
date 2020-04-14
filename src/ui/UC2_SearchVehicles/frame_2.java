@@ -1,10 +1,16 @@
 package ui.UC2_SearchVehicles;
 
 
+import com.sun.glass.ui.Size;
+
 import javax.swing.*;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
 public class frame_2 extends JFrame{
@@ -31,7 +37,7 @@ public class frame_2 extends JFrame{
         createLabel();
         crateButton();
         createTable();
-        createJsp();
+//        createJsp();
         createPanel();
     }
 
@@ -41,9 +47,9 @@ public class frame_2 extends JFrame{
         button_list.add(btn_jp_viewDetail);
     }
 
-    private void createJsp() {
-        jsp = new JScrollPane(jt);
-    }
+//    private void createJsp() {
+//        jsp = new JScrollPane(createPaging(jt, 5));
+//    }
 
     public void addComponents(){
         for(JPanel panel : panel_list){
@@ -67,8 +73,15 @@ public class frame_2 extends JFrame{
         for(JButton jb : button_list){
             panel_main.add(jb);
         }
-        panel_main.add(jsp);
-        panel_main.setVisible(true);
+        // panel_main.add(jsp);
+
+        // hard coded paging size here
+        int pagingSize = 5;
+        JPanel tempPanel = createPaging(jt, pagingSize);
+        panel_main.add(tempPanel);
+
+
+
     }
     public void createLabel(){
 
@@ -97,12 +110,29 @@ public class frame_2 extends JFrame{
         jt.setCellSelectionEnabled(false);
         jt.setRowSelectionAllowed(true);
         jt.setSelectionMode(0);
-        final JTableHeader jTableHeader = jt.getTableHeader();
-        jTableHeader.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Clicked the header");
-            }
-        });
+
+        // No need to catchHeader, code below is redundant
+//        final JTableHeader jTableHeader = jt.getTableHeader();
+//        jTableHeader.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                System.out.println(e.getPoint());
+//                // doesn't work for double-click || Right click
+//                if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1) {
+//                    int index = jTableHeader.columnAtPoint(e.getPoint());
+//                    System.out.println(index);
+//                    // Change Column effect here
+//                    // jTableHeader.setColumnModel();
+//                }
+//            }
+//        });
+
+        // Default Sorting Method, released on Java 6
+        // jt.setRowSorter(new TableRowSorter<TableModel>(jt.getModel()));
     }
+
+    private JPanel createPaging(JTable jt, int size) {
+        return new TablePagingPanel(jt, size);
+    }
+
 }

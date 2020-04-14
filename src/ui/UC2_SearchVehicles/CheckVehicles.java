@@ -83,7 +83,7 @@ public class CheckVehicles extends JFrame {
         InitImageIcon();
     }
     private void InitImageIcon(){
-        ImageIcon icon = new ImageIcon("src/ui/UC2_SearchVehicles/来点色图.gif");
+        ImageIcon icon = new ImageIcon("src/ui/UC2_SearchVehicles/Dealer.png");
         lbl_gif = new JLabel(icon);
         lbl_gif.setBounds(350, 100, 400, 400);
         getContentPane().add(lbl_gif);
@@ -103,7 +103,7 @@ public class CheckVehicles extends JFrame {
                 String yearInput = txt_year.getText();
                 String priceInput = txt_price.getText();
 
-                if (isValidPrice(priceInput)) {
+                if (isValidPrice(priceInput) ) {
                     getContentPane().remove(lbl_Err_Price);
                     priceValid = true;
                 } else {
@@ -119,7 +119,7 @@ public class CheckVehicles extends JFrame {
 
                 if (priceValid && yearValid) {
 //                    frame2.setVisible(true);
-                    lbl_gif.setVisible(false);
+                    lbl_gif.setVisible(true);
                     getContentPane().remove(lbl_Err_Year);
                     getContentPane().remove(lbl_Err_Price);
                     frame_2 f2 = new frame_2("default");
@@ -136,7 +136,7 @@ public class CheckVehicles extends JFrame {
 
             private boolean isValidPrice(String priceInput) {
                 if (priceInput.isEmpty()) {
-                    return false;
+                    return true;
                 }
                 char[] priceArray = priceInput.toCharArray();
                 for (char c : priceArray) {
@@ -150,7 +150,7 @@ public class CheckVehicles extends JFrame {
 
             private boolean isValidYear(String yearInput) {
                 if (yearInput.isEmpty()) {
-                    return false;
+                    return true;
                 }
                 if (yearInput.length() != 4) {
                     return false;
@@ -254,8 +254,6 @@ public class CheckVehicles extends JFrame {
         // For Testing
         cbb_make.setModel(new DefaultComboBoxModel(VehicleTester.createMake()));
         cbb_module.setModel(new DefaultComboBoxModel(VehicleTester.createModel(cbb_make.getSelectedItem().toString())));
-        cbb_make.setModel(new DefaultComboBoxModel(VehicleTester.createMake()));
-        cbb_make.setModel(new DefaultComboBoxModel());
         cbb_make.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {

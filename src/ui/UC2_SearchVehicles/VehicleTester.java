@@ -3,6 +3,7 @@ package ui.UC2_SearchVehicles;
 //import dto.*;
 
 import java.util.Collection;
+import java.util.Random;
 
 public class VehicleTester {
     String make;
@@ -23,8 +24,9 @@ public class VehicleTester {
 
     public static VehicleTester[] createTestVehicles() {
         VehicleTester[] vGroups = new VehicleTester[20];
+        Random r = new Random(1);
         for (int i = 0; i < vGroups.length; i++) {
-            vGroups[i] = new VehicleTester("Make1", 1000+i*100, i*100323+i);
+            vGroups[i] = new VehicleTester(createMake()[r.nextInt(3)], 1000+i*100, i*100323+i);
         }
         return vGroups;
     }
