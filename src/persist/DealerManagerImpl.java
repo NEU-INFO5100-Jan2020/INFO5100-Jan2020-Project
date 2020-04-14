@@ -46,7 +46,7 @@ public class DealerManagerImpl implements DealerManager {
             zipCodeString += " , '"+ zipCode.get(i) +"'";
         }
 
-        String query = "SELECT DealerName, DealerAddress, PhoneNumber from Dealer " +
+        String query = "SELECT * from Dealer " +
                 "WHERE DealerName = '"+dealerName+"' and ZipCode IN ("+zipCodeString+") ;";
 
         /*Call 'executeQuery' method to run the query*/
