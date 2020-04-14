@@ -55,11 +55,12 @@ public class VehicleManagerImpl implements VehicleManager {
   @Override
   public Vehicle addVehicle(Vehicle vehicle) {
     String query = "INSERT INTO Dealer (VIN , DealerId ,Make , Model , Year , " +
-            "Category , Price , Color , Miles , Image , IncentiveId , DiscountPrice) " +
-            "VALUES ('" + vehicle.getVin() + "' , " + vehicle.getDealerId() + " , '" + vehicle.getMake() + "' , '" + vehicle.getModel() +
-            "' , " + vehicle.getYear() + " , '" + vehicle.getCategory() + "' , " + vehicle.getPrice() + " , '" + vehicle.getColor() +
-            "' , " + vehicle.getMileage() + " , '" + vehicle.getImage() + "' , " + vehicle.getIncentiveId() + " , " + vehicle.getDiscountPrice() +
-            ") ;";
+            "Category , Price , Color , Miles , Image , IncentiveId , DiscountPrice , Ratings) " +
+            "VALUES ('"+vehicle.getVin()+"' , "+vehicle.getDealerId()+" , '"+vehicle.getMake()+"' , '"+vehicle.getModel()+
+               "' , "+vehicle.getYear()+" , '"+vehicle.getCategory()+"' , "+vehicle.getPrice()+" , '"+vehicle.getColor()+
+               "' , "+vehicle.getMileage()+" , '"+vehicle.getImage()+"' , "+vehicle.getIncentiveId()+
+               " , "+vehicle.getDiscountPrice()+ " , "+vehicle.getRatings()+
+               ") ;";
 
     /*Call 'executeQuery' method to run the query*/
     ArrayList<ArrayList> result = connect.executeVehicleQuery(query, "INSERT");
@@ -73,7 +74,8 @@ public class VehicleManagerImpl implements VehicleManager {
             " , Make='" + vehicle.getMake() + "' , Model='" + vehicle.getModel() + "' , Year= " + vehicle.getYear() +
             " , Category = '" + vehicle.getCategory() + "' , Price = " + vehicle.getPrice() + " , Color = '" + vehicle.getColor() +
             "' , Miles = " + vehicle.getMileage() + " , Image = '" + vehicle.getImage() + "' , IncentiveId= " + vehicle.getIncentiveId() +
-            " , DiscountPrice = " + vehicle.getDiscountPrice() + " WHERE VehicleId=" + vehicle.getVehicleId() +
+            " , DiscountPrice = " + vehicle.getDiscountPrice() + " , Ratings = "+vehicle.getRatings()+
+            " WHERE VehicleId=" + vehicle.getVehicleId() +
             " ;";
 
     /*Call 'executeQuery' method to run the query*/
@@ -113,6 +115,7 @@ public class VehicleManagerImpl implements VehicleManager {
       v.setImage((Image) temp.get(10));
       v.setIncentiveId((Integer) temp.get(11));
       v.setDiscountPrice((Float) temp.get(12));
+      v.setRatings((Integer)temp.get(13));
 
       vehicle.add(v);
     }
