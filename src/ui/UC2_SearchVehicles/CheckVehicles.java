@@ -45,15 +45,11 @@ public class CheckVehicles extends JFrame {
 
     public CheckVehicles(int dearID) {
         this.DearID = dearID;
-        // querty database and fill ArrayList<Vehicles> with data;
-        // page has 5 element, vehiclsList 5 elementlf
-
-
         InitialComponents();
         AddComponents();
-
         setVisible(true);
-    }
+    }// querty database and fill ArrayList<Vehicles> with data;
+    // page has 5 element, vehiclsList 5 elementlf
 
     private void AddComponents() {
         for (JLabel jLabel : lblList) {
@@ -79,7 +75,7 @@ public class CheckVehicles extends JFrame {
     private void InitialComponents() {
 
         InitFrame();
-        InitFrame2();
+//        InitFrame2();
         InitLabels();
         InitTextFields();
         InitComboBox();
@@ -122,13 +118,15 @@ public class CheckVehicles extends JFrame {
                 }
 
                 if (priceValid && yearValid) {
-                    frame2.setVisible(true);
+//                    frame2.setVisible(true);
                     lbl_gif.setVisible(false);
                     getContentPane().remove(lbl_Err_Year);
                     getContentPane().remove(lbl_Err_Price);
+                    frame_2 f2 = new frame_2("default");
+                    f2.setVisible(true);
                 }
                 else{
-                    frame2.setVisible(false);
+//                    frame2.setVisible(false);
                     lbl_gif.setVisible(true);
                 }
 //                repaint();
@@ -192,12 +190,17 @@ public class CheckVehicles extends JFrame {
         int row = 0;
         for (VehicleTester vehicle : vehicles) {
             jt_data[row++] = new String[]{vehicle.make, String.valueOf(vehicle.price), String.valueOf(vehicle.VIN)};
-//            lm.addElement(vehicle);
-        }
 
+        }
+        jt = new JTable(jt_data, header){
+            public boolean editCellAt(int row, int column, java.util.EventObject e) {
+                return false;
+            }
+        };
+        jt.getTableHeader().setReorderingAllowed(false);
+//            lm.addElement(vehicle);
 //        jt.setBounds(80, 80, 600, 400);
 //        jt.setColumnSelectionAllowed(true);
-        jt = new JTable(jt_data, header);
         JPanel f2_panel = new JPanel();
         f2_panel.add(new JScrollPane(jt));
         f2_panel.setBounds(80, 80, 600, 400);
@@ -232,7 +235,6 @@ public class CheckVehicles extends JFrame {
 //        });
     }
 
-
     private void InitComboBox() {
         cbbList = new ArrayList<>();
 
@@ -250,7 +252,8 @@ public class CheckVehicles extends JFrame {
         // For Testing
         cbb_make.setModel(new DefaultComboBoxModel(VehicleTester.createMake()));
         cbb_module.setModel(new DefaultComboBoxModel(VehicleTester.createModel(cbb_make.getSelectedItem().toString())));
-
+        cbb_make.setModel(new DefaultComboBoxModel(VehicleTester.createMake()));
+        cbb_make.setModel(new DefaultComboBoxModel());
         cbb_make.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
