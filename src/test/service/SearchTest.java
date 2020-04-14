@@ -7,23 +7,35 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SearchTest {
-  SearchFilter vsf;
-  SearchFilter dsf;
-  SearchFilter isf;
+  VehicleSearchFilter vsf;
+  DealerSearchFilter dsf;
+  IncentiveSearchFilter isf;
   SortFilter dummy;
   Search s;
 
   void initialize() {
-    SearchFilter vsf = new VehicleSearchFilter(1);
-    SearchFilter dsf = new DealerSearchFilter("WA98109", 1, 2);
-    SearchFilter isf = new IncentiveSearchFilter(1);
+    vsf = new VehicleSearchFilter(1);
+    dsf = new DealerSearchFilter("WA98109", 1, 2);
+    isf = new IncentiveSearchFilter(1);
     SortFilter dummy = new SortFilter();
-    s = new Search(vsf, dummy);
   }
 
   @Test
   void doSearch() {
     initialize();
+    s = new Search(vsf, dummy);
+    s.doSearch();
+    for (BigDataType v: s.getResults()){
+      Vehicle vehicle = (Vehicle) v;
+      System.out.println(vehicle.getVehicleId());
+      System.out.println(vehicle.getVin());
+    }
+  }
+
+  @Test
+  void IncentiveSearch() {
+    initialize();
+    s = new Search(isf, dummy);
     s.doSearch();
     for (BigDataType v: s.getResults()){
       Vehicle vehicle = (Vehicle) v;
