@@ -18,7 +18,7 @@ public class ConnectionToSql {
     private static final String linkForConnection = "jdbc:sqlserver://%s:1433;database=%s;user=%s;password=%s;encrypt=true;trustServerCertificate=true;"
             + "hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
 
-    public void connectToDB() {
+   public Connection connectToDB() {
         try {
             Class.forName(jdbcDriver);
             String url = String.format(linkForConnection, hostName, dbName, user, password);
@@ -27,9 +27,10 @@ public class ConnectionToSql {
             connection = DriverManager.getConnection(url);
             String schema = connection.getSchema();
             System.out.println("Successful connection - Schema: " + schema);
+            return connection;
         } catch (Exception e) {
             System.out.println("Exception :" + e.getMessage());
-            return;
+            return connection;
         }
     }
 
