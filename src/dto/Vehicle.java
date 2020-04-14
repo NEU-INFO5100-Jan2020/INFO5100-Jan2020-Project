@@ -18,6 +18,7 @@ public class Vehicle extends BigDataType{
     private int incentiveId;
     private Image image;
     private float discountPrice;
+    private int ratings;
 
     public int getVehicleId() {
         return vehicleId;
@@ -121,5 +122,13 @@ public class Vehicle extends BigDataType{
 
     public void setDiscountPrice(float discountPrice) {
         this.discountPrice = discountPrice;
+    }
+    
+    public int getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(int ratings) {
+        this.ratings = ratings;
     }
 }
