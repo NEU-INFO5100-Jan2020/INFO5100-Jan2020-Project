@@ -4,7 +4,7 @@ import ui.incentiveui.CreatePage;
 import ui.incentiveui.EditPage;
 import persist.IncentivesManager;
 import persist.IncentivesManagerImpl;
-
+import dto.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +12,7 @@ import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
+import java.util.Collection;
 import javax.swing.table.DefaultTableModel;
 
 // import javax.swing.JOptionPane;
@@ -26,7 +27,7 @@ public class IncentiveMainPage extends JFrame {
     public IncentiveMainPage(String dearlerID) {
         initComponents();
         addActionListener(dearlerID);
-
+        refreshTableContents();
     }
 
     /**
@@ -237,6 +238,32 @@ public class IncentiveMainPage extends JFrame {
     private JTable jTable1;
     // private javax.swing.JTable pageTitle;
     // End of variables declaration//GEN-END:variables
+    public void refreshTableContents(){
 
+        DefaultTableModel tableModel=new DefaultTableModel();
+        tableModel.addColumn("Incentive ID");
+        tableModel.addColumn("Title");
+        tableModel.addColumn("Start Date");
+        tableModel.addColumn("End Date");
+        tableModel.addColumn("Type");
+        tableModel.addColumn("Value");
+        tableModel.addColumn("Description");
+        tableModel.addColumn("Disclaimer");
+
+        IncentivesManagerImpl  incentivesManagerimpl=new IncentivesManagerImpl ();
+        Collection<Incentives> incentivelist= incentivesManagerimpl.getListOfIncentives();
+        for(Incentives i:incentivelist){
+            tableModel.addRow(new String[]{
+                    String.valueOf(i.getIncentiveId()),
+                    i.getTitle(), i.getStartDate().toString(),
+                    i.getEndDate().toString(),
+                    i.getDiscountType(),
+                    String.valueOf(i.getDiscountValue()),
+                    i.getDescription(),
+                    i.getDisclaimer()});
+        }
+        jTable1.setModel(tableModel);
+
+    }
 
 }
