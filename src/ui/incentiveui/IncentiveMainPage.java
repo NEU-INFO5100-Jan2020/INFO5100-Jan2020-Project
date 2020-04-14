@@ -24,10 +24,49 @@ public class IncentiveMainPage extends JFrame {
     /**
      * Creates new form NewJFrame
      */
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JButton createButton;
+    private JButton deleteButton;
+    private JButton editButton;
+    private JScrollPane jScrollPane1;
+    private JTabbedPane jTabbedPane1;
+    private JTable jTable1;
+
+    private DefaultTableModel defaultTableModel;
+    private CreatePage createPage;
+    private Collection<Incentives> incentivelist;
+    private IncentivesManagerImpl incentivesMangerimpl;
+    // private javax.swing.JTable pageTitle;
+    // End of variables declaration//GEN-END:variables
+
+
     public IncentiveMainPage(String dearlerID) {
         initComponents();
         addActionListener(dearlerID);
         refreshTableContents();
+
+        IncentivesManagerImpl incentivesMangerimpl=new IncentivesManagerImpl();
+        Collection<Incentives> incentivelist= incentivesMangerimpl.getListOfIncentives();
+
+    }
+
+    private void addActionListener() {
+        createButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                new CreatePage("D5",incentiveMainPage);
+
+            }
+        });
+        editButton.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                int rowIndex = jTable1.getSelectedRow();
+                new EditPage("D5",rowIndex,incentiveMainPage);
+            }
+        });
     }
 
     /**
@@ -159,12 +198,14 @@ public class IncentiveMainPage extends JFrame {
             return;
         }
 
+
         IncentivesManager im = new IncentivesManagerImpl();
         String success = "";
         String fail = "";
         for (int i = rows.length - 1; i >= 0; i--) {
             String incentiveID = (String)jTable1.getValueAt(rows[i], 0);
             boolean deleted = im.deleteIncentive(Integer.parseInt(incentiveID));
+
 
             if (deleted) {
                 success += " " + incentiveID + " ";
@@ -230,15 +271,9 @@ public class IncentiveMainPage extends JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JButton createButton;
-    private JButton deleteButton;
-    private JButton editButton;
-    private JScrollPane jScrollPane1;
-    private JTabbedPane jTabbedPane1;
-    private JTable jTable1;
-    // private javax.swing.JTable pageTitle;
-    // End of variables declaration//GEN-END:variables
+
+
+
     public void refreshTableContents(){
 
         DefaultTableModel tableModel=new DefaultTableModel();

@@ -1,5 +1,11 @@
 package ui.incentiveui;
+
+
 import ui.incentiveui.JTextFieldHintListener;
+import service.Search;
+import service.IncentiveSearchFilter;
+import service.IncentiveSearchFilterElement;
+
 
 import javax.swing.*;
 import java.awt.*;
