@@ -2,9 +2,13 @@ package ui.UC2_SearchVehicles;
 
 
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class frame_2 extends JFrame{
+//    private JFrame jf;
     private String dealerName;
     private JScrollPane jsp;
     private JTable jt;
@@ -23,7 +27,7 @@ public class frame_2 extends JFrame{
     }
 
     public void createComponents(){
-        createFrame();
+//        createFrame();
         createLabel();
         crateButton();
         createTable();
@@ -46,11 +50,11 @@ public class frame_2 extends JFrame{
             getContentPane().add(panel);
         }
     }
-    public void createFrame(){
-        JFrame jf = new JFrame("Search Results");
-        jf.setBounds(100, 100, 600, 700);
-        jf.setVisible(false);
-    }
+//    public void createFrame(){
+//        jf = new JFrame("Search Results");
+//        jf.setBounds(100, 100, 600, 700);
+//        jf.setVisible(true);
+//    }
     public void createPanel(){
 
         JPanel panel_main = new JPanel();
@@ -64,6 +68,7 @@ public class frame_2 extends JFrame{
             panel_main.add(jb);
         }
         panel_main.add(jsp);
+        panel_main.setVisible(true);
     }
     public void createLabel(){
 
@@ -87,7 +92,17 @@ public class frame_2 extends JFrame{
                 return false;
             }
         };
-        jt.getTableHeader().setReorderingAllowed(false);
-
+        jt.setBounds(80, 80, 600, 400);
+        jt.setColumnSelectionAllowed(true);
+        jt.setCellSelectionEnabled(false);
+        jt.setRowSelectionAllowed(true);
+        jt.setSelectionMode(0);
+        final JTableHeader jTableHeader = jt.getTableHeader();
+        jTableHeader.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Clicked the header");
+            }
+        });
     }
 }

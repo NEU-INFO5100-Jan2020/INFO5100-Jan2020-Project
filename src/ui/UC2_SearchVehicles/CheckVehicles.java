@@ -123,10 +123,12 @@ public class CheckVehicles extends JFrame {
                     getContentPane().remove(lbl_Err_Year);
                     getContentPane().remove(lbl_Err_Price);
                     frame_2 f2 = new frame_2("default");
+                    f2.setBounds(100, 100, 600, 700);
                     f2.setVisible(true);
                 }
                 else{
 //                    frame2.setVisible(false);
+                    repaint();
                     lbl_gif.setVisible(true);
                 }
 //                repaint();
