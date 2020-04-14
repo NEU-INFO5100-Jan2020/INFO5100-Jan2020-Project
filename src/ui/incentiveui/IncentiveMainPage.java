@@ -4,7 +4,7 @@ import ui.incentiveui.CreatePage;
 import ui.incentiveui.EditPage;
 import persist.IncentivesManager;
 import persist.IncentivesManagerImpl;
-import dto.*;
+import dto.Incentives;
 
 import javax.swing.*;
 import java.awt.*;
