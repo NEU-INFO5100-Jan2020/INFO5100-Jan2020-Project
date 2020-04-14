@@ -112,7 +112,7 @@ public class VehicleManagerImpl implements VehicleManager {
       v.setPrice((Float) temp.get(7));
       v.setColor(temp.get(8).toString());
       v.setMileage((Integer) temp.get(9));
-      v.setImage((Image) temp.get(10));
+      //v.setImage((Image) temp.get(10));
       v.setIncentiveId((Integer) temp.get(11));
       v.setDiscountPrice((Float) temp.get(12));
       v.setRatings((Integer)temp.get(13));
