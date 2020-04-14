@@ -159,12 +159,13 @@ public class IncentiveMainPage extends JFrame {
             return;
         }
 
-        IncentivesManager im = (IncentivesManager) new IncentivesManagerImpl();
+        IncentivesManager im = new IncentivesManagerImpl();
         String success = "";
         String fail = "";
         for (int i = rows.length - 1; i >= 0; i--) {
-            Integer incentiveID = (Integer)jTable1.getValueAt(rows[i], 0);
-            boolean deleted = im.deleteIncentive(incentiveID);
+            String incentiveID = (String)jTable1.getValueAt(rows[i], 0);
+            boolean deleted = im.deleteIncentive(Integer.parseInt(incentiveID));
+
             if (deleted) {
                 success += " " + incentiveID + " ";
                 tableModel.removeRow(rows[i]);
