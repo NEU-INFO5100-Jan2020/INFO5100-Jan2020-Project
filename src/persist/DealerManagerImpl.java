@@ -35,15 +35,15 @@ public class DealerManagerImpl implements DealerManager {
     }
 
     @Override
-    public Collection<Dealer> getDealerDetails(String dealerName, String[] zipCode) {
+    public Collection<Dealer> getDealerDetails(String dealerName, ArrayList<String> zipCode) {
         String zipCodeString = "";
 
-        for(int i=0;i<zipCode.length;i++){
+        for(int i=0;i<zipCode.size();i++){
             if(i == 0){
-                zipCodeString += "'"+zipCode[i]+"'";
+                zipCodeString += "'"+ zipCode.get(i) +"'";
                 continue;
             }
-            zipCodeString += " , '"+zipCode[i]+"'";
+            zipCodeString += " , '"+ zipCode.get(i) +"'";
         }
 
         String query = "SELECT * from Dealer " +

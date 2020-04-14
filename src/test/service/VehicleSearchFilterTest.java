@@ -36,7 +36,7 @@ class VehicleSearchFilterTest {
     vsf.addElement(vsfe2);
     vsf.addElement(vsfe3);
     vsf.addElement(vsfe4);
-    List<SearchFilterElement>result = vsf.getElements();
+    List<VehicleSearchFilterElement>result = vsf.getElements();
     for (SearchFilterElement element: result) {
       System.out.println(element.getName());
       System.out.println(element.getValue());

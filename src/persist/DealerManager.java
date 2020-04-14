@@ -2,6 +2,7 @@
 package persist;
 import dto.Dealer;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public interface DealerManager {
@@ -13,7 +14,7 @@ public interface DealerManager {
     Collection<Dealer> getDealerDetails(int dealerId);
 
     /*Returns a list of Dealer details, based on the 'dealerName' / 'zipCode' passed*/
-    Collection<Dealer> getDealerDetails(String dealerName, String[] zipCode);
+    Collection<Dealer> getDealerDetails(String dealerName, ArrayList<String> zipCode);
 
     /*Add a new entry in 'Dealer' table , with the parameters provided as listed
      * Returns true - if dealer is added successfully
