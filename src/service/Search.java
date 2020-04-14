@@ -103,4 +103,20 @@ public class Search {
     Sorter curSorter = this.factory.produceSorter(sorf);
     results = curSorter.sort(curGetter.get());
   }
+
+  public SearchFilter getSerf() {
+    return serf;
+  }
+
+  public SearchFactory getFactory() {
+    return factory;
+  }
+
+  public SortFilter getSorf() {
+    return sorf;
+  }
+
+  public Collection<? extends BigDataType> getResults() {
+    return results;
+  }
 }
