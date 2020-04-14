@@ -14,7 +14,8 @@ import java.util.List;
 public class DealerSearchFilter implements SearchFilter {
   private final String zip = " ";
   List<DealerSearchFilterElement> elements;
-
+  public DealerSearchFilter() {
+  }
   public DealerSearchFilter(String zip, int minradius, int maxradius) {
     elements = new ArrayList<>();
   }
@@ -36,7 +37,7 @@ public class DealerSearchFilter implements SearchFilter {
     JSONObject myResponse = new JSONObject(response.toString());
     JSONArray DataList = myResponse.getJSONArray("DataList");
     ArrayList<String> arr = new ArrayList<>();
-    for (int index = 1; index < DataList.length(); index++) {
+    for (int index = 0; index < DataList.length(); index++) {
       JSONObject obj1 = DataList.getJSONObject(index);
       String str = obj1.getString("Code");
       for (int i = 0; i < 1; i++) {
