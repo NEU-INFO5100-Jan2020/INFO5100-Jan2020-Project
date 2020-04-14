@@ -2,6 +2,9 @@ package ui.incentiveui;
 
 import ui.incentiveui.CreatePage;
 import ui.incentiveui.EditPage;
+import persist.IncentivesManager;
+import persist.IncentivesManagerImpl;
+
 
 import javax.swing.*;
 import java.awt.*;
