@@ -69,6 +69,7 @@ public class ConnectionToSql {
                     temp.add(resultSet.getObject(11)); //Image
                     temp.add(resultSet.getInt(12)); //IncentiveId
                     temp.add(resultSet.getFloat(13)); //DiscountPrice
+                    temp.add(resultSet.getInt(14)); //Ratings
 
                     //Adding each row to the result
                     result.add(temp);
