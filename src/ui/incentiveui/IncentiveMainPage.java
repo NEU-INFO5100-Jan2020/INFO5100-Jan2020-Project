@@ -59,9 +59,15 @@ public class IncentiveMainPage extends JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+
+        jTable1 = new javax.swing.JTable(){
+            public boolean isCellEditable(int row, int column)
+            {
+                return false;}//Table is not editable
+        };
+        createButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
+
         // pageTitle = new javax.swing.JLabel("Manage Incentives");
         jButton4 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -256,9 +262,17 @@ public class IncentiveMainPage extends JFrame {
         IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
         Collection<Incentives> incentivelist= incentivesManagerImpl.getListOfIncentives();
         for(Incentives i:incentivelist){
-            tableModel.addRow(new String[]{i.getTitle(),i.getStartDate().toString(),
-                    i.getEndDate().toString(), String.valueOf(i.getDiscountValue()),
-                    String.valueOf(i.getIncentiveId())});
+
+            if(i.getIsDeleted() != false) continue;
+            tableModel.addRow(new String[]{
+                    String.valueOf(i.getIncentiveId()),
+                    i.getTitle(), i.getStartDate().toString(),
+                    i.getEndDate().toString(),
+                    i.getDiscountType(),
+                    String.valueOf(i.getDiscountValue()),
+                    i.getDescription(),
+                    i.getDisclaimer()});
+
         }
         jTable1.setModel(tableModel);
         //jTable1.setEnabled(false);
