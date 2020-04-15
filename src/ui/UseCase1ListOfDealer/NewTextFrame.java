@@ -1,4 +1,4 @@
-package UseCase1ListOfDealers;
+package ui.UseCase1ListOfDealers;
 
 import javax.swing.*;
 import java.awt.*;
