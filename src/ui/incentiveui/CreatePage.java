@@ -5,18 +5,14 @@ import java.awt.*;
 import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-// import javax.swing.JOptionPane;
 import com.toedter.calendar.JDateChooser;
 import dto.Incentives;
 import persist.IncentivesManagerImpl;
-import ui.incentiveui.IncentiveMainPage;
 
 //        import lombok.Data;
-
 import java.util.Collection;
 import java.util.Date;
 
-// import javax.swing.JCalendar;
 //@Data
 public class CreatePage extends JFrame {
     /**
@@ -33,35 +29,35 @@ public class CreatePage extends JFrame {
     private JButton searchButton, applyButton;
 
     private JLabel mainTitle, vehicleIDLabel, selectPriceLabel, newVehicleLabel, makeLabel, welcomeLabel, cautionLabel;
-    public JTextField vehicleIDText, minimumInt, maximumInt;
-    protected JComboBox makeCombobox;
-    protected Checkbox newVehicleButton;
-    private String[] makelist = {"Toyota","Buick","Honda","Audi","Jaguar","Kia","Mercedes-Benz"," Land Rover", "Mazda","Volvo", "Ford", "BMW","Jeep","Tesla","Porsche","Acura", "Aston Martin","Chevrolet","Ferrari","Cadillac","Infiniti","Volkswagen","Subaru","Nissan"};
+    private JTextField vehicleIDText, minimumInt, maximumInt;
+    private JComboBox<String> makeCombobox;
+    private Checkbox newVehicleButton;
+    private final String[] makelist = {"Default", "Toyota","Buick","Honda","Audi","Jaguar","Kia","Mercedes-Benz","Land Rover", "Mazda","Volvo", "Ford", "BMW","Jeep","Tesla","Porsche","Acura", "Aston Martin","Chevrolet","Ferrari","Cadillac","Infiniti","Volkswagen","Subaru","Nissan"};
     private Integer minimumPrice, maximumPrice;
 
     private JLabel rightTitle, titleLabel, valueLabel, descriptionLabel, disclaimerLabel, dateLabel, slashLabel, incenitveTypeLabel;
     private JComboBox incentiveTypeBox;
-    public JTextField titleText, valueText;
-    public JTextArea descriptionText, disclaimerText;
-    public JDateChooser startDateChooser, endDateChooser;
+    private JTextField titleText, valueText;
+    private JTextArea descriptionText, disclaimerText;
+    private JDateChooser startDateChooser, endDateChooser;
 
     // IncentiveInput searchInput, applyInput;
 
-    protected String vehicleID, title, description, disclaimer, dealerID;
-    protected int maximum, minimum;
-    protected Integer value;
-    protected boolean isNewVehicle;
-    protected Date startDate, endDate;
+    private String vehicleID, title, description, disclaimer, dealerID;
+    private int maximum, minimum;
+    private Integer value;
+    private boolean isNewVehicle;
+    private Date startDate, endDate;
 
     // public int[][] priceRangeArray;
 
 
-    Font botton = new Font("Courier", Font.BOLD, 21);
+    Font button = new Font("Courier", Font.BOLD, 21);
 
     public CreatePage() {
     }
 
-    public CreatePage(String dealerID,IncentiveMainPage incentiveMainPage) {
+    public CreatePage(int dealerID,IncentiveMainPage incentiveMainPage) {
         createComponents(dealerID);
         placeComponents();
         addComponents();
@@ -141,7 +137,7 @@ public class CreatePage extends JFrame {
 
 
 
-    private void createComponents(String dealerID) {
+    private void createComponents(int dealerID) {
         jframe = new JFrame("Incentives GUI");
         jframe.setLayout(null);
         // jframe.setDefaultCloseOperation(jframe.EXIT_ON_CLOSE);
@@ -159,7 +155,7 @@ public class CreatePage extends JFrame {
         createRightsComponent();
     }
 
-    private void createMainComponent(String dealerID) {
+    private void createMainComponent(int dealerID) {
         mainTitle = new JLabel("Create Incentives");
         Font mainTitleFont = new Font("Courier", Font.BOLD, 27);
         mainTitle.setFont(mainTitleFont);
@@ -172,7 +168,7 @@ public class CreatePage extends JFrame {
         newVehicleLabel = new JLabel("New Vehicles");
         newVehicleLabel.setFont(mainCommonFont);
         searchButton = new JButton("Search");
-        searchButton.setFont(botton);
+        searchButton.setFont(button);
         vehicleIDText = new JTextField(17);
         makeLabel = new JLabel("Make");
         makeLabel.setFont(mainCommonFont);
@@ -230,7 +226,7 @@ public class CreatePage extends JFrame {
         endDateChooser = new JDateChooser();
 
         applyButton = new JButton("Apply");
-        applyButton.setFont(botton);
+        applyButton.setFont(button);
         incenitveTypeLabel = new JLabel("IncentiveType");
         incenitveTypeLabel.setFont(rightCommonFont);
         incentiveTypeBox = new JComboBox();
