@@ -1,25 +1,36 @@
 package ui.incentiveui;
 
+import dto.Incentives;
+import persist.IncentivesManagerImpl;
+
 import javax.swing.*;
-import java.awt.*;
-import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusListener;
+import java.util.Collection;
 // import javax.swing.JOptionPane;
 //        import com.toedter.calendar.JDateChooser;
 //        import lombok.Data;
 
 public class IncentiveMainPage extends JFrame {
+    public DefaultTableModel defaultTableModel;
+    public JTable jTable1;
+    public CreatePage createPage;
 
+    public Collection<Incentives> incentivelist;
+    public IncentivesManagerImpl incentivesManagerImpl;
     /**
      * Creates new form NewJFrame
      */
     public IncentiveMainPage() {
         initComponents();
         addActionListener();
+        refreshTableContents();
+        IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
+        Collection<Incentives> incentivelist= incentivesManagerImpl.getListOfIncentives();
 
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,17 +43,21 @@ public class IncentiveMainPage extends JFrame {
     private void addActionListener() {
         jButton2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new ui.incentiveui.CreatePage("D5");
+
+                new ui.incentiveui.CreatePage("D5",incentiveMainPage);
+
             }
         });
         jButton4.addActionListener(new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
-                new ui.incentiveui.EditPage("D5");
+                int rowIndex = jTable1.getSelectedRow();
+                new ui.incentiveui.EditPage("D5",rowIndex,incentiveMainPage);
             }
         });
     }
 
-
+    public IncentiveMainPage incentiveMainPage;
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -83,6 +98,7 @@ public class IncentiveMainPage extends JFrame {
                 return types[columnIndex];
             }
         });
+
         jTable1.setRowHeight(20);
         jTable1.setSelectionForeground(new java.awt.Color(255, 51, 102));
         jTable1.setShowGrid(true);
@@ -92,6 +108,8 @@ public class IncentiveMainPage extends JFrame {
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+//                CreatePage createPage=new CreatePage();
+//                IncentivesMangerimpl incentivesMangerimpl=new IncentivesMangerimpl();
             }
         });
 
@@ -143,18 +161,45 @@ public class IncentiveMainPage extends JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+
+        defaultTableModel=(DefaultTableModel)jTable1.getModel();
+
+                int rowIndex = jTable1.getSelectedRow();
+
+
+                int ID = Integer.parseInt(jTable1.getValueAt(rowIndex, 4).toString()) ;
+                System.out.println(ID);
+
+                defaultTableModel.removeRow(rowIndex);
+
+                IncentivesManagerImpl incentivesManagerImpl = new IncentivesManagerImpl();
+                incentivesManagerImpl.deleteIncentive(ID);
+                refreshTableContents();
+
+
+
+        
+        System.out.println("test selected row");
     }// GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        jTable1.editCellAt(ERROR, 0);
-        jTable1.editCellAt(ERROR, 1);
+//        jTable1.editCellAt(ERROR, 0);
+//        jTable1.editCellAt(ERROR, 1);
     }// GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[])  {
+//        ui.Incentivedb.operations operations=new operations();
+//        try {
+//            operations.createConection();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
         /* Set the Nimbus look and feel */
         // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
         // (optional) ">
@@ -182,11 +227,14 @@ public class IncentiveMainPage extends JFrame {
         // </editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new IncentiveMainPage().setVisible(true);
-            }
-        });
+        //java.awt.EventQueue.invokeLater(new Runnable() {
+            IncentiveMainPage incentiveMainPage=new IncentiveMainPage();
+            incentiveMainPage.setVisible(true);
+//            public void run() {
+//                new IncentiveMainPage().setVisible(true);
+//            }
+
+       // });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -195,9 +243,29 @@ public class IncentiveMainPage extends JFrame {
     private JButton jButton4;
     private JScrollPane jScrollPane1;
     private JTabbedPane jTabbedPane1;
-    private JTable jTable1;
+    //public JTable jTable1;
     // private javax.swing.JTable pageTitle;
     // End of variables declaration//GEN-END:variables
+    public void refreshTableContents(){
 
+        DefaultTableModel tableModel=new DefaultTableModel();
+        tableModel.addColumn("title");
+        tableModel.addColumn("start date");
+        tableModel.addColumn("end date");
+        tableModel.addColumn("value");
+        tableModel.addColumn("Id");
+
+        IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
+        Collection<Incentives> incentivelist= incentivesManagerImpl.getListOfIncentives();
+        for(Incentives i:incentivelist){
+            tableModel.addRow(new String[]{i.getTitle(),i.getStartDate().toString(),
+                    i.getEndDate().toString(), String.valueOf(i.getDiscountValue()),
+                    String.valueOf(i.getIncentiveId())});
+        }
+        jTable1.setModel(tableModel);
+        //jTable1.setEnabled(false);
+        jTable1.isCellEditable(0,0);
+
+    }
 
 }

@@ -7,11 +7,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 // import javax.swing.JOptionPane;
 import com.toedter.calendar.JDateChooser;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import dto.Incentives;
+
+import persist.IncentivesManagerImpl;
 
 //        import lombok.Data;
 
+import java.sql.SQLException;
+import java.util.Collection;
 import java.util.Date;
 
 // import javax.swing.JCalendar;
@@ -20,6 +23,9 @@ public class CreatePage extends JFrame {
     /**
      * ng
      */
+    public IncentivesManagerImpl incentivesManagerImpl;
+    public IncentiveMainPage incentiveMainPage;
+    //public Incentives incentive;public operations operations;
     private static final long serialVersionUID = 1L;
 
     private JFrame jframe;
@@ -28,7 +34,7 @@ public class CreatePage extends JFrame {
     private JButton searchButton, applyButton;
 
     private JLabel mainTitle, vehicleIDLabel, selectPriceLabel, newVehicleLabel, makeLabel, welcomeLabel, cautionLabel;
-    protected JTextField vehicleIDText, minimumInt, maximumInt;
+    public JTextField vehicleIDText, minimumInt, maximumInt;
     protected JComboBox makeCombobox;
     protected Checkbox newVehicleButton;
     private String[] makelist = {"Toyota","Buick","Honda","Audi","Jaguar","Kia","Mercedes-Benz"," Land Rover", "Mazda","Volvo", "Ford", "BMW","Jeep","Tesla","Porsche","Acura", "Aston Martin","Chevrolet","Ferrari","Cadillac","Infiniti","Volkswagen","Subaru","Nissan"};
@@ -36,9 +42,9 @@ public class CreatePage extends JFrame {
 
     private JLabel rightTitle, titleLabel, valueLabel, descriptionLabel, disclaimerLabel, dateLabel, slashLabel, incenitveTypeLabel;
     private JComboBox incentiveTypeBox;
-    protected JTextField titleText, valueText;
-    protected JTextArea descriptionText, disclaimerText;
-    protected JDateChooser startDateChooser, endDateChooser;
+    public JTextField titleText, valueText;
+    public JTextArea descriptionText, disclaimerText;
+    public JDateChooser startDateChooser, endDateChooser;
 
     // IncentiveInput searchInput, applyInput;
 
@@ -50,33 +56,79 @@ public class CreatePage extends JFrame {
 
     // public int[][] priceRangeArray;
 
+
     Font botton = new Font("Courier", Font.BOLD, 21);
 
     public CreatePage() {
     }
 
-    public CreatePage(String dealerID) {
+    public CreatePage(String dealerID,IncentiveMainPage incentiveMainPage) {
         createComponents(dealerID);
         placeComponents();
         addComponents();
         addListeners();
         // makeVisible();
         jframe.setVisible(true);
+        this.incentiveMainPage=incentiveMainPage;
+
 
     }
 
     private void addListeners() {
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
+
                 JOptionPane.showMessageDialog(jframe, "Search");
             }
         });
 
-        applyButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(jframe, "Apply");
-            }
-        });
+        applyButton.addActionListener((ActionEvent ae) -> performOperationAndTrapException());
+    }
+    private void performOperationAndTrapException() {
+        IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
+        Incentives incentive=new Incentives();
+        incentive.setEndDate(endDateChooser.getDate());
+        ///
+        incentive.setStartDate(startDateChooser.getDate());
+        incentive.setDiscountValue(Integer.parseInt(valueText.getText()));
+        incentive.setTitle(titleText.getText());
+        incentive.setDiscountType(incentiveTypeBox.getSelectedItem().toString());
+        incentive.setDescription((descriptionText.getText()));
+
+        Collection<Incentives> incentivelist= incentivesManagerImpl.getListOfIncentives();
+        System.out.println(incentivelist.size());
+
+        incentive.setDealerId(5);
+        incentive.setFilterList("");
+        incentive.setVehicleIdList("");
+        incentive.setDisclaimer(disclaimerText.getText());
+
+        //IncentivesMangerimpl incentivesMangerimpl=new IncentivesMangerimpl();
+
+
+        try {
+            incentivesManagerImpl.addIncentive2(incentive);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        System.out.println(incentivelist.size());
+        IncentiveMainPage incentiveMainPage=new IncentiveMainPage();
+        incentiveMainPage.setVisible(true);
+        incentiveMainPage.refreshTableContents();
+
+        JOptionPane.showMessageDialog(jframe, "Apply");
+        jframe.setVisible(false);
+
+    }
+
+
+
+
+
+
         // applyButton.addActionListener(new ActionListener() {
         // public void actionPerformed(ActionEvent e) {
         //// Form form = new
@@ -88,7 +140,9 @@ public class CreatePage extends JFrame {
         // // + applyInput.description + " + " + applyInput.disclaimer);
         // }
         // });
-    }
+
+
+
 
     private void createComponents(String dealerID) {
         jframe = new JFrame("Incentives GUI");

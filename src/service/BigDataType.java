@@ -7,7 +7,7 @@ class Vehicle extends BigDataType {
 
 }
 
-class Incentive extends BigDataType {
+class Incentive extends BigDataType{
 
 }
 
