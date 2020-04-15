@@ -1,6 +1,7 @@
 package ui.incentiveui;
 
 import dto.Incentives;
+import persist.IncentivesManager;
 import persist.IncentivesManagerImpl;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -8,15 +9,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
 // import javax.swing.JOptionPane;
-//        import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JDateChooser;
 //        import lombok.Data;
 
 public class IncentiveMainPage extends JFrame {
-    public DefaultTableModel defaultTableModel;
-    public JTable jTable1;
-//    public CreatePage createPage;
-    public Collection<Incentives> incentivelist;
-    public IncentivesManagerImpl incentivesManagerImpl;
+
+    private JButton createButton, editButton, deleteButton;
+    private JScrollPane jScrollPane1;
+    private JTabbedPane jTabbedPane1;
+    private DefaultTableModel defaultTableModel;
+    private JTable jTable1;
+    private Collection<Incentives> incentivelist;
+    private IncentivesManagerImpl incentivesManagerImpl;
     /**
      * Creates new form NewJFrame
      */
@@ -39,14 +43,14 @@ public class IncentiveMainPage extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void addActionListener() {
-        jButton2.addActionListener(new ActionListener() {
+        createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 new ui.incentiveui.CreatePage("D5",incentiveMainPage);
 
             }
         });
-        jButton4.addActionListener(new ActionListener() {
+        editButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
                 int rowIndex = jTable1.getSelectedRow();
@@ -69,7 +73,7 @@ public class IncentiveMainPage extends JFrame {
         deleteButton = new javax.swing.JButton();
 
         // pageTitle = new javax.swing.JLabel("Manage Incentives");
-        jButton4 = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -108,8 +112,8 @@ public class IncentiveMainPage extends JFrame {
         jTable1.setShowGrid(true);
         jScrollPane1.setViewportView(jTable1);
 
-        jButton2.setText("Create");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        createButton.setText("Create");
+        createButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
 //                CreatePage createPage=new CreatePage();
@@ -117,14 +121,14 @@ public class IncentiveMainPage extends JFrame {
             }
         });
 
-        jButton3.setText("Delete");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Edit");
+        editButton.setText("Edit");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -132,9 +136,9 @@ public class IncentiveMainPage extends JFrame {
                 .addGroup(layout.createSequentialGroup()
                         .addGroup(layout
                                 .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup().addGap(216, 216, 216).addComponent(jButton2)
-                                        .addGap(117, 117, 117).addComponent(jButton3).addGap(144, 144, 144)
-                                        .addComponent(jButton4))
+                                .addGroup(layout.createSequentialGroup().addGap(216, 216, 216).addComponent(createButton)
+                                        .addGap(117, 117, 117).addComponent(deleteButton).addGap(144, 144, 144)
+                                        .addComponent(editButton))
                                 .addGroup(layout.createSequentialGroup().addContainerGap()
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1064,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -152,8 +156,8 @@ public class IncentiveMainPage extends JFrame {
                                 javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
                                 javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jButton2)
-                        .addComponent(jButton3).addComponent(jButton4))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(createButton)
+                        .addComponent(deleteButton).addComponent(editButton))
                 .addContainerGap(52, Short.MAX_VALUE)));
 
         pack();
@@ -163,28 +167,42 @@ public class IncentiveMainPage extends JFrame {
         // TODO add your handling code here:
     }// GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+        DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+        //get select row or rows
+        int[] rows = jTable1.getSelectedRows();
+        if (rows.length == 0) {
+            JOptionPane.showMessageDialog(null, "Please select row(s) to delete.");
+            return;
+        }
 
-        defaultTableModel=(DefaultTableModel)jTable1.getModel();
+        IncentivesManager im = new IncentivesManagerImpl();
+        String success = "";
+        String fail = "";
+        for (int i = rows.length - 1; i >= 0; i--) {
+            String incentiveID = (String)jTable1.getValueAt(rows[i], 0);
+            boolean deleted = im.deleteIncentive(Integer.parseInt(incentiveID));
 
-        int rowIndex = jTable1.getSelectedRow();
+            if (deleted) {
+                success += " " + incentiveID + " ";
+                tableModel.removeRow(rows[i]);
+            }else {
+                fail += " " + incentiveID + " ";
+            }
+        }
 
+        String message = "";
+        if (!success.isEmpty()) {
+            message += "Successful deleted IncentiveID: " + success + '\n';
+        }
+        if (!fail.isEmpty()) {
+            message += "Failed deleted IncentiveID: " + fail;
+        }
 
-        int ID = Integer.parseInt(jTable1.getValueAt(rowIndex, 4).toString()) ;
-        System.out.println(ID);
+        JOptionPane.showMessageDialog(null, message);
 
-        defaultTableModel.removeRow(rowIndex);
+    }
 
-        IncentivesManagerImpl incentivesManagerImpl = new IncentivesManagerImpl();
-        incentivesManagerImpl.deleteIncentive(ID);
-        refreshTableContents();
-
-
-
-
-        System.out.println("test selected row");
-    }// GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -241,28 +259,22 @@ public class IncentiveMainPage extends JFrame {
         // });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JButton jButton2;
-    private JButton jButton3;
-    private JButton jButton4;
-    private JScrollPane jScrollPane1;
-    private JTabbedPane jTabbedPane1;
-    //public JTable jTable1;
-    // private javax.swing.JTable pageTitle;
-    // End of variables declaration//GEN-END:variables
+
     public void refreshTableContents(){
 
         DefaultTableModel tableModel=new DefaultTableModel();
-        tableModel.addColumn("title");
-        tableModel.addColumn("start date");
-        tableModel.addColumn("end date");
-        tableModel.addColumn("value");
-        tableModel.addColumn("Id");
+        tableModel.addColumn("Incentive ID");
+        tableModel.addColumn("Title");
+        tableModel.addColumn("Start Date");
+        tableModel.addColumn("End Date");
+        tableModel.addColumn("Type");
+        tableModel.addColumn("Value");
+        tableModel.addColumn("Description");
+        tableModel.addColumn("Disclaimer");
 
-        IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
-        Collection<Incentives> incentivelist= incentivesManagerImpl.getListOfIncentives();
+        IncentivesManagerImpl  incentivesManagerimpl=new IncentivesManagerImpl ();
+        Collection<Incentives> incentivelist= incentivesManagerimpl.getListOfIncentives();
         for(Incentives i:incentivelist){
-
             if(i.getIsDeleted() != false) continue;
             tableModel.addRow(new String[]{
                     String.valueOf(i.getIncentiveId()),
@@ -272,11 +284,8 @@ public class IncentiveMainPage extends JFrame {
                     String.valueOf(i.getDiscountValue()),
                     i.getDescription(),
                     i.getDisclaimer()});
-
         }
         jTable1.setModel(tableModel);
-        //jTable1.setEnabled(false);
-        jTable1.isCellEditable(0,0);
 
     }
 
