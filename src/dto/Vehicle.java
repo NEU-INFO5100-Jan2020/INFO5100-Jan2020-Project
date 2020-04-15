@@ -15,7 +15,7 @@ public class Vehicle extends BigDataType{
     private float price;
     private String color;
     private int mileage;
-    private int incentiveId;
+    private String incentiveId;
     private Image image;
     private float discountPrice;
     private int ratings;
@@ -100,11 +100,11 @@ public class Vehicle extends BigDataType{
         this.mileage = mileage;
     }
 
-    public int getIncentiveId() {
+    public String getIncentiveId() {
         return incentiveId;
     }
 
-    public void setIncentiveId(int incentiveId) {
+    public void setIncentiveId(String incentiveId) {
         this.incentiveId = incentiveId;
     }
 
