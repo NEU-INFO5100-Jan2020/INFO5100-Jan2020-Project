@@ -1,15 +1,34 @@
 package ui.guiforcase4;
 
+import dto.Vehicle;
+import persist.VehicleManagerImpl;
+import service.SearchFilter;
+import service.SearchFilterElement;
+import service.VehicleSearchFilter;
+import service.VehicleSearchFilterElement;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Vector;
 
 public class InventoryInformation extends JFrame {
     int dID;
+    private DefaultListModel listModel;
+    //(Ekie)Get data from VehicleManagerImpl
+    VehicleManagerImpl vmi = new VehicleManagerImpl();
+    DefaultListModel model = new DefaultListModel();
 
     public InventoryInformation(int dID) {
         this.dID = dID;
+        Collection<Vehicle> veh=vmi.getVehiclesBasedOnDealerId(dID);
+        for (Vehicle v:veh){
+            model.addElement(v.getVehicleId());
+        }
         initialFrame();
     }
 
@@ -30,9 +49,8 @@ public class InventoryInformation extends JFrame {
         jl.setHorizontalAlignment(JTextField.CENTER);
         jl.setBounds(55, 10, 280, 30);
         panel.add(jl);
-
-        String[] items= new String[]{"V1", "V2", "V3", "V4"};
-        JList list_jp_vList = new JList<>(items);
+        //(Ekie)Show the VehicleList based on DealerID
+        JList list_jp_vList=new JList(model);
         list_jp_vList.setBounds(80,60,240,220);
         list_jp_vList.setBackground(Color.LIGHT_GRAY);
         list_jp_vList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -65,6 +83,36 @@ public class InventoryInformation extends JFrame {
                 frame.dispose();
             }
         });
+
+        //(Ekie)Delete vehicles
+        btn2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //This method can be called only if
+                //there's a valid selection
+                //so go ahead and remove whatever's selected.
+
+
+
+                int index = list_jp_vList.getSelectedIndex();
+                listModel.remove(index);
+
+                int size = listModel.getSize();
+
+                if (size == 0) { //Nobody's left, disable delete.
+                    btn2.setEnabled(false);
+
+                } else { //Select an index.
+                    if (index == listModel.getSize()) {
+                        //removed item in last position
+                        index--;
+                    }
+                    list_jp_vList.setSelectedIndex(index);
+                    list_jp_vList.ensureIndexIsVisible(index);
+                }
+            }
+        });
+
         btn3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
