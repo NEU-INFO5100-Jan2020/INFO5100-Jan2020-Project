@@ -253,6 +253,7 @@ public class IncentiveMainPage extends JFrame {
         IncentivesManagerImpl  incentivesManagerimpl=new IncentivesManagerImpl ();
         Collection<Incentives> incentivelist= incentivesManagerimpl.getListOfIncentives();
         for(Incentives i:incentivelist){
+            if(i.getIsDeleted() != false) continue;
             tableModel.addRow(new String[]{
                     String.valueOf(i.getIncentiveId()),
                     i.getTitle(), i.getStartDate().toString(),
