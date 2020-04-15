@@ -6,17 +6,12 @@ import java.awt.*;
 import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-// import javax.swing.JOptionPane;
 import com.toedter.calendar.JDateChooser;
-
-
 //        import lombok.Data;
-
 import java.text.DateFormat;
 import java.util.Date;
-
-// import javax.swing.JCalendar;
 //@Data
+
 class CreatePage extends JFrame {
     /**
      * ng
@@ -63,7 +58,6 @@ class CreatePage extends JFrame {
         addListeners();
         // makeVisible();
         jframe.setVisible(true);
-
     }
 
     private void addListeners() {
@@ -75,7 +69,6 @@ class CreatePage extends JFrame {
 
         applyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 title = titleText.getText();
                 incentiveType = incentiveTypeBox.getSelectedItem().toString();
                 value = valueText.getText();
@@ -86,7 +79,6 @@ class CreatePage extends JFrame {
                 saveApplicationData(title,incentiveType,value,description,disclaimer,startDate,endDate);
             }
         });
-
     }
 
     private void setIncentiveApplyData() {
@@ -168,7 +160,7 @@ class CreatePage extends JFrame {
         maximumInt.addFocusListener(new JTextFieldHintListener("Maximum", maximumInt));
         welcomeLabel = new JLabel("Welcome, " + dealerID);
         welcomeLabel.setFont(mainCommonFont);
-        cautionLabel = new JLabel("Enter min and max integers.");
+        cautionLabel = new JLabel("Enter min and max in integers.");
         Font cautionFont = new Font("Courier", Font.PLAIN,5);
         makeCombobox = new JComboBox(makelist);
         makeCombobox.setFont(mainCommonFont);
