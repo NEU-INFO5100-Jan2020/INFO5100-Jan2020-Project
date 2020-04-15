@@ -4,7 +4,6 @@ import persist.ConnectionToSql;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class MakeModel {
   String make;
@@ -16,6 +15,7 @@ public class MakeModel {
 
   public MakeModel(String make) {
     this.make = make;
+    models = new ArrayList<>();
   }
 
   public MakeModel(String make, Collection<String> models) {
@@ -46,7 +46,7 @@ public class MakeModel {
 
 
 class MakeModelContainer {
-  List<MakeModel> makeModels;
+  Collection<MakeModel> makeModels;
 
   MakeModel getMakeModel(String make) {
     for (MakeModel mm : makeModels) {
@@ -57,47 +57,50 @@ class MakeModelContainer {
     return null;
   }
 
-  public List<MakeModel> getMakeModels() {
+  public Collection<MakeModel> getMakeModels() {
     return makeModels;
+  }
+  public MakeModelContainer(){
+    makeModels = new ArrayList<>();
+  }
+  public void addMakeModel(MakeModel mm) {
+    makeModels.add(mm);
   }
 }
 
 class MakeModelContainerPopulator {
   ConnectionToSql connect = new ConnectionToSql();
 
-  public Collection<MakeModel> getMakeModels(VehicleSearchFilter vsf) {
+  public MakeModelContainer getMakeModels() {
 
 
-    String query = "SELECT DISTINCT Make,Model FROM VehicleTable;";
+    String query = "SELECT * FROM VehicleTable;";
 
     System.out.println(query);
-    /*Call 'executeQuery' method to run the query*/
+
     ArrayList<ArrayList> result = connect.executeVehicleQuery(query, "SELECT");
 
-    /*Convert to Vehicle object*/
-    ArrayList<MakeModel> makeModelResult = convertToMakeModel(result);
-
-    return makeModelResult;
+    return convertToMakeModelContainer(result);
   }
 
 
-  private ArrayList<MakeModel> convertToMakeModel(ArrayList<ArrayList> sqlQueryOutput) {
-    ArrayList<MakeModel> makeModels = new ArrayList<>();
-
+  private MakeModelContainer convertToMakeModelContainer(ArrayList<ArrayList> sqlQueryOutput) {
+    MakeModelContainer mmc = new MakeModelContainer();
     for (int i = 0; i < sqlQueryOutput.size(); i++) {
       ArrayList temp = sqlQueryOutput.get(i);
 
-      MakeModelContainer mmc = new MakeModelContainer();
-      MakeModel d = mmc.getMakeModel(temp.get(0).toString());
-      if (d == null) {
-        d = new MakeModel(temp.get(0).toString());
-        d.addModelToModels(temp.get(1).toString());
-        makeModels.add(d);
-      }
-      d.addModelToModels(temp.get(1).toString());
-    }
 
-    return makeModels;
+      MakeModel d = mmc.getMakeModel(temp.get(3).toString());
+      if (d == null) {
+        d = new MakeModel(temp.get(3).toString());
+        d.addModelToModels(temp.get(4).toString());
+        mmc.addMakeModel(d);
+      }
+      if (!d.getModels().contains(temp.get(4))) {
+        d.addModelToModels(temp.get(4).toString());
+      }
+    }
+    return mmc;
   }
 }
 
