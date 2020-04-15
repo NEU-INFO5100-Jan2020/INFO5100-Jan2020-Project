@@ -7,13 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 // import javax.swing.JOptionPane;
 import com.toedter.calendar.JDateChooser;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import persist.IncentivesManagerImpl;
+import ui.incentiveui.IncentiveMainPage;
 
 //        import lombok.Data;
 
-import java.text.DateFormat;
-import java.util.Date;
 
 // import javax.swing.JCalendar;
 //@Data
@@ -22,7 +20,7 @@ class EditPage extends JFrame {
      * ng
      */
     private static final long serialVersionUID = 1L;
-
+    public IncentiveMainPage incentiveMainPage;
     private JFrame jframe;
     private JPanel mainPanel, rightPanel;
 
@@ -45,15 +43,20 @@ class EditPage extends JFrame {
     private String value;
     private boolean isNewVehicle;
     private String startDate, endDate;
+    int rowIndex;
 
     // public int[][] priceRangeArray;
 
     Font botton = new Font("Courier", Font.BOLD, 21);
 
-    public EditPage() {
+    public EditPage(String d5, int rowIndex, ActionListener actionListener) {
+
     }
 
-    public EditPage(String dealerID) {
+    public EditPage(String dealerID,int rowindex,IncentiveMainPage incentiveMainPage) {
+        this.dealerID=dealerID;
+        this.rowIndex=rowindex;
+        this.incentiveMainPage=incentiveMainPage;
         createComponents(dealerID);
         placeComponents();
         addComponents();
@@ -68,14 +71,10 @@ class EditPage extends JFrame {
 
         applyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                title = titleText.getText();
-                incentiveType = incentiveTypeBox.getSelectedItem().toString();
-                value = valueText.getText();
-                description = descriptionText.getText();
-                disclaimer = disclaimerText.getText();
-                startDate = DateFormat.getDateInstance().format(startDateChooser.getDate());
-                endDate = DateFormat.getDateInstance().format(endDateChooser.getDate());
-                saveApplicationData(title,incentiveType,value,description,disclaimer,startDate,endDate);
+                IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
+
+                //incentivesMangerimpl.updateIncentive();
+                System.out.println("dddd");
             }
         });
     }
