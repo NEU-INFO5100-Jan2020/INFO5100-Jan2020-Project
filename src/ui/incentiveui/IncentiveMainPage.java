@@ -1,6 +1,7 @@
 package ui.incentiveui;
 
 import dto.Incentives;
+import persist.IncentivesManager;
 import persist.IncentivesManagerImpl;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -166,28 +167,42 @@ public class IncentiveMainPage extends JFrame {
         // TODO add your handling code here:
     }// GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+        DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+        //get select row or rows
+        int[] rows = jTable1.getSelectedRows();
+        if (rows.length == 0) {
+            JOptionPane.showMessageDialog(null, "Please select row(s) to delete.");
+            return;
+        }
 
-        defaultTableModel=(DefaultTableModel)jTable1.getModel();
+        IncentivesManager im = new IncentivesManagerImpl();
+        String success = "";
+        String fail = "";
+        for (int i = rows.length - 1; i >= 0; i--) {
+            String incentiveID = (String)jTable1.getValueAt(rows[i], 0);
+            boolean deleted = im.deleteIncentive(Integer.parseInt(incentiveID));
 
-        int rowIndex = jTable1.getSelectedRow();
+            if (deleted) {
+                success += " " + incentiveID + " ";
+                tableModel.removeRow(rows[i]);
+            }else {
+                fail += " " + incentiveID + " ";
+            }
+        }
 
+        String message = "";
+        if (!success.isEmpty()) {
+            message += "Successful deleted IncentiveID: " + success + '\n';
+        }
+        if (!fail.isEmpty()) {
+            message += "Failed deleted IncentiveID: " + fail;
+        }
 
-        int ID = Integer.parseInt(jTable1.getValueAt(rowIndex, 4).toString()) ;
-        System.out.println(ID);
+        JOptionPane.showMessageDialog(null, message);
 
-        defaultTableModel.removeRow(rowIndex);
+    }
 
-        IncentivesManagerImpl incentivesManagerImpl = new IncentivesManagerImpl();
-        incentivesManagerImpl.deleteIncentive(ID);
-        refreshTableContents();
-
-
-
-
-        System.out.println("test selected row");
-    }// GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
