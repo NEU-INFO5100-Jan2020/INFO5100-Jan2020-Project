@@ -8,15 +8,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
 // import javax.swing.JOptionPane;
-//        import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JDateChooser;
 //        import lombok.Data;
 
 public class IncentiveMainPage extends JFrame {
-    public DefaultTableModel defaultTableModel;
-    public JTable jTable1;
-//    public CreatePage createPage;
-    public Collection<Incentives> incentivelist;
-    public IncentivesManagerImpl incentivesManagerImpl;
+
+    private JButton createButton, editButton, deleteButton;
+    private JScrollPane jScrollPane1;
+    private JTabbedPane jTabbedPane1;
+    private DefaultTableModel defaultTableModel;
+    private JTable jTable1;
+    private Collection<Incentives> incentivelist;
+    private IncentivesManagerImpl incentivesManagerImpl;
     /**
      * Creates new form NewJFrame
      */
@@ -39,14 +42,14 @@ public class IncentiveMainPage extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void addActionListener() {
-        jButton2.addActionListener(new ActionListener() {
+        createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 new ui.incentiveui.CreatePage("D5",incentiveMainPage);
 
             }
         });
-        jButton4.addActionListener(new ActionListener() {
+        editButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
                 int rowIndex = jTable1.getSelectedRow();
@@ -69,7 +72,7 @@ public class IncentiveMainPage extends JFrame {
         deleteButton = new javax.swing.JButton();
 
         // pageTitle = new javax.swing.JLabel("Manage Incentives");
-        jButton4 = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -108,8 +111,8 @@ public class IncentiveMainPage extends JFrame {
         jTable1.setShowGrid(true);
         jScrollPane1.setViewportView(jTable1);
 
-        jButton2.setText("Create");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        createButton.setText("Create");
+        createButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
 //                CreatePage createPage=new CreatePage();
@@ -117,14 +120,14 @@ public class IncentiveMainPage extends JFrame {
             }
         });
 
-        jButton3.setText("Delete");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Edit");
+        editButton.setText("Edit");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -132,9 +135,9 @@ public class IncentiveMainPage extends JFrame {
                 .addGroup(layout.createSequentialGroup()
                         .addGroup(layout
                                 .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup().addGap(216, 216, 216).addComponent(jButton2)
-                                        .addGap(117, 117, 117).addComponent(jButton3).addGap(144, 144, 144)
-                                        .addComponent(jButton4))
+                                .addGroup(layout.createSequentialGroup().addGap(216, 216, 216).addComponent(createButton)
+                                        .addGap(117, 117, 117).addComponent(deleteButton).addGap(144, 144, 144)
+                                        .addComponent(editButton))
                                 .addGroup(layout.createSequentialGroup().addContainerGap()
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1064,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -152,8 +155,8 @@ public class IncentiveMainPage extends JFrame {
                                 javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
                                 javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jButton2)
-                        .addComponent(jButton3).addComponent(jButton4))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(createButton)
+                        .addComponent(deleteButton).addComponent(editButton))
                 .addContainerGap(52, Short.MAX_VALUE)));
 
         pack();
@@ -241,15 +244,7 @@ public class IncentiveMainPage extends JFrame {
         // });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JButton jButton2;
-    private JButton jButton3;
-    private JButton jButton4;
-    private JScrollPane jScrollPane1;
-    private JTabbedPane jTabbedPane1;
-    //public JTable jTable1;
-    // private javax.swing.JTable pageTitle;
-    // End of variables declaration//GEN-END:variables
+
     public void refreshTableContents(){
 
         DefaultTableModel tableModel=new DefaultTableModel();
