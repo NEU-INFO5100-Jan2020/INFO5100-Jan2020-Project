@@ -263,16 +263,18 @@ public class IncentiveMainPage extends JFrame {
     public void refreshTableContents(){
 
         DefaultTableModel tableModel=new DefaultTableModel();
-        tableModel.addColumn("title");
-        tableModel.addColumn("start date");
-        tableModel.addColumn("end date");
-        tableModel.addColumn("value");
-        tableModel.addColumn("Id");
+        tableModel.addColumn("Incentive ID");
+        tableModel.addColumn("Title");
+        tableModel.addColumn("Start Date");
+        tableModel.addColumn("End Date");
+        tableModel.addColumn("Type");
+        tableModel.addColumn("Value");
+        tableModel.addColumn("Description");
+        tableModel.addColumn("Disclaimer");
 
-        IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
-        Collection<Incentives> incentivelist= incentivesManagerImpl.getListOfIncentives();
+        IncentivesManagerImpl  incentivesManagerimpl=new IncentivesManagerImpl ();
+        Collection<Incentives> incentivelist= incentivesManagerimpl.getListOfIncentives();
         for(Incentives i:incentivelist){
-
             if(i.getIsDeleted() != false) continue;
             tableModel.addRow(new String[]{
                     String.valueOf(i.getIncentiveId()),
@@ -282,11 +284,8 @@ public class IncentiveMainPage extends JFrame {
                     String.valueOf(i.getDiscountValue()),
                     i.getDescription(),
                     i.getDisclaimer()});
-
         }
         jTable1.setModel(tableModel);
-        //jTable1.setEnabled(false);
-        jTable1.isCellEditable(0,0);
 
     }
 
