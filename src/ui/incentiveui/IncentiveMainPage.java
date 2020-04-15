@@ -55,7 +55,11 @@ public class IncentiveMainPage extends JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable(){
+            public boolean isCellEditable(int row, int column)
+            {
+                return false;}//Table is not editable
+        };
         createButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         // pageTitle = new javax.swing.JLabel("Manage Incentives");
