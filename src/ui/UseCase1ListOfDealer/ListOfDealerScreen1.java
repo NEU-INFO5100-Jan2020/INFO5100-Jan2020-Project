@@ -354,7 +354,7 @@ public class ListOfDealerScreen1 {
                 int row = table.rowAtPoint(me.getPoint());
                 if(row!=-1) {
                     //temprory screen for usecase 2 has to be replaced
-//                    NewTextFrame nf= new NewTextFrame(dealerList.get(row).id);
+//                    NewTextFrame nf= new NewTextFrame(dealerList.get(row).getDealerId()+" ");
                 }
             }
         });
