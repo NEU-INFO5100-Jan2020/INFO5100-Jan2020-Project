@@ -25,7 +25,7 @@ class IncentiveSearchFilterTest {
     IncentiveSearchFilter isf = new IncentiveSearchFilter(1);
     IncentiveSearchFilterElement isfe1 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAXPrice, "50000");
     IncentiveSearchFilterElement isfe2 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MINPrice, "40000");
-    IncentiveSearchFilterElement isfe3 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "Yes");
+    IncentiveSearchFilterElement isfe3 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "New");
     isf.addElement(isfe1);
     isf.addElement(isfe2);
     isf.addElement(isfe3);
