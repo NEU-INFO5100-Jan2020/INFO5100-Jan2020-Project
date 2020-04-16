@@ -1,14 +1,27 @@
 package ui.incentiveui;
 
+import service.IncentiveSearchFilterElement;
+import service.SortFilter;
+import service.Search;
+import dto.Incentives;
+import persist.IncentivesManagerImpl;
+import dto.Vehicle;
+import dto.BigDataType;
+import ui.incentiveui.JTextFieldHintListener;
+
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.Border;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 // import javax.swing.JOptionPane;
 import com.toedter.calendar.JDateChooser;
 import dto.Incentives;
-import persist.IncentivesManagerImpl;
+import persist.IncentivesManager;
+import service.IncentiveSearchFilter;
 import ui.incentiveui.IncentiveMainPage;
 
 //        import lombok.Data;
@@ -22,46 +35,54 @@ public class CreatePage extends JFrame {
     /**
      * ng
      */
-    public IncentivesManagerImpl incentivesManagerImpl;
-    public IncentiveMainPage incentiveMainPage;
+    private IncentivesManagerImpl incentivesManagerImpl;
+    private IncentiveMainPage incentiveMainPage;
     //public Incentives incentive;
     private static final long serialVersionUID = 1L;
 
     private JFrame jframe;
     private JPanel mainPanel, rightPanel;
-
     private JButton searchButton, applyButton;
 
-    private JLabel mainTitle, vehicleIDLabel, selectPriceLabel, newVehicleLabel, makeLabel, welcomeLabel, cautionLabel;
-    public JTextField vehicleIDText, minimumInt, maximumInt;
-    protected JComboBox makeCombobox;
-    protected Checkbox newVehicleButton;
-    private String[] makelist = {"Toyota","Buick","Honda","Audi","Jaguar","Kia","Mercedes-Benz"," Land Rover", "Mazda","Volvo", "Ford", "BMW","Jeep","Tesla","Porsche","Acura", "Aston Martin","Chevrolet","Ferrari","Cadillac","Infiniti","Volkswagen","Subaru","Nissan"};
-    private Integer minimumPrice, maximumPrice;
+    private JLabel mainTitle, vehicleIDLabel, selectPriceLabel, makeLabel, welcomeLabel, cautionLabel;
+    private JTextField vehicleIDText, minimumInt, maximumInt;
+    private JComboBox makeCombobox;
+    private JRadioButton vinRadioButton, priceRangeRadioButton;
+    private JCheckBox newVehicleButton, usedVehicleButton;
+    private String[] makelist = {"Default", "Toyota","Buick","Honda","Audi","Jaguar","Kia","Mercedes-Benz"," Land Rover", "Mazda","Volvo", "Ford", "BMW","Jeep","Tesla","Porsche","Acura", "Aston Martin","Chevrolet","Ferrari","Cadillac","Infiniti","Volkswagen","Subaru","Nissan"};
+
 
     private JLabel rightTitle, titleLabel, valueLabel, descriptionLabel, disclaimerLabel, dateLabel, slashLabel, incenitveTypeLabel;
     private JComboBox incentiveTypeBox;
-    public JTextField titleText, valueText;
-    public JTextArea descriptionText, disclaimerText;
-    public JDateChooser startDateChooser, endDateChooser;
+    private JTextField titleText, valueText;
+    private JTextArea descriptionText, disclaimerText;
+    private JDateChooser startDateChooser, endDateChooser;
 
-    // IncentiveInput searchInput, applyInput;
+    IncentivesManagerImpl impl = new IncentivesManagerImpl();
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-    protected String vehicleID, title, description, disclaimer, dealerID;
-    protected int maximum, minimum;
-    protected Integer value;
-    protected boolean isNewVehicle;
-    protected Date startDate, endDate;
+    // Search input
+    private IncentiveSearchFilterElement vinNum, maximum, minimum, make, isNew;
+    private int min, max;
 
-    // public int[][] priceRangeArray;
+
+    // apply input
+    private String vehicleID, title, description, disclaimer, incentiveType;
+    private int value;
+    private Date startDate, endDate;
+
+    private int dealerID;
+    private int[] vid;
+//    private Collection<Vehicle extends BigDataType> vehicleList;
+
 
 
     Font botton = new Font("Courier", Font.BOLD, 21);
 
-    public CreatePage() {
-    }
 
-    public CreatePage(String dealerID,IncentiveMainPage incentiveMainPage) {
+
+    public CreatePage(int dealerID) {
+        setDealerID(dealerID);
         createComponents(dealerID);
         placeComponents();
         addComponents();
@@ -72,76 +93,225 @@ public class CreatePage extends JFrame {
 
 
     }
+    private void setDealerID(int dealerID) {
+        this.dealerID = dealerID;
+    }
 
     private void addListeners() {
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-
-                JOptionPane.showMessageDialog(jframe, "Search");
+//                JOptionPane.showMessageDialog(jframe, "Search");
+                searchButtonActionPerformed(e);
             }
         });
 
-        applyButton.addActionListener((ActionEvent ae) -> performOperationAndTrapException());
+//        applyButton.addActionListener((ActionEvent ae) -> performOperationAndTrapException());
+        applyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Incentives incentives=new Incentives();
+                incentives.setTitle(titleText.getText());
+                incentives.setDiscountType(String.valueOf(incentiveTypeBox.getSelectedItem()));
+                incentives.setDiscountValue(Integer.parseInt(valueText.getText()));
+                incentives.setDescription(descriptionText.getText());
+                incentives.setDisclaimer(disclaimerText.getText());
+                incentives.setStartDate(startDateChooser.getDate());
+                incentives.setEndDate(endDateChooser.getDate());
+                incentives.setDealerId(5);
+                incentives.setIsDeleted(false);
+                incentives.setFilterList(null);
+                incentives.setVehicleIdList(null);
+
+                IncentivesManagerImpl incentivesManagerImpl=new IncentivesManagerImpl();
+                IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
+                incentiveMainPage.setVisible(true);
+//
+//                setSearchFilter();
+//                incentivesManagerImpl.addIncentive(incentives);
+//
+//                JOptionPane.showMessageDialog(jframe, "Applied.");
+//                incentiveMainPage.refreshTableContents();
+
+                try {
+                    setSearchFilter();
+                    incentivesManagerImpl.addIncentive2(incentives, vid);
+//                    incentivesManagerImpl.addIncentive2(incentives);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+                finally {
+                    JOptionPane.showMessageDialog(jframe, "Applied.");
+                    incentiveMainPage.refreshTableContents();
+                }
+
+            }
+        });
     }
-    private void performOperationAndTrapException() {
-        IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
-        Incentives incentive=new Incentives();
-        incentive.setEndDate(endDateChooser.getDate());
-        incentive.setStartDate(startDateChooser.getDate());
-        incentive.setDiscountValue(Integer.parseInt(valueText.getText()));
-        incentive.setTitle(titleText.getText());
-        incentive.setDiscountType(incentiveTypeBox.getSelectedItem().toString());
-        incentive.setDescription((descriptionText.getText()));
+    // search button
+    private void setSearchFilter() {
+        IncentiveSearchFilter isf = new IncentiveSearchFilter(dealerID);
+        SortFilter dummy = new SortFilter();
 
-        Collection<Incentives> incentivelist= incentivesManagerImpl.getListOfIncentives();
-        System.out.println(incentivelist.size());
+        if (vinRadioButton.isSelected() && vehicleIDText.getText()!= null) {
+            vinNum = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.VIN, vehicleIDText.getText());
+            isf.addElement(vinNum);
+        }
+        if (priceRangeRadioButton.isSelected()) {
+            min = Integer.parseInt(minimumInt.getText());
+            max = Integer.parseInt(maximumInt.getText());
+            if (min <= max && max >0) {
+                if (minimumInt.getText()!=null) {
+                    minimum = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MINPrice, minimumInt.getText());
+                    isf.addElement(minimum);
+                }
+                if (maximumInt.getText()!=null) {
+                    maximum = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAXPrice, maximumInt.getText());
+                    isf.addElement(maximum);
+                }
+            }
+        }
+        if (! makeCombobox.getSelectedItem().toString().equals("Default")) {
+            make = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAKE, makeCombobox.getSelectedItem().toString());
+            isf.addElement(make);
+        }
+        if (newVehicleButton.isSelected() && !usedVehicleButton.isSelected()) {
+            isNew = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "New");
+            isf.addElement(isNew);
+        }
+        if (usedVehicleButton.isSelected() && !newVehicleButton.isSelected()) {
+            isNew = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "Used");
+            isf.addElement(isNew);
+        }
+        Search s = new Search(isf, dummy);
+        s.doSearch();
+        vid = s.getArrayOfVehicleID();
+    }
+    private void searchButtonActionPerformed(ActionEvent evt) {
 
-        incentive.setDealerId(5);
-        incentive.setFilterList("");
-        incentive.setVehicleIdList("");
-        incentive.setDisclaimer(disclaimerText.getText());
-        //IncentivesMangerimpl incentivesMangerimpl=new IncentivesMangerimpl();
+        IncentiveSearchFilter isf = new IncentiveSearchFilter(dealerID);
+        SortFilter dummy = new SortFilter();
 
-        incentivesManagerImpl.addIncentive(incentive);
+        if (vinRadioButton.isSelected() && ! vehicleIDText.getText().equals("")) {
+            vinNum = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.VIN, vehicleIDText.getText());
+            isf.addElement(vinNum);
+        }
+        if (priceRangeRadioButton.isSelected()) {
+            if (minimumInt.getText().equals("") && maximumInt.getText().equals("")) {
+                JOptionPane.showMessageDialog(jframe, "Please enter price range.");
+            }
+            if (minimumInt.getText().equals("")) {
+                min = Integer.MIN_VALUE;
+                max = Integer.parseInt(maximumInt.getText());
+            }
+            if (maximumInt.getText().equals("")) {
+                min = Integer.parseInt(minimumInt.getText());
+                max = Integer.MAX_VALUE;
+            }
+            min = Integer.parseInt(minimumInt.getText());
+            max = Integer.parseInt(maximumInt.getText());
+            if (min <= max && max >0) {
 
-
-        System.out.println(incentivelist.size());
-        //IncentiveMainPage incentiveMainPage = new IncentiveMainPage();
-
-
-        //incentiveMainPage.setVisible(true);
-        //incentiveMainPage.refreshTableContents();
-
-
-
-
-        JOptionPane.showMessageDialog(jframe, "Apply");
-        jframe.setVisible(false);
-
+                if (! minimumInt.getText().equals("")) {
+                    minimum = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MINPrice, minimumInt.getText());
+                    isf.addElement(minimum);
+                }
+                if (! maximumInt.getText().equals("")) {
+                    maximum = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAXPrice, maximumInt.getText());
+                    isf.addElement(maximum);
+                }
+            }
+        }
+        if (! makeCombobox.getSelectedItem().toString().equals("Default")) {
+            make = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAKE, makeCombobox.getSelectedItem().toString());
+            isf.addElement(make);
+        }
+        if (newVehicleButton.isSelected() && !usedVehicleButton.isSelected()) {
+            isNew = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "New");
+            isf.addElement(isNew);
+        }
+        if (usedVehicleButton.isSelected() && !newVehicleButton.isSelected()) {
+            isNew = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "Used");
+            isf.addElement(isNew);
+        }
+        Search s = new Search(isf, dummy);
+        s.doSearch();
+//        vehicleList = new Collection<Vehicle>();
+//        vehicleList = s.getResults();
+        System.out.println(s.getFactory());
     }
 
 
+    // apply button
+    private void setIncentiveApplyData() {
+        setTitle();
+        setIncentiveType();
+        setValue();
+        setDescription();
+        setDisclaimer();
+        setStartDate();
+        setEndDate();
+    }
+
+    private void setStartDate() {
+//        startDate= sdf.format(startDateChooser.getDate());
+        startDate = startDateChooser.getDate();
+
+    }
+
+    private void setEndDate() {
+//        endDate=sdf.format(endDateChooser.getDate());
+        endDate = endDateChooser.getDate();
+
+    }
+
+    private void setTitle() {
+        title = titleText.getText();
+        // return title;
+    }
+
+    private void setIncentiveType() {
+        incentiveType = incentiveTypeBox.getSelectedItem().toString();
+    }
+
+    private void setValue() {
+        value = Integer.parseInt(valueText.getText());
+    }
+
+    private void setDescription() {
+        description = descriptionText.getText();
+    }
+
+    private void setDisclaimer() {
+        disclaimer = disclaimerText.getText();
+    }
+
+//    private void saveApplicationData(int dealerID, String titleText, String incentiveType,int valueText, String descriptionTextring, String disclaimerText, Date startDate2, Date endDate2) {
+//        System.out.println("This Is Incentive Details for New Created One.");
+//        Incentives incentive = new Incentives();
+//        incentive.setDealerId(dealerID);
+//        incentive.setTitle(titleText);
+//        incentive.setDiscountType(incentiveType);
+//        incentive.setDiscountValue(valueText);
+//        incentive.setDescription(descriptionTextring);
+//        incentive.setDisclaimer(disclaimerText);
+//        incentive.setStartDate(startDate2);
+//        incentive.setEndDate(endDate2);
+//
+//        impl.addIncentive(incentive);
+//
+//
+//        System.out.println(incentive.getDealerId()+ " + "+incentive.getTitle()+ " + "+ incentive.getDiscountType()+" + "+incentive.getDiscountValue() + " + "+incentive.getDescription()+" + "+ incentive.getDisclaimer()+ " + " + incentive.getStartDate()+" + "+incentive.getEndDate() );
+//    }
 
 
 
 
-    // applyButton.addActionListener(new ActionListener() {
-    // public void actionPerformed(ActionEvent e) {
-    //// Form form = new
-    // Form(titleText.toString(),valueText.toString(),descriptionText.toString(),disclaimerText.toString());
-    // System.out.println(title+value+description+disclaimer);
-    //// return form;
-    // // JOptionPane.showMessageDialog(jframe, applyInput.title + " + " +
-    // applyInput.value + " + "
-    // // + applyInput.description + " + " + applyInput.disclaimer);
-    // }
-    // });
 
 
 
 
-    private void createComponents(String dealerID) {
+
+
+    private void createComponents(int dealerID) {
         jframe = new JFrame("Incentives GUI");
         jframe.setLayout(null);
         // jframe.setDefaultCloseOperation(jframe.EXIT_ON_CLOSE);
@@ -159,7 +329,7 @@ public class CreatePage extends JFrame {
         createRightsComponent();
     }
 
-    private void createMainComponent(String dealerID) {
+    private void createMainComponent(int dealerID) {
         mainTitle = new JLabel("Create Incentives");
         Font mainTitleFont = new Font("Courier", Font.BOLD, 27);
         mainTitle.setFont(mainTitleFont);
@@ -169,8 +339,8 @@ public class CreatePage extends JFrame {
 //        selectPriceLabel = new JLabel("<html><body><p>Select Price Range for Vehicles</p><body></html>");
         selectPriceLabel = new JLabel("<html><body><p>Price Range</p><body></html>");
         selectPriceLabel.setFont(mainCommonFont);
-        newVehicleLabel = new JLabel("New Vehicles");
-        newVehicleLabel.setFont(mainCommonFont);
+//        newVehicleLabel = new JLabel("New Vehicles");
+//        newVehicleLabel.setFont(mainCommonFont);
         searchButton = new JButton("Search");
         searchButton.setFont(botton);
         vehicleIDText = new JTextField(17);
@@ -182,20 +352,22 @@ public class CreatePage extends JFrame {
 //        maximumInt.addFocusListener(new JTextFieldHintListener(maximumInt, "Max"));
         welcomeLabel = new JLabel("Welcome, " + dealerID);
         welcomeLabel.setFont(mainCommonFont);
-        cautionLabel = new JLabel("Enter min and max integers.");
-        Font cautionFont = new Font("Courier", Font.PLAIN,5);
+        cautionLabel = new JLabel("Enter in integers.");
+        Font cautionFont = new Font("Courier", Font.PLAIN,12);
+        cautionLabel.setFont(cautionFont);
 
         makeCombobox = new JComboBox(makelist);
         makeCombobox.setFont(mainCommonFont);
-//        priceComboBox = new JComboBox();
-//        priceComboBox.setFont(mainCommonFont);
-//        priceComboBox.addItem("25000-35000");
-//        priceComboBox.addItem("35000-45000");
-//        priceComboBox.addItem("45000-55000");
-//        priceComboBox.addItem("55000-65000");
-//        priceComboBox.addItem("Above 65000");
 
-        newVehicleButton = new Checkbox();
+        vinRadioButton = new JRadioButton();
+        vinRadioButton.setSelected(false);
+        priceRangeRadioButton = new JRadioButton();
+        priceRangeRadioButton.setSelected(false);
+
+        newVehicleButton = new JCheckBox("New Vehicles", false);
+        newVehicleButton.setFont(mainCommonFont);
+        usedVehicleButton = new JCheckBox("Used Vehicles", false);
+        usedVehicleButton.setFont(mainCommonFont);
     }
 
 
@@ -254,15 +426,16 @@ public class CreatePage extends JFrame {
         mainPanel.add(vehicleIDText);
         mainPanel.add(selectPriceLabel);
         mainPanel.add(makeCombobox);
-//        mainPanel.add(priceComboBox);
         mainPanel.add(minimumInt);
         mainPanel.add(maximumInt);
         mainPanel.add(newVehicleButton);
-        mainPanel.add(newVehicleLabel);
         mainPanel.add(searchButton);
         mainPanel.add(makeLabel);
         mainPanel.add(welcomeLabel);
         mainPanel.add(cautionLabel);
+        mainPanel.add(usedVehicleButton);
+        mainPanel.add(vinRadioButton);
+        mainPanel.add(priceRangeRadioButton);
     }
 
     private void addRightPanel() {
@@ -282,6 +455,9 @@ public class CreatePage extends JFrame {
         rightPanel.add(applyButton);
         rightPanel.add(incenitveTypeLabel);
         rightPanel.add(incentiveTypeBox);
+        ButtonGroup group = new ButtonGroup();
+        group.add(vinRadioButton);
+        group.add(priceRangeRadioButton);
     }
 
     private void placeComponents() {
@@ -294,21 +470,24 @@ public class CreatePage extends JFrame {
         int mainLabelX = 40;
         int mainTextX = 180;
         mainTitle.setBounds(325, 40, 800, 20);
-        vehicleIDLabel.setBounds(mainLabelX, 150, 150, 40);
-        selectPriceLabel.setBounds(mainLabelX, 230, 150, 60);
-        newVehicleLabel.setBounds(150, 450, 200, 50);
+        vinRadioButton.setBounds(mainLabelX, 150,20,40);
+        vehicleIDLabel.setBounds(mainLabelX+35, 150, 150, 40);
+        priceRangeRadioButton.setBounds(mainLabelX, 230,20,40);
+        selectPriceLabel.setBounds(mainLabelX+35, 230, 150, 40);
 
-        vehicleIDText.setBounds(mainTextX, 150, 175, 40);
-//        priceComboBox.setBounds(mainTextX, 310, 175, 40);
-        minimumInt.setBounds(mainTextX,230,75,40);
-        maximumInt.setBounds(mainTextX+100,230,75,40);
+
+        vehicleIDText.setBounds(mainTextX+30, 150, 175, 40);
+
+        minimumInt.setBounds(mainTextX+30,230,75,40);
+        maximumInt.setBounds(mainTextX+130,230,75,40);
         makeLabel.setBounds(mainLabelX,375,150,60);
         makeCombobox.setBounds(mainTextX,375,175,40);
-        newVehicleButton.setBounds(100, 450, 50, 50);
+        newVehicleButton.setBounds(mainLabelX, 450, 150, 50);
+        usedVehicleButton.setBounds(200 ,450,200,50);
         searchButton.setBounds(150, 550, 130, 40);
 
         welcomeLabel.setBounds(750,10,150,20);
-        cautionLabel.setBounds(mainTextX,280,200,20);
+        cautionLabel.setBounds(mainTextX+30,280,150,20);
     }
 
     private void placeRightComponents() {
