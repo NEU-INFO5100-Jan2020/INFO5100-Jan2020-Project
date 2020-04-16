@@ -56,10 +56,34 @@ public class IncentiveMainPage extends JFrame {
         });
         editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int rowIndex = jTable1.getSelectedRow();
-                new ui.incentiveui.EditPage(dealerID,rowIndex,incentiveMainPage);
+                try{
+                    int rowIndex = jTable1.getSelectedRow();
+                    if(rowIndex==-1){
+                        throw new Exception();
+                    }
+                    Incentives incentives=extract(rowIndex);
+
+
+                    new ui.incentiveui.EditPage(dealerID,incentives);
+                }catch (Exception e1){
+                    JOptionPane.showMessageDialog(null,"plesae select a row");
+                }
+//                int rowIndex = jTable1.getSelectedRow();
+//                new ui.incentiveui.EditPage(dealerID,rowIndex,incentiveMainPage);
             }
         });
+    }
+    public Incentives extract(int rowIndex){
+        rowIndex = jTable1.getSelectedRow();
+        int ID = Integer.parseInt(jTable1.getValueAt(rowIndex, 4).toString()) ;
+        IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
+        Collection<Incentives> incentivelist= incentivesManagerImpl.getListOfIncentives();
+        for(Incentives i:incentivelist){
+            if(i.getIncentiveId()==ID){
+                return i;
+            }
+        }
+        return null;
     }
 
     public IncentiveMainPage incentiveMainPage;
