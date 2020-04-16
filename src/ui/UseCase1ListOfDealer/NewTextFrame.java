@@ -7,7 +7,7 @@ class NewTextFrame extends JFrame
 {
     private JFrame frame;
     private JTextField textFieldDealerName;
-    public NewTextFrame(String content) {
+    public NewTextFrame(Dealer dealer) {
         frame = new JFrame();
         frame.setTitle("Automotive Dealers Website");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -22,7 +22,7 @@ class NewTextFrame extends JFrame
         textFieldDealerName = new JTextField();
         textFieldDealerName.setBounds(10, 80, 200, 20);
         textFieldDealerName.setColumns(10);
-        textFieldDealerName.setText(content);
+        textFieldDealerName.setText(dealer.getDealerName());
         frame.add(textFieldDealerName);
 
          frame.setVisible(true);
