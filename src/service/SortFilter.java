@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 enum SortKey {
-
+// TODO: 4/10/2020
 }
 
 
@@ -23,4 +23,8 @@ class SortFilterElement {
     this.key = key;
     this.order = order;
   }
+}
+
+class IncentiveSortFilter extends SortFilter{
+
 }

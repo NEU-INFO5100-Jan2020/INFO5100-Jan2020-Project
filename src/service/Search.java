@@ -1,7 +1,10 @@
 package service;
 
-import java.util.ArrayList;
+import dto.BigDataType;
+import dto.Vehicle;
+
 import java.util.Collection;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 interface SearchFactory {
@@ -21,7 +24,7 @@ class SearchDealer implements SearchFactory {
 
   @Override
   public DataGetter produceDataGetter(SearchFilter serf) {
-    return new DealerGetter();
+    return new DealerGetter((DealerSearchFilter) serf);
   }
 
   @Override
@@ -39,7 +42,7 @@ class SearchVehicle implements SearchFactory {
 
   @Override
   public DataGetter produceDataGetter(SearchFilter serf) {
-    return new VehicleGetter();
+    return new VehicleGetter((VehicleSearchFilter) serf);
   }
 
   @Override
@@ -55,7 +58,7 @@ class SearchIncentive implements SearchFactory {
 
   @Override
   public DataGetter produceDataGetter(SearchFilter serf) {
-    return new IncentiveGetter();
+    return new IncentiveGetter(serf);
   }
 
   @Override
@@ -74,14 +77,18 @@ public class Search {
   SearchFactory factory;
   SearchFilter serf;
   SortFilter sorf;
+  List<? extends BigDataType> results;
 
-  public Search(SearchFilter serf, SortFilter sorf){
+  public Search(SearchFilter serf, SortFilter sorf) {
     /*
     One option of constructor of Search class, the input should be a SearchCriterion object including the information
     needed by our services
      */
     this.serf = serf;
     this.sorf = sorf;
+    if (serf == null) {
+      throw new NullPointerException("serf is null");
+    }
     if (serf.getClass() == VehicleSearchFilter.class) {
       factory = new SearchVehicle();
     } else if (serf.getClass() == DealerSearchFilter.class) {
@@ -89,19 +96,40 @@ public class Search {
     } else if (serf.getClass() == IncentiveSearchFilter.class) {
       factory = new SearchIncentive();
     } else {
-      throw new NoSuchElementException();
+      throw new NoSuchElementException("invalid type");
     }
   }
 
-  public ArrayList<? extends BigDataType> doSearch() { // TODO: 4/9/2020 Discuss with other teams on what data type is convenient for their GUI, do they need more encapsulation
+  public void doSearch() {
     /*
     Functions as the main method for our service, it creates Getter, Parser and Sorter instances to
      */
     DataGetter curGetter = this.factory.produceDataGetter(serf);
     Sorter curSorter = this.factory.produceSorter(sorf);
-    //Collection<?extends BigDataType> data = curGetter.get();
-    // TODO: 4/9/2020 Do modifications after change of IO with GUI 
-    //return curSorter.sort(data);
-    return null;
+    results = curSorter.sort(curGetter.get());
+  }
+
+  public SearchFilter getSerf() {
+    return serf;
+  }
+
+  public SearchFactory getFactory() {
+    return factory;
+  }
+
+  public SortFilter getSorf() {
+    return sorf;
+  }
+
+  public Collection<? extends BigDataType> getResults() {
+    return results;
+  }
+
+  public int[] getArrayOfVehicleID(){
+    int[] vidArray = new int[results.size()];
+    for (int i = 0; i < results.size(); i++) {
+      vidArray[i] = ((Vehicle)results.get(i)).getVehicleId();
+    }
+    return vidArray;
   }
 }

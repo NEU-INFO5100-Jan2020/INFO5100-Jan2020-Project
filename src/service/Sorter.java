@@ -1,4 +1,8 @@
 package service;
+import dto.BigDataType;
+import dto.Dealer;
+import dto.Vehicle;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -10,7 +14,7 @@ class DealerSorter implements Sorter {
 
   @Override
   public ArrayList<? extends BigDataType> sort(Collection<? extends BigDataType> in) {
-    return (ArrayList<? extends BigDataType>) in;
+    return (ArrayList<Dealer>) in;
   }
 }
 
@@ -18,13 +22,13 @@ class VehicleSorter implements Sorter {
 
   @Override
   public ArrayList<? extends BigDataType> sort(Collection<? extends BigDataType> in) {
-    return (ArrayList<? extends BigDataType>) in;
+    return (ArrayList<Vehicle>) in;
   }
 }
 
 class IncentiveSorter implements Sorter {
   @Override
   public ArrayList<? extends BigDataType> sort(Collection<? extends BigDataType> in) {
-    return (ArrayList<? extends BigDataType>) in;
+    return (ArrayList<Vehicle>) in;
   }
 }
