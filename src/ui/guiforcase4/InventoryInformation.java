@@ -82,7 +82,6 @@ public class InventoryInformation extends JFrame {
         frame.dispose();
       }
     });
-
     //(Ekie)Delete vehicles
     btn2.addActionListener(e -> {
       //Step1: Delete the vehicle from the db
@@ -96,7 +95,6 @@ public class InventoryInformation extends JFrame {
         }
       }
       vmi.deleteVehicle(deleteV);
-
       //Step2: Delete the vehicle on the screen
       JOptionPane.showMessageDialog(list_jp_vList, "Vehicle " + deleteV.getVehicleId() + " has been deleted");
       int index = list_jp_vList.getSelectedIndex();
@@ -111,23 +109,6 @@ public class InventoryInformation extends JFrame {
         list_jp_vList.setSelectedIndex(index);
         list_jp_vList.ensureIndexIsVisible(index);
       }
-
-          /*
-        int index = list_jp_vList.getSelectedIndex();
-          listModel.remove(index);
-          int size = listModel.getSize();
-
-          if (size == 0) { //Nobody's left, disable delete.
-              btn2.setEnabled(false);
-
-          } else { //Select an index.
-              if (index == listModel.getSize()) {
-                  //removed item in last position
-                  index--;
-              }
-              list_jp_vList.setSelectedIndex(index);
-              list_jp_vList.ensureIndexIsVisible(index);
-          }*/
     });
 
     btn3.addActionListener(new ActionListener() {
