@@ -132,10 +132,10 @@ public class CreatePage extends JFrame {
         IncentiveSearchFilter isf = new IncentiveSearchFilter(dealerID);
         SortFilter dummy = new SortFilter();
 
-//        if (vinRadioButton.isSelected() && vehicleIDText.getText()!= null) {
-//            vinNum = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.VIN, vehicleIDText.getText());
-//            isf.addElement(vinNum);
-//        }
+        if (vinRadioButton.isSelected() && vehicleIDText.getText()!= null) {
+            vinNum = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.VIN, vehicleIDText.getText());
+            isf.addElement(vinNum);
+        }
         if (priceRangeRadioButton.isSelected()) {
             min = Integer.parseInt(minimumInt.getText());
             max = Integer.parseInt(maximumInt.getText());
@@ -150,10 +150,10 @@ public class CreatePage extends JFrame {
                 }
             }
         }
-//        if (! makeCombobox.getSelectedItem().toString().equals("Default")) {
-//            make = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAKE, makeCombobox.getSelectedItem().toString());
-//            isf.addElement(make);
-//        }
+        if (! makeCombobox.getSelectedItem().toString().equals("Default")) {
+            make = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAKE, makeCombobox.getSelectedItem().toString());
+            isf.addElement(make);
+        }
         if (newVehicleButton.isSelected() && !usedVehicleButton.isSelected()) {
             isNew = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "New");
             isf.addElement(isNew);
