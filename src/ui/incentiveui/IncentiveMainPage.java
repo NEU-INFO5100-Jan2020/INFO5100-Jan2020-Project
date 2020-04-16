@@ -61,8 +61,7 @@ public class IncentiveMainPage extends JFrame {
                 }catch (Exception e1){
                     JOptionPane.showMessageDialog(null,"plesae select a row");
                 }
-//                int rowIndex = jTable1.getSelectedRow();
-//                new ui.incentiveui.EditPage(dealerID,rowIndex,incentiveMainPage);
+
             }
         });
     }
@@ -136,8 +135,7 @@ public class IncentiveMainPage extends JFrame {
         createButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
-//                CreatePage createPage=new CreatePage();
-//                IncentivesMangerimpl incentivesMangerimpl=new IncentivesMangerimpl();
+
             }
         });
 
@@ -270,8 +268,9 @@ public class IncentiveMainPage extends JFrame {
 
         /* Create and display the form */
         //java.awt.EventQueue.invokeLater(new Runnable() {
-        IncentiveMainPage incentiveMainPage=new IncentiveMainPage(7839);
-        incentiveMainPage.setVisible(true);
+//        IncentiveMainPage incentiveMainPage=new IncentiveMainPage(7839);
+//        incentiveMainPage.setVisible(true);
+        new IncentiveMainPage(78721).setVisible(true);
 //            public void run() {
 //                new IncentiveMainPage().setVisible(true);
 //            }
@@ -280,7 +279,7 @@ public class IncentiveMainPage extends JFrame {
     }
 
 
-    private void refreshTableContents(){
+    protected void refreshTableContents(){
 
         DefaultTableModel tableModel=new DefaultTableModel();
         tableModel.addColumn("Incentive ID");

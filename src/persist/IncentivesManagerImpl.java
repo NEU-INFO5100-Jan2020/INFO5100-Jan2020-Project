@@ -74,7 +74,7 @@ public class IncentivesManagerImpl implements IncentivesManager {
 		return true;
 	}
 
-	public void addIncentive2(Incentives incentives) throws SQLException {
+	public void addIncentive2(Incentives incentives, int[] vid) throws SQLException {
     	Connection connection=connect.connectToDB();
 		ResultSet resultSet=null;
 		Statement statement=null;
@@ -96,6 +96,8 @@ public class IncentivesManagerImpl implements IncentivesManager {
 			resultSet=statement.getGeneratedKeys();
 			if(resultSet.next()){
 				int incentiveId=resultSet.getInt(1);
+				// apply
+				applyIncentive(incentiveId, vid, connection);
 			}
 
 		}catch (SQLException e){

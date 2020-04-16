@@ -72,6 +72,7 @@ public class CreatePage extends JFrame {
     private Date startDate, endDate;
 
     private int dealerID;
+    private int[] vid;
 //    private Collection<Vehicle extends BigDataType> vehicleList;
 
 
@@ -123,20 +124,30 @@ public class CreatePage extends JFrame {
                 IncentivesManagerImpl incentivesManagerImpl=new IncentivesManagerImpl();
                 IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
                 incentiveMainPage.setVisible(true);
+//
+//                setSearchFilter();
+//                incentivesManagerImpl.addIncentive(incentives);
+//
+//                JOptionPane.showMessageDialog(jframe, "Applied.");
+//                incentiveMainPage.refreshTableContents();
+
                 try {
-                    incentivesManagerImpl.addIncentive2(incentives);
+                    setSearchFilter();
+                    incentivesManagerImpl.addIncentive2(incentives, vid);
+//                    incentivesManagerImpl.addIncentive2(incentives);
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-                //endDate = DateFormat.getDateInstance().format(endDateChooser.getDate());
-                //setIncentiveApplyData();
-                //saveApplicationData(dealerID,title,incentiveType,value,description,disclaimer,startDate,endDate);
+                finally {
+                    JOptionPane.showMessageDialog(jframe, "Applied.");
+                    incentiveMainPage.refreshTableContents();
+                }
+
             }
         });
     }
     // search button
-    private void searchButtonActionPerformed(ActionEvent evt) {
-
+    private void setSearchFilter() {
         IncentiveSearchFilter isf = new IncentiveSearchFilter(dealerID);
         SortFilter dummy = new SortFilter();
 
@@ -153,6 +164,57 @@ public class CreatePage extends JFrame {
                     isf.addElement(minimum);
                 }
                 if (maximumInt.getText()!=null) {
+                    maximum = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAXPrice, maximumInt.getText());
+                    isf.addElement(maximum);
+                }
+            }
+        }
+        if (! makeCombobox.getSelectedItem().toString().equals("Default")) {
+            make = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAKE, makeCombobox.getSelectedItem().toString());
+            isf.addElement(make);
+        }
+        if (newVehicleButton.isSelected() && !usedVehicleButton.isSelected()) {
+            isNew = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "New");
+            isf.addElement(isNew);
+        }
+        if (usedVehicleButton.isSelected() && !newVehicleButton.isSelected()) {
+            isNew = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "Used");
+            isf.addElement(isNew);
+        }
+        Search s = new Search(isf, dummy);
+        s.doSearch();
+        vid = s.getArrayOfVehicleID();
+    }
+    private void searchButtonActionPerformed(ActionEvent evt) {
+
+        IncentiveSearchFilter isf = new IncentiveSearchFilter(dealerID);
+        SortFilter dummy = new SortFilter();
+
+        if (vinRadioButton.isSelected() && ! vehicleIDText.getText().equals("")) {
+            vinNum = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.VIN, vehicleIDText.getText());
+            isf.addElement(vinNum);
+        }
+        if (priceRangeRadioButton.isSelected()) {
+            if (minimumInt.getText().equals("") && maximumInt.getText().equals("")) {
+                JOptionPane.showMessageDialog(jframe, "Please enter price range.");
+            }
+            if (minimumInt.getText().equals("")) {
+                min = Integer.MIN_VALUE;
+                max = Integer.parseInt(maximumInt.getText());
+            }
+            if (maximumInt.getText().equals("")) {
+                min = Integer.parseInt(minimumInt.getText());
+                max = Integer.MAX_VALUE;
+            }
+            min = Integer.parseInt(minimumInt.getText());
+            max = Integer.parseInt(maximumInt.getText());
+            if (min <= max && max >0) {
+
+                if (! minimumInt.getText().equals("")) {
+                    minimum = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MINPrice, minimumInt.getText());
+                    isf.addElement(minimum);
+                }
+                if (! maximumInt.getText().equals("")) {
                     maximum = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAXPrice, maximumInt.getText());
                     isf.addElement(maximum);
                 }
@@ -222,60 +284,23 @@ public class CreatePage extends JFrame {
         disclaimer = disclaimerText.getText();
     }
 
-    private void saveApplicationData(int dealerID, String titleText, String incentiveType,int valueText, String descriptionTextring, String disclaimerText, Date startDate2, Date endDate2) {
-        System.out.println("This Is Incentive Details for New Created One.");
-        Incentives incentive = new Incentives();
-        incentive.setDealerId(dealerID);
-        incentive.setTitle(titleText);
-        incentive.setDiscountType(incentiveType);
-        incentive.setDiscountValue(valueText);
-        incentive.setDescription(descriptionTextring);
-        incentive.setDisclaimer(disclaimerText);
-        incentive.setStartDate(startDate2);
-        incentive.setEndDate(endDate2);
-
-        impl.addIncentive(incentive);
-
-
-        System.out.println(incentive.getDealerId()+ " + "+incentive.getTitle()+ " + "+ incentive.getDiscountType()+" + "+incentive.getDiscountValue() + " + "+incentive.getDescription()+" + "+ incentive.getDisclaimer()+ " + " + incentive.getStartDate()+" + "+incentive.getEndDate() );
-    }
-
-    private void performOperationAndTrapException() {
-        IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
-        Incentives incentive=new Incentives();
-        incentive.setEndDate(endDateChooser.getDate());
-        incentive.setStartDate(startDateChooser.getDate());
-        incentive.setDiscountValue(Integer.parseInt(valueText.getText()));
-        incentive.setTitle(titleText.getText());
-        incentive.setDiscountType(incentiveTypeBox.getSelectedItem().toString());
-        incentive.setDescription((descriptionText.getText()));
-
-        Collection<Incentives> incentivelist= incentivesManagerImpl.getListOfIncentives();
-        System.out.println(incentivelist.size());
-
-        incentive.setDealerId(5);
-        incentive.setFilterList("");
-        incentive.setVehicleIdList("");
-        incentive.setDisclaimer(disclaimerText.getText());
-        //IncentivesMangerimpl incentivesMangerimpl=new IncentivesMangerimpl();
-
-        incentivesManagerImpl.addIncentive(incentive);
-
-
-        System.out.println(incentivelist.size());
-        //IncentiveMainPage incentiveMainPage = new IncentiveMainPage();
-
-
-        //incentiveMainPage.setVisible(true);
-        //incentiveMainPage.refreshTableContents();
-
-
-
-
-        JOptionPane.showMessageDialog(jframe, "Apply");
-        jframe.setVisible(false);
-
-    }
+//    private void saveApplicationData(int dealerID, String titleText, String incentiveType,int valueText, String descriptionTextring, String disclaimerText, Date startDate2, Date endDate2) {
+//        System.out.println("This Is Incentive Details for New Created One.");
+//        Incentives incentive = new Incentives();
+//        incentive.setDealerId(dealerID);
+//        incentive.setTitle(titleText);
+//        incentive.setDiscountType(incentiveType);
+//        incentive.setDiscountValue(valueText);
+//        incentive.setDescription(descriptionTextring);
+//        incentive.setDisclaimer(disclaimerText);
+//        incentive.setStartDate(startDate2);
+//        incentive.setEndDate(endDate2);
+//
+//        impl.addIncentive(incentive);
+//
+//
+//        System.out.println(incentive.getDealerId()+ " + "+incentive.getTitle()+ " + "+ incentive.getDiscountType()+" + "+incentive.getDiscountValue() + " + "+incentive.getDescription()+" + "+ incentive.getDisclaimer()+ " + " + incentive.getStartDate()+" + "+incentive.getEndDate() );
+//    }
 
 
 
