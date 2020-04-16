@@ -26,8 +26,8 @@ class EditPage extends JFrame {
 
 
 
-    private JLabel mainTitle, vehicleIDLabel, selectPriceLabel, newVehicleLabel, makeLabel, welcomeLabel;
-    private JRadioButton newVehicleButton;
+    private JLabel mainTitle, vehicleIDLabel, selectPriceLabel,  makeLabel, welcomeLabel;
+    private JCheckBox newVehicleButton, usedVehicleButton;
     private JButton applyButton;
 
     private JLabel rightTitle, titleLabel, valueLabel, descriptionLabel, disclaimerLabel, dateLabel, slashLabel, incenitveTypeLabel;
@@ -103,16 +103,15 @@ class EditPage extends JFrame {
         Font mainTitleFont = new Font("Courier", Font.BOLD, 27);
         mainTitle.setFont(mainTitleFont);
         Font mainCommonFont = new Font("Courier", Font.PLAIN, 17);
-        vehicleIDLabel = new JLabel("VIN");
+        vehicleIDLabel = new JLabel("VIN: ");
         vehicleIDLabel.setFont(mainCommonFont);
 //        selectPriceLabel = new JLabel("<html><body><p>Select Price Range for Vehicles</p><body></html>");
-        selectPriceLabel = new JLabel("<html><body><p>Price Range</p><body></html>");
+        selectPriceLabel = new JLabel("<html><body><p>Price Range: </p><body></html>");
         selectPriceLabel.setFont(mainCommonFont);
-        newVehicleLabel = new JLabel("New Vehicles");
-        newVehicleLabel.setFont(mainCommonFont);
+
 
 //        vehicleIDText = new JTextField(17);
-        makeLabel = new JLabel("Make");
+        makeLabel = new JLabel("Make: ");
         makeLabel.setFont(mainCommonFont);
 //        minimumInt = new JTextField(7);
 //        maximumInt.addFocusListener(new JTextFieldHintListener(minimumInt, "min"));
@@ -124,7 +123,10 @@ class EditPage extends JFrame {
         Font cautionFont = new Font("Courier", Font.PLAIN,5);
 
 
-        newVehicleButton = new JRadioButton();
+        newVehicleButton = new JCheckBox("New Vehicles");
+        newVehicleButton.setFont(mainCommonFont);
+        usedVehicleButton = new JCheckBox("Used Vehicles");
+        usedVehicleButton.setFont(mainCommonFont);
     }
 
 
@@ -177,18 +179,12 @@ class EditPage extends JFrame {
     private void addMainPanel() {
         mainPanel.add(mainTitle);
         mainPanel.add(vehicleIDLabel);
-//        mainPanel.add(vehicleIDText);
         mainPanel.add(selectPriceLabel);
-//        mainPanel.add(makeCombobox);
-//        mainPanel.add(priceComboBox);
-//        mainPanel.add(minimumInt);
-//        mainPanel.add(maximumInt);
+        mainPanel.add(usedVehicleButton);
         mainPanel.add(newVehicleButton);
-        mainPanel.add(newVehicleLabel);
 
         mainPanel.add(makeLabel);
         mainPanel.add(welcomeLabel);
-
     }
 
     private void addRightPanel() {
@@ -223,19 +219,9 @@ class EditPage extends JFrame {
         welcomeLabel.setBounds(300,10,200,20);
         vehicleIDLabel.setBounds(mainLabelX, 100, 150, 20);
         selectPriceLabel.setBounds(mainLabelX, 120, 150, 20);
-        newVehicleLabel.setBounds(mainLabelX, 160, 200, 20);
-
-//        vehicleIDText.setBounds(mainTextX, 150, 175, 40);
-//        priceComboBox.setBounds(mainTextX, 310, 175, 40);
-//        minimumInt.setBounds(mainTextX,230,75,40);
-//        maximumInt.setBounds(mainTextX+100,230,75,40);
         makeLabel.setBounds(mainLabelX,140,150,20);
-//        makeCombobox.setBounds(mainTextX,375,175,40);
-        newVehicleButton.setBounds(240, 160, 50, 20);
-
-
-
-
+        newVehicleButton.setBounds(mainLabelX, 160, 150, 20);
+        usedVehicleButton.setBounds(200,160,200,20);
     }
 
     private void placeRightComponents() {
