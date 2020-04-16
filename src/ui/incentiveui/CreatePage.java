@@ -12,6 +12,7 @@ import ui.incentiveui.JTextFieldHintListener;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.Border;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -77,10 +78,9 @@ public class CreatePage extends JFrame {
 
     Font botton = new Font("Courier", Font.BOLD, 21);
 
-    public CreatePage() {
-    }
 
-    public CreatePage(int dealerID,IncentiveMainPage incentiveMainPage) {
+
+    public CreatePage(int dealerID) {
         setDealerID(dealerID);
         createComponents(dealerID);
         placeComponents();
@@ -107,22 +107,30 @@ public class CreatePage extends JFrame {
 //        applyButton.addActionListener((ActionEvent ae) -> performOperationAndTrapException());
         applyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                Incentives incentives=new Incentives();
+                incentives.setTitle(titleText.getText());
+                incentives.setDiscountType(String.valueOf(incentiveTypeBox.getSelectedItem()));
+                incentives.setDiscountValue(Integer.parseInt(valueText.getText()));
+                incentives.setDescription(descriptionText.getText());
+                incentives.setDisclaimer(disclaimerText.getText());
+                incentives.setStartDate(startDateChooser.getDate());
+                incentives.setEndDate(endDateChooser.getDate());
+                incentives.setDealerId(5);
+                incentives.setIsDeleted(false);
+                incentives.setFilterList(null);
+                incentives.setVehicleIdList(null);
 
-//                title = titleText.getText();
-//                incentiveType = incentiveTypeBox.getSelectedItem().toString();
-//                value = Integer.parseInt(valueText.getText());
-//                description = descriptionText.getText();
-//                disclaimer = disclaimerText.getText();
-
-//                String startDate = sdf.format(startDateChooser.getDate());
-//                String endDate = sdf.format(endDateChooser.getDate());
-                //startDate = startDateChooser.getDate();
-                //endDate=endDateChooser.getDate();
-//                System.out.println(startDate);
-
+                IncentivesManagerImpl incentivesManagerImpl=new IncentivesManagerImpl();
+                IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
+                incentiveMainPage.setVisible(true);
+                try {
+                    incentivesManagerImpl.addIncentive2(incentives);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
                 //endDate = DateFormat.getDateInstance().format(endDateChooser.getDate());
-                setIncentiveApplyData();
-                saveApplicationData(dealerID,title,incentiveType,value,description,disclaimer,startDate,endDate);
+                //setIncentiveApplyData();
+                //saveApplicationData(dealerID,title,incentiveType,value,description,disclaimer,startDate,endDate);
             }
         });
     }
