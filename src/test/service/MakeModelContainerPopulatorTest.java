@@ -13,7 +13,6 @@ class MakeModelContainerPopulatorTest {
   void getMakeModels() {
     initialize();
     MakeModelContainer mmc;
-    int counter = 0;
     mmc =  mmcp.getMakeModels();
     for (MakeModel mm : mmc.getMakeModels()){
 
@@ -21,9 +20,7 @@ class MakeModelContainerPopulatorTest {
       System.out.println(mm.make);
       for (String model: mm.models){
         System.out.println(model);
-        counter ++;
       }
     }
-    System.out.println(counter);
   }
 }

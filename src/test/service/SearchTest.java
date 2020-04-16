@@ -74,4 +74,17 @@ class SearchTest {
     System.out.println(s2.getSorf());
   }
 
+  @Test
+  void getArrayOfVID(){
+    initialize();
+    IncentiveSearchFilterElement isfe1 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "New");
+    IncentiveSearchFilterElement isfe2 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAXPrice, "50000");
+    isf.addElement(isfe1);
+    isf.addElement(isfe2);
+    s = new Search(isf, dummy);
+    s.doSearch();
+    for (int vid: s.getArrayOfVehicleID()){
+      System.out.println(vid);
+    }
+  }
 }
