@@ -1,7 +1,10 @@
 package persist;
 
 import dto.Incentives;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -159,7 +162,7 @@ public class IncentivesManagerImpl implements IncentivesManager {
             in.setDiscountValue((Integer)temp.get(6));
             in.setDiscountType(temp.get(7).toString());
             in.setDealerId((Integer) temp.get(8));
-            in.setIsDeleted((Boolean) temp.get(9));
+            in.setIsDeleted(Boolean.parseBoolean(temp.get(9).toString()));
             in.setFilterList(temp.get(10).toString());
             in.setVehicleIdList(temp.get(11).toString());
 
