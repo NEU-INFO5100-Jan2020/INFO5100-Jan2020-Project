@@ -6,7 +6,7 @@ public class IncentiveSearchFilterElement extends SearchFilterElement {
   @Ekie may implement this class based on my implementation above
    */
   public IncentiveSearchFilterElement(IncentiveSearchCriterion key, String value) {
-    this.name = key.key;
+    this.name = key.getKey();
     this.value = value;
   }
 
@@ -14,9 +14,11 @@ public class IncentiveSearchFilterElement extends SearchFilterElement {
     /*
     Enum objects include all possible optional search filter of Vehicle Search GUI
      */
+    VIN("Vin"),
+    MAKE("Make"),
     MAXPrice("MaxPrice"),
     MINPrice("MinPrice"),
-    NEW("New");
+    NEW("Category");
 
     private final String key; // key is the String value of each enum element
 
@@ -30,4 +32,15 @@ public class IncentiveSearchFilterElement extends SearchFilterElement {
       return key;
     }
   }
+
+  @Override
+  public String getValue() {
+    return super.getValue();
+  }
+
+  @Override
+  public String getName() {
+    return super.getName();
+  }
+
 }

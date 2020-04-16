@@ -1,6 +1,8 @@
 package persist;
 
 import dto.Vehicle;
+import service.IncentiveSearchFilter;
+import service.IncentiveSearchFilterElement;
 import service.VehicleSearchFilter;
 import service.VehicleSearchFilterElement;
 
@@ -49,6 +51,33 @@ public class VehicleManagerImpl implements VehicleManager {
     /*Convert to Vehicle object*/
     ArrayList<Vehicle> vehicleResult = convertToVehicleObject(result);
 
+    return vehicleResult;
+  }
+
+
+  public Collection<Vehicle> getVehicles(IncentiveSearchFilter vsf){
+    /*VIN, Make, MaxPrice, MinPrice, New, are optional fields. If passed, then add to the query*/
+    /*DealerId is mandatory passed*/
+    String mandatoryFilter = "DealerId = " + vsf.getDealerID() + " ";
+    // Initialize a StringBuilder to build query String
+    StringBuilder filterString = new StringBuilder("SELECT * FROM VehicleTable WHERE " + mandatoryFilter);
+    // Iterate the list of VehicleFilterElement if it is not null, add info extracted from SearchFilterElement to StringBuilder
+    if (vsf.getElements() != null) {
+      for (IncentiveSearchFilterElement vse : vsf.getElements()) {
+        filterString.append(" and ").append(vse.getName());
+        filterString.append("=").append("'").append(vse.getValue()).append("'");
+      }
+    }
+    filterString.append(";");
+
+    /*Final select query*/
+    String finalQuery = filterString.toString();
+    System.out.println(finalQuery);
+    /*Call 'executeQuery' method to run the query*/
+    ArrayList<ArrayList> result = connect.executeVehicleQuery(finalQuery, "SELECT");
+
+    /*Convert to Vehicle object*/
+    ArrayList<Vehicle> vehicleResult = convertToVehicleObject(result);
     return vehicleResult;
   }
 
