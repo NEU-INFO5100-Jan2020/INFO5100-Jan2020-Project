@@ -1,6 +1,8 @@
 package persist;
 
 import dto.Incentives;
+import ui.incentiveui.DateToSqlDatetime;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -72,23 +74,64 @@ public class IncentivesManagerImpl implements IncentivesManager {
 		return true;
 	}
 
+	public void addIncentive2(Incentives incentives, int[] vid) throws SQLException {
+    	Connection connection=connect.connectToDB();
+		ResultSet resultSet=null;
+		Statement statement=null;
+		Date startDate = DateToSqlDatetime.JavaStartDateToSqlDate(incentives);
+		Date endDate = DateToSqlDatetime.JavaEndDateToSqlDate(incentives);
+
+
+		String query = "INSERT INTO Incentives (Title , Description , Disclaimer , "
+				+ "StartDate , EndDate , DiscountValue , DiscountType,DealerId,IsDeleted,FilterList,VehicleIdList) "
+				+ "VALUES ('" + incentives.getTitle() + "' , '" + incentives.getDescription() + "' , '"
+				+ incentives.getDisclaimer() + "' , " + "'" + startDate + "' , '"
+				+ endDate + "' , " + incentives.getDiscountValue() + " , '"
+				+ incentives.getDiscountType() + "' , '" + incentives.getDealerId() + "','"
+				+ incentives.getIsDeleted() + "'," + "'" + incentives.getFilterList() + "','"
+				+ incentives.getVehicleIdList() + "')";
+		try{
+			statement=connection.createStatement();
+			statement.executeUpdate(query,statement.RETURN_GENERATED_KEYS);
+			resultSet=statement.getGeneratedKeys();
+			if(resultSet.next()){
+				int incentiveId=resultSet.getInt(1);
+				// apply
+				applyIncentive(incentiveId, vid, connection);
+			}
+
+		}catch (SQLException e){
+			e.printStackTrace();
+		}finally {
+			if(connection!=null)
+				connection.close();
+		}
+
+	}
+
     /**
      * @author SwatiBhojwani
-     * @param incentiveId:This id is used for updating vehicleTable with incentivesId
+     * This method is used for mapping single incentive id  to multiple vehicle Id's
+     * @param incentiveId:This id is used for inserting in VehicleIncentivesMap 
      * @param vehicleIdsArray:list of vehicleIds used for updating incentives
      * @param conn:Existing DB Connection
      * @return :True or False on the basis of query execution
      */
     public boolean applyIncentive(int incentiveId, int[] vehicleIdsArray,Connection conn) {
-    	Statement stmt;
-		String query;
-		String vehicleIdsArr = vehicleIdsArray.toString().replaceAll("(^\\[|\\]$)", "");
+    	Statement stmt = null;
+	String query = null;
 		try {
-		    query="UPDATE VehicleTable SET INCENTIVEID ="+incentiveId+" WHERE VehicleId IN ("+vehicleIdsArr+")";
 			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
+			for(int i =0; i<=vehicleIdsArray.length-1;i++) {
+			    query = "INSERT INTO VehicleIncentivesMap (VehicleId , IncentiveId ) "
+				    + "VALUES (" + vehicleIdsArray[i] + " , " + incentiveId + ")";
+				    stmt.addBatch(query);
+			}
+			stmt.executeBatch();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
         return true;
     }
@@ -118,6 +161,40 @@ public class IncentivesManagerImpl implements IncentivesManager {
 
         return false;
     }
+
+	public void updateIncentive2(Incentives incentives){
+    	Connection connection=connect.connectToDB();
+		Date startDate = DateToSqlDatetime.JavaStartDateToSqlDate(incentives);
+		Date endDate = DateToSqlDatetime.JavaEndDateToSqlDate(incentives);
+
+		String sql ="UPDATE Incentives SET Title=incentives.getTitle(), Description=incentives.getDescription()," +
+				"DiscountValue=incentives.getDiscountValue()," +
+				" StartDate=startDate,EndDate=endDate,DiscountType=incentives.getDiscountType()," +
+				"Disclaimer=incentives.getDisclaimer()  WHERE  IncentiveId =incentives.getIncentiveId();";
+		String query = "UPDATE Incentives SET Title='"+incentives.getTitle()+"' , Description ='"+incentives.getDescription()+
+				"' , Disclaimer='"+incentives.getDisclaimer()+"' , StartDate='"+startDate+"' , EndDate='"+endDate+
+				"' , DiscountValue = "+incentives.getDiscountValue()+" , DiscountType = '"+incentives.getDiscountType()+"'" +
+				" WHERE IncentiveId = "+incentives.getIncentiveId()+" ;";
+
+
+		try {
+
+
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate(query);
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+
+				connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 
     /*
      * When we wanted to delete the incentive we are updating that particular incentiveId with isDeleted Flag=true

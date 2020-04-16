@@ -277,135 +277,104 @@ public class ListOfDealerScreen1 {
     //CreationOfTable
     private void initialiseAndCreateTable() throws Exception {
         String[] columns = {"ID","Dealer Name", "Dealer Address", "Phone Number","ZipCod"};
-
         DefaultTableModel model = new DefaultTableModel(columns, 0);
-
-       DealerSearchFilter dsf= new DealerSearchFilter();
-       ArrayList<String> zipcodes = dsf.zipCodeRadius(textFieldZipCode.getText(),0,Integer.parseInt(comboBox.getSelectedItem().toString()));
+        DealerSearchFilter dsf= new DealerSearchFilter();
+        ArrayList<String> zipcodes = dsf.zipCodeRadius(textFieldZipCode.getText(),0,Integer.parseInt(comboBox.getSelectedItem().toString()));
 
        for(String zip: zipcodes){
            System.out.print(zip + " ");
        }
-        DealerManagerImpl imp = new DealerManagerImpl();
-        dealerList= (ArrayList<Dealer>) imp.getDealerDetails(textFieldDealerName.getText(), zipcodes );
- if(dealerList.size()>0){
+       DealerManagerImpl imp = new DealerManagerImpl();
+       dealerList= (ArrayList<Dealer>) imp.getDealerDetails(textFieldDealerName.getText(), zipcodes );
+       if(dealerList.size()>0){
 
-//       dealerList = createList();
-
-        for( Dealer detail : dealerList)
-        {
-            Vector<String> row = new Vector<>();
-            row.add(detail.getDealerId()+ " ");
-            row.add(detail.getDealerName());
-            row.add(detail.getDealerAddress());
-            row.add(detail.getPhoneNumber());
-            row.add(detail.getZipCode());
-            model.addRow(row);
-        }
-
-        JTable table = new JTable(model){
-            public Component prepareRenderer(TableCellRenderer renderer, int row, int column){
-                //this is to have alternative color in the table row
-                Component returnComp = super.prepareRenderer(renderer, row, column);
-                Color darkShade = new Color(0, 52, 94);
-                Color lightShade = new Color(0, 75, 134);
-                if (!returnComp.getBackground().equals(getSelectionBackground())){
-                    Color bg = (row % 2 == 0 ? darkShade : lightShade);
-                    returnComp .setBackground(bg);
-                    bg = null;
-                }
-                return returnComp;
+            for( Dealer detail : dealerList)
+            {
+                Vector<String> row = new Vector<>();
+                row.add(detail.getDealerId()+ " ");
+                row.add(detail.getDealerName());
+                row.add(detail.getDealerAddress());
+                row.add(detail.getPhoneNumber());
+                row.add(detail.getZipCode());
+                model.addRow(row);
             }
-        };
 
-        table.setPreferredSize(new Dimension(700,500));
-        table.setForeground(White);
-        table.setBackground(new Color(222, 249, 250));
-        table.setShowGrid(false);
-        table.setShowHorizontalLines(true);
-        table.setRowHeight(table.getRowHeight() + 20); // set row height
-        table.setDefaultEditor(Object.class, null); // to stop the editing of table cell on double click of mouse
-
-        // to make text Center Align
-        DefaultTableCellRenderer rendar = new DefaultTableCellRenderer();
-        rendar.setHorizontalAlignment(JLabel.CENTER);
-        for(int x=0;x<table.getColumnCount();x++){
-            table.getColumnModel().getColumn(x).setCellRenderer( rendar );
-        }
-
-        //Table Header
-        JTableHeader header = table.getTableHeader();
-        header.setFont(Header);
-        header.setBackground(new Color(0, 30, 54));
-        header.setForeground(Color.WHITE);
-        //set header size
-        table.getTableHeader().setPreferredSize(
-                new Dimension(700,table.getRowHeight() )
-        );
-        // set header text to Center Align
-        ((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
-
-        // set different width for different columns
-        setJTableColumnsWidth(table, 700, 10, 30, 30, 20,10);
-        JScrollPane jScrollPane = new JScrollPane(table);
-        panelRight.add(jScrollPane);
-
-        // entry point for usecase 2 by click on a particular table row
-        table.addMouseListener(new MouseAdapter() {
-            public void mouseReleased(MouseEvent me) {
-                int row = table.rowAtPoint(me.getPoint());
-                if(row!=-1) {
-                    // Stephen added
-                    // new Frame_1(selected dealer);
-
-                    //temprory screen for usecase 2 has to be replaced
-//                    NewTextFrame nf= new NewTextFrame(dealerList.get(row).getDealerId()+" ");
+            JTable table = new JTable(model){
+                public Component prepareRenderer(TableCellRenderer renderer, int row, int column){
+                    //this is to have alternative color in the table row
+                    Component returnComp = super.prepareRenderer(renderer, row, column);
+                    Color darkShade = new Color(0, 52, 94);
+                    Color lightShade = new Color(0, 75, 134);
+                    if (!returnComp.getBackground().equals(getSelectionBackground())){
+                        Color bg = (row % 2 == 0 ? darkShade : lightShade);
+                        returnComp .setBackground(bg);
+                        bg = null;
+                    }
+                    return returnComp;
                 }
-            }
-        });
-        System.out.println(table.getHeight());}
- else{
-     JLabel lblNoDataFound= new JLabel("No Record Available with Dealer Name " + textFieldDealerName.getText().toUpperCase() +
-             " within " + (comboBox.getSelectedItem().toString()) + " Miles of ZipCode "+ textFieldZipCode.getText());
+            };
 
-     lblNoDataFound.setForeground(Blue);
-     lblNoDataFound.setFont(new Font("Arial", Font.PLAIN, 15));
-     lblNoDataFound.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-     lblNoDataFound.setPreferredSize(new Dimension(700, 500));
-     panelRight.add(lblNoDataFound);
-     panelRight.setEnabled(true);
- }
+            table.setPreferredSize(new Dimension(700,500));
+            table.setForeground(White);
+            table.setBackground(new Color(222, 249, 250));
+            table.setShowGrid(false);
+            table.setShowHorizontalLines(true);
+            table.setRowHeight(table.getRowHeight() + 20); // set row height
+            table.setDefaultEditor(Object.class, null); // to stop the editing of table cell on double click of mouse
+
+            // to make text Center Align
+            DefaultTableCellRenderer rendar = new DefaultTableCellRenderer();
+            rendar.setHorizontalAlignment(JLabel.CENTER);
+            for(int x=0;x<table.getColumnCount();x++){
+                table.getColumnModel().getColumn(x).setCellRenderer( rendar );
+            }
+
+            //Table Header
+            JTableHeader header = table.getTableHeader();
+            header.setFont(Header);
+            header.setBackground(new Color(0, 30, 54));
+            header.setForeground(Color.WHITE);
+            //set header size
+            table.getTableHeader().setPreferredSize(
+                    new Dimension(700,table.getRowHeight() )
+            );
+            // set header text to Center Align
+            ((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+
+            // set different width for different columns
+            setJTableColumnsWidth(table, 700, 10, 30, 30, 20,10);
+            JScrollPane jScrollPane = new JScrollPane(table);
+            panelRight.add(jScrollPane);
+
+            // entry point for usecase 2 by click on a particular table row
+            table.addMouseListener(new MouseAdapter() {
+                public void mouseReleased(MouseEvent me) {
+                    int row = table.rowAtPoint(me.getPoint());
+                    if(row!=-1) {
+                        // Stephen added
+                        // new Frame_1(selected dealer);
+
+                        //temprory screen for usecase 2 has to be replaced
+                        //change made to pass the complete Dealer object instead of just the dealer id.
+                        // NewTextFrame nf= new NewTextFrame(dealerList.get(row));
+                    }
+                }
+            });
+            System.out.println(table.getHeight());
+        }
+        else {
+             JLabel lblNoDataFound= new JLabel("No Record Available with Dealer Name " + textFieldDealerName.getText().toUpperCase() +
+                     " within " + (comboBox.getSelectedItem().toString()) + " Miles of ZipCode "+ textFieldZipCode.getText());
+
+             lblNoDataFound.setForeground(Blue);
+             lblNoDataFound.setFont(new Font("Arial", Font.PLAIN, 15));
+             lblNoDataFound.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+             lblNoDataFound.setPreferredSize(new Dimension(700, 500));
+             panelRight.add(lblNoDataFound);
+             panelRight.setEnabled(true);
+        }
     }
-
-    //created dummy arraylist for testing
-//    private ArrayList<Dealer> createList(){
-//        ArrayList<Dealer> list1 = new ArrayList<>();
-//
-//        Dealer d1 = new Dealer(0,"Benz0","Address1","425-5","98121","seattle","us");
-//        Dealer d2 = new Dealer("1","Mazada1","Address2","4256","98121","seattle","us");
-//        Dealer d3 = new Dealer("2","Tesla2","Address3","425-0","98121","seattle","us");
-//        Dealer d4 = new Dealer("3","Mazada3","Address2","4256","98121","seattle","us");
-//        Dealer d5 = new Dealer("4","Tesla4","Address3","425-0","98121","seattle","us");
-//        Dealer d6 = new Dealer("5","Mazada5","Address2","4256","98121","seattle","us");
-//
-//        if(textFieldZipCode.getText().equals("98109")){
-//            list1 = new ArrayList<>();
-//            list1.add(d1);
-//        }else if(textFieldZipCode.getText().equals("98108")) {
-//            list1 = new ArrayList<>();
-//            list1.add(d4);
-//        }else if(textFieldZipCode.getText().equals("98105")){
-//            list1 = new ArrayList<>();
-//            list1.add(d5);
-//            list1.add(d6);
-//        } else{
-//            list1 = new ArrayList<>();
-//            list1.add(d2);
-//            list1.add(d3);
-//        }
-//        return list1;
-//    }
-
+    
     // method to set the column width dynamically
     public static void setJTableColumnsWidth(JTable table, int tablePreferredWidth,
                                              double... percentages) {
