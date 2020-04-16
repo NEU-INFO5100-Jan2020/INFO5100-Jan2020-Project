@@ -1,8 +1,10 @@
 package service;
 
 import dto.BigDataType;
+import dto.Vehicle;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 interface SearchFactory {
@@ -75,7 +77,7 @@ public class Search {
   SearchFactory factory;
   SearchFilter serf;
   SortFilter sorf;
-  Collection<? extends BigDataType> results;
+  List<? extends BigDataType> results;
 
   public Search(SearchFilter serf, SortFilter sorf) {
     /*
@@ -121,5 +123,13 @@ public class Search {
 
   public Collection<? extends BigDataType> getResults() {
     return results;
+  }
+
+  public int[] getArrayOfVehicleID(){
+    int[] vidArray = new int[results.size()];
+    for (int i = 0; i < results.size(); i++) {
+      vidArray[i] = ((Vehicle)results.get(i)).getVehicleId();
+    }
+    return vidArray;
   }
 }
