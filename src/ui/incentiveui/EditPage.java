@@ -38,23 +38,24 @@ class EditPage extends JFrame {
 
     // IncentiveInput searchInput, applyInput;
 
-    private String vehicleID, title, description, disclaimer, dealerID, incentiveType;
+    private String vehicleID, title, description, disclaimer, incentiveType;
     private int maximum, minimum;
     private String value;
     private boolean isNewVehicle;
     private String startDate, endDate;
     int rowIndex;
+    private static int dealerID;
 
     // public int[][] priceRangeArray;
 
     Font botton = new Font("Courier", Font.BOLD, 21);
 
-    public EditPage(String d5, int rowIndex, ActionListener actionListener) {
+    public EditPage(int dealerID, int rowIndex, ActionListener actionListener) {
 
     }
 
-    public EditPage(String dealerID,int rowindex,IncentiveMainPage incentiveMainPage) {
-        this.dealerID=dealerID;
+    public EditPage(int dealerID,int rowindex,IncentiveMainPage incentiveMainPage) {
+//        this.dealerID=dealerID;
         this.rowIndex=rowindex;
         this.incentiveMainPage=incentiveMainPage;
         createComponents(dealerID);
@@ -79,7 +80,7 @@ class EditPage extends JFrame {
         });
     }
 
-    private void createComponents(String dealerID) {
+    private void createComponents(int dealerID) {
         jframe = new JFrame("Incentive Management");
         jframe.setLayout(null);
         // jframe.setDefaultCloseOperation(jframe.EXIT_ON_CLOSE);
@@ -97,7 +98,7 @@ class EditPage extends JFrame {
         createRightsComponent();
     }
 
-    private void createMainComponent(String dealerID) {
+    private void createMainComponent(int dealerID) {
         mainTitle = new JLabel("Edit Incentives");
         Font mainTitleFont = new Font("Courier", Font.BOLD, 27);
         mainTitle.setFont(mainTitleFont);

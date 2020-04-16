@@ -21,10 +21,12 @@ public class IncentiveMainPage extends JFrame {
     private JTable jTable1;
     private Collection<Incentives> incentivelist;
     private IncentivesManagerImpl incentivesManagerImpl;
+    private int dealerID;
     /**
      * Creates new form NewJFrame
      */
-    public IncentiveMainPage() {
+    public IncentiveMainPage(int dealerID) {
+        setDealerID(dealerID);
         initComponents();
         addActionListener();
         refreshTableContents();
@@ -42,19 +44,20 @@ public class IncentiveMainPage extends JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
-    private void addActionListener() {
+
+    private void setDealerID(int dealerID) {
+        this.dealerID = dealerID;
+    }
+    private void addActionListener( ) {
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                new ui.incentiveui.CreatePage("D5",incentiveMainPage);
-
+                new ui.incentiveui.CreatePage(dealerID,incentiveMainPage);
             }
         });
         editButton.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 int rowIndex = jTable1.getSelectedRow();
-                new ui.incentiveui.EditPage("D5",rowIndex,incentiveMainPage);
+                new ui.incentiveui.EditPage(dealerID,rowIndex,incentiveMainPage);
             }
         });
     }
@@ -250,7 +253,7 @@ public class IncentiveMainPage extends JFrame {
 
         /* Create and display the form */
         //java.awt.EventQueue.invokeLater(new Runnable() {
-        IncentiveMainPage incentiveMainPage=new IncentiveMainPage();
+        IncentiveMainPage incentiveMainPage=new IncentiveMainPage(7839);
         incentiveMainPage.setVisible(true);
 //            public void run() {
 //                new IncentiveMainPage().setVisible(true);
@@ -260,7 +263,7 @@ public class IncentiveMainPage extends JFrame {
     }
 
 
-    public void refreshTableContents(){
+    private void refreshTableContents(){
 
         DefaultTableModel tableModel=new DefaultTableModel();
         tableModel.addColumn("Incentive ID");
