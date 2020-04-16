@@ -18,8 +18,7 @@ import java.util.Vector;
 
 public class InventoryInformation extends JFrame {
   int dID;
-  private DefaultListModel listModel;
-  //(Ekie)Get data from VehicleManagerImpl
+  //Get data from VehicleManagerImpl
   VehicleManagerImpl vmi = new VehicleManagerImpl();
   DefaultListModel model = new DefaultListModel();
 
@@ -86,6 +85,7 @@ public class InventoryInformation extends JFrame {
 
     //(Ekie)Delete vehicles
     btn2.addActionListener(e -> {
+      //Step1: Delete the vehicle from the db
       int vehID = (int) list_jp_vList.getSelectedValue();
       Vehicle deleteV = new Vehicle();
       Collection<Vehicle> veh = vmi.getVehiclesBasedOnDealerId(dID);
@@ -95,27 +95,39 @@ public class InventoryInformation extends JFrame {
           deleteV = v;
         }
       }
-      vmi.deleteVehicle(deleteV); //remove vehicle from database
-      model.removeElement(deleteV); //remove vehicle from JList and make it disappear on the screen
-      panel.updateUI();
-      //panel.add(list_jp_vList);
+      vmi.deleteVehicle(deleteV);
 
-            /*int index = list_jp_vList.getSelectedIndex();
-            listModel.remove(vehID);
+      //Step2: Delete the vehicle on the screen
+      JOptionPane.showMessageDialog(list_jp_vList, "Vehicle " + deleteV.getVehicleId() + " has been deleted");
+      int index = list_jp_vList.getSelectedIndex();
+      model.remove(index);
+      int size = model.getSize();
+      if (size == 0) { //No vehicles left, disable delete.
+        btn2.setEnabled(false);
+      } else { //Select an index.
+        if (index == model.getSize()) {
+          index--;
+        }
+        list_jp_vList.setSelectedIndex(index);
+        list_jp_vList.ensureIndexIsVisible(index);
+      }
 
-            int size = listModel.getSize();
+          /*
+        int index = list_jp_vList.getSelectedIndex();
+          listModel.remove(index);
+          int size = listModel.getSize();
 
-            if (size == 0) { //Nobody's left, disable delete.
-                btn2.setEnabled(false);
+          if (size == 0) { //Nobody's left, disable delete.
+              btn2.setEnabled(false);
 
-            } else { //Select an index.
-                if (index == listModel.getSize()) {
-                    //removed item in last position
-                    index--;
-                }
-                list_jp_vList.setSelectedIndex(index);
-                list_jp_vList.ensureIndexIsVisible(index);
-            }*/
+          } else { //Select an index.
+              if (index == listModel.getSize()) {
+                  //removed item in last position
+                  index--;
+              }
+              list_jp_vList.setSelectedIndex(index);
+              list_jp_vList.ensureIndexIsVisible(index);
+          }*/
     });
 
     btn3.addActionListener(new ActionListener() {
