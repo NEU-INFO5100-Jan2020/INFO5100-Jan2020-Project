@@ -232,42 +232,42 @@ public class CreatePage extends JFrame {
         System.out.println(incentive.getDealerId()+ " + "+incentive.getTitle()+ " + "+ incentive.getDiscountType()+" + "+incentive.getDiscountValue() + " + "+incentive.getDescription()+" + "+ incentive.getDisclaimer()+ " + " + incentive.getStartDate()+" + "+incentive.getEndDate() );
     }
 
-//    private void performOperationAndTrapException() {
-//        IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
-//        Incentives incentive=new Incentives();
-//        incentive.setEndDate(endDateChooser.getDate());
-//        incentive.setStartDate(startDateChooser.getDate());
-//        incentive.setDiscountValue(Integer.parseInt(valueText.getText()));
-//        incentive.setTitle(titleText.getText());
-//        incentive.setDiscountType(incentiveTypeBox.getSelectedItem().toString());
-//        incentive.setDescription((descriptionText.getText()));
-//
-//        Collection<Incentives> incentivelist= incentivesManagerImpl.getListOfIncentives();
-//        System.out.println(incentivelist.size());
-//
-//        incentive.setDealerId(5);
-//        incentive.setFilterList("");
-//        incentive.setVehicleIdList("");
-//        incentive.setDisclaimer(disclaimerText.getText());
-//        //IncentivesMangerimpl incentivesMangerimpl=new IncentivesMangerimpl();
-//
-//        incentivesManagerImpl.addIncentive(incentive);
-//
-//
-//        System.out.println(incentivelist.size());
-//        //IncentiveMainPage incentiveMainPage = new IncentiveMainPage();
-//
-//
-//        //incentiveMainPage.setVisible(true);
-//        //incentiveMainPage.refreshTableContents();
-//
-//
-//
-//
-//        JOptionPane.showMessageDialog(jframe, "Apply");
-//        jframe.setVisible(false);
-//
-//    }
+    private void performOperationAndTrapException() {
+        IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
+        Incentives incentive=new Incentives();
+        incentive.setEndDate(endDateChooser.getDate());
+        incentive.setStartDate(startDateChooser.getDate());
+        incentive.setDiscountValue(Integer.parseInt(valueText.getText()));
+        incentive.setTitle(titleText.getText());
+        incentive.setDiscountType(incentiveTypeBox.getSelectedItem().toString());
+        incentive.setDescription((descriptionText.getText()));
+
+        Collection<Incentives> incentivelist= incentivesManagerImpl.getListOfIncentives();
+        System.out.println(incentivelist.size());
+
+        incentive.setDealerId(5);
+        incentive.setFilterList("");
+        incentive.setVehicleIdList("");
+        incentive.setDisclaimer(disclaimerText.getText());
+        //IncentivesMangerimpl incentivesMangerimpl=new IncentivesMangerimpl();
+
+        incentivesManagerImpl.addIncentive(incentive);
+
+
+        System.out.println(incentivelist.size());
+        //IncentiveMainPage incentiveMainPage = new IncentiveMainPage();
+
+
+        //incentiveMainPage.setVisible(true);
+        //incentiveMainPage.refreshTableContents();
+
+
+
+
+        JOptionPane.showMessageDialog(jframe, "Apply");
+        jframe.setVisible(false);
+
+    }
 
 
 

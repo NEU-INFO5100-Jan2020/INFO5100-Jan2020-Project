@@ -72,6 +72,35 @@ public class IncentivesManagerImpl implements IncentivesManager {
 		return true;
 	}
 
+	public void addIncentive2(Incentives incentives) throws SQLException {
+		ResultSet resultSet=null;
+		Statement statement=null;
+		Date startDate = DateToSqlDatetime.JavaStartDateToSqlDate(incentives);
+		Date endDate = DateToSqlDatetime.JavaEndDateToSqlDate(incentives);
+
+
+		String query = "INSERT INTO Incentives (Title , Description , Disclaimer , "
+				+ "StartDate , EndDate , DiscountValue , DiscountType,DealerId,IsDeleted,FilterList,VehicleIdList) "
+				+ "VALUES ('" + incentives.getTitle() + "' , '" + incentives.getDescription() + "' , '"
+				+ incentives.getDisclaimer() + "' , " + "'" + startDate + "' , '"
+				+ endDate + "' , " + incentives.getDiscountValue() + " , '"
+				+ incentives.getDiscountType() + "' , '" + incentives.getDealerId() + "','"
+				+ incentives.getIsDeleted() + "'," + "'" + incentives.getFilterList() + "','"
+				+ incentives.getVehicleIdList() + "')";
+		try{
+			statement=connection.createStatement();
+			statement.executeUpdate(query,statement.RETURN_GENERATED_KEYS);
+			resultSet=statement.getGeneratedKeys();
+			if(resultSet.next()){
+				int incentiveId=resultSet.getInt(1);
+			}
+
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
+
+	}
+
     /**
      * @author SwatiBhojwani
      * @param incentiveId:This id is used for updating vehicleTable with incentivesId
@@ -118,6 +147,39 @@ public class IncentivesManagerImpl implements IncentivesManager {
 
         return false;
     }
+
+	public void updateIncentive2(Incentives incentives){
+		Date startDate = DateToSqlDatetime.JavaStartDateToSqlDate(incentives);
+		Date endDate = DateToSqlDatetime.JavaEndDateToSqlDate(incentives);
+
+		String sql ="UPDATE Incentives SET Title=incentives.getTitle(), Description=incentives.getDescription()," +
+				"DiscountValue=incentives.getDiscountValue()," +
+				" StartDate=startDate,EndDate=endDate,DiscountType=incentives.getDiscountType()," +
+				"Disclaimer=incentives.getDisclaimer()  WHERE  IncentiveId =incentives.getIncentiveId();";
+		String query = "UPDATE Incentives SET Title='"+incentives.getTitle()+"' , Description ='"+incentives.getDescription()+
+				"' , Disclaimer='"+incentives.getDisclaimer()+"' , StartDate='"+startDate+"' , EndDate='"+endDate+
+				"' , DiscountValue = "+incentives.getDiscountValue()+" , DiscountType = '"+incentives.getDiscountType()+"'" +
+				" WHERE IncentiveId = "+incentives.getIncentiveId()+" ;";
+
+
+		try {
+
+
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate(query);
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+
+				connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 
     /*
      * When we wanted to delete the incentive we are updating that particular incentiveId with isDeleted Flag=true
