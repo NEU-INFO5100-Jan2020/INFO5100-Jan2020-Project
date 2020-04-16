@@ -6,17 +6,23 @@ public class VehicleSearchFilterElement extends SearchFilterElement {
   Usage: Instantiate the search element with the constructor below. The input should be a Enum object within the options
   and String value as collected from user input if there is valid input of the specific field.
    */
+  VehicleSearchCriterion enumKey;
   public VehicleSearchFilterElement(VehicleSearchCriterion key, String value) {
     /*
     Constructor of search element of search vehicle
      */
     this.name = key.getKey();
     this.value = value;
+    this.enumKey = key;
   }
 
-  public String getKey() {
+  public String getName() {
     // getter of key of enum
     return this.name;
+  }
+
+  public VehicleSearchCriterion getEnumKey(){
+    return enumKey;
   }
 
   public String getValue() {

@@ -5,9 +5,11 @@ public class IncentiveSearchFilterElement extends SearchFilterElement {
   FilterElement for Incentive GUI: case 5, team 3
   @Ekie may implement this class based on my implementation above
    */
+  IncentiveSearchCriterion enumKey;
   public IncentiveSearchFilterElement(IncentiveSearchCriterion key, String value) {
     this.name = key.getKey();
     this.value = value;
+    this.enumKey = key;
   }
 
   public enum IncentiveSearchCriterion {
@@ -16,8 +18,8 @@ public class IncentiveSearchFilterElement extends SearchFilterElement {
      */
     VIN("Vin"),
     MAKE("Make"),
-    MAXPrice("MaxPrice"),
-    MINPrice("MinPrice"),
+    MAXPrice("Price"),
+    MINPrice("Price"),
     NEW("Category");
 
     private final String key; // key is the String value of each enum element
@@ -43,4 +45,7 @@ public class IncentiveSearchFilterElement extends SearchFilterElement {
     return super.getName();
   }
 
+  public IncentiveSearchCriterion getEnumKey() {
+    return enumKey;
+  }
 }

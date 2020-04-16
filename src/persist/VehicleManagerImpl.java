@@ -36,8 +36,12 @@ public class VehicleManagerImpl implements VehicleManager {
     // Iterate the list of VehicleFilterElement if it is not null, add info extracted from SearchFilterElement to StringBuilder
     if (vsf.getElements() != null) {
       for (VehicleSearchFilterElement vse : vsf.getElements()) {
-        filterString.append(" and ").append(vse.getKey());
-        filterString.append("=").append("'").append(vse.getValue()).append("'");
+        filterString.append(" and ").append(vse.getName());
+        if (vse.getEnumKey().equals(VehicleSearchFilterElement.VehicleSearchCriterion.PRICE)){
+          filterString.append("<").append("'").append(vse.getValue()).append("'");
+        } else {
+          filterString.append("=").append("'").append(vse.getValue()).append("'");
+        }
       }
     }
     filterString.append(";");
@@ -54,8 +58,8 @@ public class VehicleManagerImpl implements VehicleManager {
     return vehicleResult;
   }
 
-
-  public Collection<Vehicle> getVehicles(IncentiveSearchFilter vsf){
+  @Override
+  public Collection<Vehicle> getVehiclesForCase5(IncentiveSearchFilter vsf){
     /*VIN, Make, MaxPrice, MinPrice, New, are optional fields. If passed, then add to the query*/
     /*DealerId is mandatory passed*/
     String mandatoryFilter = "DealerId = " + vsf.getDealerID() + " ";
@@ -65,7 +69,13 @@ public class VehicleManagerImpl implements VehicleManager {
     if (vsf.getElements() != null) {
       for (IncentiveSearchFilterElement vse : vsf.getElements()) {
         filterString.append(" and ").append(vse.getName());
-        filterString.append("=").append("'").append(vse.getValue()).append("'");
+        if (vse.getEnumKey().equals(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAXPrice)){
+          filterString.append("<").append("'").append(vse.getValue()).append("'");
+        } else if (vse.getEnumKey().equals(IncentiveSearchFilterElement.IncentiveSearchCriterion.MINPrice)) {
+          filterString.append(">").append("'").append(vse.getValue()).append("'");
+        } else {
+          filterString.append("=").append("'").append(vse.getValue()).append("'");
+        }
       }
     }
     filterString.append(";");

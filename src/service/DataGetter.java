@@ -25,9 +25,9 @@ class IncentiveGetter implements DataGetter {
   }
 
   @Override
-  public List<dto.Vehicle> get() {
+  public List<Vehicle> get() {
     VehicleManager v = new VehicleManagerImpl(); // Team 1 should have a VehicleManagerImpl which implements VehicleManager
-    return (List<Vehicle>) v.getVehicles(new VehicleSearchFilter(isf.dealerID)); // TODO: 4/13/2020 Not the best implementation here, need furthur update
+    return (List<Vehicle>) v.getVehiclesForCase5(isf);
   }
 }
 
@@ -42,7 +42,7 @@ class VehicleGetter implements DataGetter {
   }
 
   @Override
-  public List<dto.Vehicle> get() {
+  public List<Vehicle> get() {
     VehicleManager v = new VehicleManagerImpl(); // Team 1 should have a VehicleManagerImpl which implements VehicleManager
     return (List<Vehicle>) v.getVehicles(vsf);
   }
