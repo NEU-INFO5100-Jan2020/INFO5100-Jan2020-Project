@@ -1,13 +1,20 @@
 package ui.UC2_SearchVehicles;
 
+import dto.Vehicle;
+import ui.guiforcase3.CarDetailGUI;
+
 import javax.swing.*;
-import javax.swing.table.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class TablePagingPanel extends JPanel {
+    private List<Vehicle> vehicles;
 
     private int pageSize;
     private JTable jTable;
@@ -16,9 +23,10 @@ public class TablePagingPanel extends JPanel {
     private final int lastPageNum;
     private int currPageNum;
     private JLabel countLabel;
-    private JButton first, prev, next, last;
+    private JButton first, prev, next, last, middle;
 
-    public TablePagingPanel(JTable jTable, int pageSize) {
+    public TablePagingPanel(JTable jTable, int pageSize, List<Vehicle> vehicles) {
+        this.vehicles = vehicles;
         this.pageSize = pageSize;
         this.jTable = jTable;
         this.tableModel = jTable.getModel();
@@ -26,9 +34,12 @@ public class TablePagingPanel extends JPanel {
                 + (tableModel.getRowCount() % pageSize != 0 ? 1 : 0);
         this.currPageNum = 1;
         setLayout(new BorderLayout());
+
+        JPanel countPanel = new JPanel();
         countLabel = new JLabel();
-        add(countLabel, BorderLayout.NORTH);
-        // add(jTable, BorderLayout.CENTER);
+        countPanel.add(countLabel, BorderLayout.CENTER);
+        add(countPanel, BorderLayout.NORTH);
+        // add(countLabel, BorderLayout.CENTER);
         add(new JScrollPane(jTable), BorderLayout.CENTER);
         add(createControls(), BorderLayout.SOUTH);
         updatePage();
@@ -75,9 +86,26 @@ public class TablePagingPanel extends JPanel {
             }
         });
 
+        middle = new JButton(new AbstractAction("View Details") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (jTable.getSelectedRow() >= 0) {
+                    int selectIndex = jTable.getSelectedRow();
+                    Vehicle selectedVehicle = vehicles.get(selectIndex);
+                    System.out.println(selectedVehicle);
+                    ArrayList<Vehicle> parameters = new ArrayList<>();
+                    parameters.add(selectedVehicle);
+                    new CarDetailGUI(parameters);
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Please Select A Vehicle", "Warning",JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
         JPanel bar = new JPanel(new GridLayout(1, 4));
         bar.add(first);
         bar.add(prev);
+        bar.add(middle);
         bar.add(next);
         bar.add(last);
         return bar;
