@@ -43,7 +43,8 @@ public class IncentiveMainPage extends JFrame {
     private void addActionListener( ) {
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new ui.incentiveui.CreatePage(dealerID,incentiveMainPage);
+
+                new ui.incentiveui.CreatePage(dealerID);
             }
         });
         editButton.addActionListener(new ActionListener() {
@@ -67,7 +68,7 @@ public class IncentiveMainPage extends JFrame {
     }
     public Incentives extract(int rowIndex){
         rowIndex = jTable1.getSelectedRow();
-        int ID = Integer.parseInt(jTable1.getValueAt(rowIndex, 4).toString()) ;
+        int ID = Integer.parseInt(jTable1.getValueAt(rowIndex, 0).toString()) ;
         IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
         Collection<Incentives> incentivelist= incentivesManagerImpl.getListOfIncentives();
         for(Incentives i:incentivelist){

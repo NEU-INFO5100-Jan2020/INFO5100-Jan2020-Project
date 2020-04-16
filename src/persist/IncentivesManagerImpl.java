@@ -1,6 +1,8 @@
 package persist;
 
 import dto.Incentives;
+import ui.incentiveui.DateToSqlDatetime;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -73,6 +75,7 @@ public class IncentivesManagerImpl implements IncentivesManager {
 	}
 
 	public void addIncentive2(Incentives incentives) throws SQLException {
+    	Connection connection=connect.connectToDB();
 		ResultSet resultSet=null;
 		Statement statement=null;
 		Date startDate = DateToSqlDatetime.JavaStartDateToSqlDate(incentives);
@@ -149,6 +152,7 @@ public class IncentivesManagerImpl implements IncentivesManager {
     }
 
 	public void updateIncentive2(Incentives incentives){
+    	Connection connection=connect.connectToDB();
 		Date startDate = DateToSqlDatetime.JavaStartDateToSqlDate(incentives);
 		Date endDate = DateToSqlDatetime.JavaEndDateToSqlDate(incentives);
 
