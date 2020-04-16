@@ -359,7 +359,8 @@ public class ListOfDealerScreen1 {
                     // new Frame_1(selected dealer);
 
                     //temprory screen for usecase 2 has to be replaced
-//                    NewTextFrame nf= new NewTextFrame(dealerList.get(row).getDealerId()+" ");
+                    //change made to pass the complete Dealer object instead of just the dealer id.
+//                    NewTextFrame nf= new NewTextFrame(dealerList.get(row));
                 }
             }
         });
