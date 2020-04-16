@@ -102,27 +102,36 @@ public class IncentivesManagerImpl implements IncentivesManager {
 
 		}catch (SQLException e){
 			e.printStackTrace();
+		}finally {
+			if(connection!=null)
+				connection.close();
 		}
 
 	}
 
     /**
      * @author SwatiBhojwani
-     * @param incentiveId:This id is used for updating vehicleTable with incentivesId
+     * This method is used for mapping single incentive id  to multiple vehicle Id's
+     * @param incentiveId:This id is used for inserting in VehicleIncentivesMap 
      * @param vehicleIdsArray:list of vehicleIds used for updating incentives
      * @param conn:Existing DB Connection
      * @return :True or False on the basis of query execution
      */
     public boolean applyIncentive(int incentiveId, int[] vehicleIdsArray,Connection conn) {
-    	Statement stmt;
-		String query;
-		String vehicleIdsArr = vehicleIdsArray.toString().replaceAll("(^\\[|\\]$)", "");
+    	Statement stmt = null;
+	String query = null;
 		try {
-		    query="UPDATE VehicleTable SET INCENTIVEID ="+incentiveId+" WHERE VehicleId IN ("+vehicleIdsArr+")";
 			stmt = conn.createStatement();
-			stmt.executeUpdate(query);
+			for(int i =0; i<=vehicleIdsArray.length-1;i++) {
+			    query = "INSERT INTO VehicleIncentivesMap (VehicleId , IncentiveId ) "
+				    + "VALUES (" + vehicleIdsArray[i] + " , " + incentiveId + ")";
+				    stmt.addBatch(query);
+			}
+			stmt.executeBatch();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
         return true;
     }
