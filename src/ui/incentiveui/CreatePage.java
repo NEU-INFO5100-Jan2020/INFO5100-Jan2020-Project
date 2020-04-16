@@ -229,7 +229,7 @@ public class CreatePage extends JFrame {
         impl.addIncentive(incentive);
 
 
-        //System.out.println(titleText+ " + "+ incentiveType+" + "+valueText + " + "+descriptionTextring+" + "+ disclaimerText+ " + " + startDate2+" + "+endDate2 );
+        System.out.println(incentive.getDealerId()+ " + "+incentive.getTitle()+ " + "+ incentive.getDiscountType()+" + "+incentive.getDiscountValue() + " + "+incentive.getDescription()+" + "+ incentive.getDisclaimer()+ " + " + incentive.getStartDate()+" + "+incentive.getEndDate() );
     }
 
 //    private void performOperationAndTrapException() {
