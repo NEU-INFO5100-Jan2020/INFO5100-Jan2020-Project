@@ -14,6 +14,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Vector;
 import static ui.UseCase1ListOfDealer.Constants.Constant.*;
+
+import ui.UC2_SearchVehicles.Frame_1;
 import ui.UseCase1ListOfDealer.Validator.Validation;
 import persist.*;
 import dto.*;
@@ -353,6 +355,9 @@ public class ListOfDealerScreen1 {
             public void mouseReleased(MouseEvent me) {
                 int row = table.rowAtPoint(me.getPoint());
                 if(row!=-1) {
+                    // Stephen added
+                    // new Frame_1(selected dealer);
+
                     //temprory screen for usecase 2 has to be replaced
 //                    NewTextFrame nf= new NewTextFrame(dealerList.get(row).getDealerId()+" ");
                 }
