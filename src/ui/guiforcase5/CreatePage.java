@@ -1,5 +1,6 @@
 package ui.guiforcase5;
 
+import dto.BigDataType;
 import service.IncentiveSearchFilterElement;
 import service.SortFilter;
 import service.Search;
@@ -13,6 +14,10 @@ import javax.swing.border.Border;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+
 import com.toedter.calendar.JDateChooser;
 
 //        import lombok.Data;
@@ -39,7 +44,7 @@ public class CreatePage {
     private int dealerID;
     private static int[] vehicleIDList;
 
-    Font botton = new Font("Courier", Font.BOLD, 21);
+    Font botton = new Font("Helvetica", Font.BOLD, 21);
 
     public CreatePage(int dealerID) {
         setDealerID(dealerID);
@@ -57,39 +62,55 @@ public class CreatePage {
     }
 
     private void addListeners() {
-
-
-//        applyButton.addActionListener((ActionEvent ae) -> performOperationAndTrapException());
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Incentives incentive=new Incentives();
-                setSearchFilter();
-                System.out.println(vehicleIDList.length);
-                if (vehicleIDList.length == 0) {
-                    JOptionPane.showMessageDialog(jframe, "There is no vehicle meeting your requirements.");
-                } else {
-                    IncentivesManagerImpl incentivesManagerImpl=new IncentivesManagerImpl();
-                    IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
+//                setSearchFilter();
+//                System.out.println(vehicleIDList.length);
+//                if (vehicleIDList.length == 0) {
+//                    JOptionPane.showMessageDialog(jframe, "There is no vehicle meeting your requirements.");
+//                } else {
+//                    IncentivesManagerImpl incentivesManagerImpl=new IncentivesManagerImpl();
+//                    IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
+//
+//
+//                    try {
+//                        setIncentiveApplyData(incentive);
+//
+//                        incentivesManagerImpl.addIncentive2(incentive, vehicleIDList);
+//                    } catch (NullPointerException eEmpty) {
+//                        JOptionPane.showMessageDialog(jframe, "Please enter All The Details.");
+//                    } catch (SQLException e1) {
+//                        e1.printStackTrace();
+//                    }
+//                    finally {
+////                    CreatePage.dispose();
+//                        incentiveMainPage.setVisible(true);
+////                    JOptionPane.showMessageDialog(jframe, "Applied.");
+//                        incentiveMainPage.refreshTableContents();
+//                    }
+//                }
 
 
-                    try {
-                        setIncentiveApplyData(incentive);
+                IncentivesManagerImpl incentivesManagerImpl=new IncentivesManagerImpl();
+                IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
 
-                        incentivesManagerImpl.addIncentive2(incentive, vehicleIDList);
-                    } catch (NullPointerException eEmpty) {
-                        JOptionPane.showMessageDialog(jframe, "Please enter All The Details.");
-                    } catch (SQLException e1) {
-                        e1.printStackTrace();
-                    }
-                    finally {
-//                    CreatePage.dispose();
-                        incentiveMainPage.setVisible(true);
-//                    JOptionPane.showMessageDialog(jframe, "Applied.");
-                        incentiveMainPage.refreshTableContents();
-                    }
+
+                try {
+                    setIncentiveApplyData(incentive);
+
+                    incentivesManagerImpl.addIncentive2(incentive, vehicleIDList);
+                } catch (NullPointerException eEmpty) {
+                    JOptionPane.showMessageDialog(jframe, "Please enter All The Details.");
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
                 }
-
-
+                finally {
+//                    CreatePage.dispose();
+                    incentiveMainPage.setVisible(true);
+//                    JOptionPane.showMessageDialog(jframe, "Applied.");
+                    incentiveMainPage.refreshTableContents();
+                }
             }
         });
     }
@@ -142,8 +163,10 @@ public class CreatePage {
 
         Search s = new Search(isf, dummy);
         s.doSearch();
-//        vehicleIDList = s.getResults();
-        vehicleIDList = s.getArrayOfVehicleID();
+//        Collection<? extends BigDataType> results =  s.getResults();
+//
+////        vehicleIDList = s.getResults();
+//        vehicleIDList = s.getArrayOfVehicleID((List<? extends BigDataType>) results);
     }
 
 
@@ -159,12 +182,73 @@ public class CreatePage {
             incentive.setEndDate(endDateChooser.getDate());
             incentive.setDealerId(dealerID);
             incentive.setIsDeleted(false);
-            incentive.setFilterList("");
+            String filterList = convertFilterListToString();
+            incentive.setFilterList(filterList);
             incentive.setVehicleIdList("");
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(jframe, "Please Enter Value in Integer");
         }
-
+    }
+//    private String convertFilterListToString() {
+//        String[] arr = new String[6];
+//
+//        try {
+//            arr[0] = vehicleIDText.getText();
+//        } catch (NullPointerException e) {
+//            arr[0] = "null";
+//        }
+//        try {
+//            arr[1] = minimumInt.getText();
+//        } catch (NullPointerException e) {
+//            arr[1] = "null";
+//        }
+//        try {
+//            arr[2] = maximumInt.getText();
+//        } catch (NullPointerException e) {
+//            arr[2] = "null";
+//        }
+//        arr[3] = Objects.requireNonNull(makeCombobox.getSelectedItem()).toString();
+//        if (newVehicleButton.isSelected()) {
+//            arr[4] = "true";
+//        } else {
+//            arr[4] = "false";
+//        }
+//        if (usedVehicleButton.isSelected()) {
+//            arr[5] = "true";
+//        } else {
+//            arr[5] = "false";
+//        }
+//        return String.join(" ", arr);
+//    }
+    private String convertFilterListToString() {
+        String[] arr = new String[6];
+        if (vehicleIDText.getText().equals("")) {
+            arr[0] = "null";
+        }else {
+            arr[0] = vehicleIDText.getText();
+        }
+        if (minimumInt.getText().equals("")) {
+            arr[1] = "null";
+        }else {
+            arr[1] = minimumInt.getText();
+        }
+        if (maximumInt.getText().equals("")) {
+            arr[2] = "null";
+        }else {
+            arr[2] = maximumInt.getText();
+        }
+        arr[3] = Objects.requireNonNull(makeCombobox.getSelectedItem()).toString();
+        if (newVehicleButton.isSelected()) {
+            arr[4] = "true";
+        } else {
+            arr[4] = "false";
+        }
+        if (usedVehicleButton.isSelected()) {
+            arr[5] = "true";
+        } else {
+            arr[5] = "false";
+        }
+        return String.join(" ", arr);
 
     }
 
@@ -187,9 +271,9 @@ public class CreatePage {
 
     private void createMainComponent(int dealerID) {
         mainTitle = new JLabel("Create Incentives");
-        Font mainTitleFont = new Font("Courier", Font.BOLD, 27);
+        Font mainTitleFont = new Font("Helvetica", Font.BOLD, 27);
         mainTitle.setFont(mainTitleFont);
-        Font mainCommonFont = new Font("Courier", Font.PLAIN, 17);
+        Font mainCommonFont = new Font("Helvetica", Font.PLAIN, 17);
         vehicleIDLabel = new JLabel("VIN");
         vehicleIDLabel.setFont(mainCommonFont);
         selectPriceLabel = new JLabel("<html><body><p>Price Range</p><body></html>");
@@ -205,13 +289,13 @@ public class CreatePage {
         welcomeLabel = new JLabel("Welcome, " + dealerID);
         welcomeLabel.setFont(mainCommonFont);
         cautionLabel = new JLabel("Enter in integers.");
-        Font cautionFont = new Font("Courier", Font.PLAIN,12);
+        Font cautionFont = new Font("Helvetica", Font.PLAIN,12);
         cautionLabel.setFont(cautionFont);
 
         makeCombobox = new JComboBox(makelist);
         makeCombobox.setFont(mainCommonFont);
 
-        Font radioFont = new Font("Courier",Font.BOLD,20);
+        Font radioFont = new Font("Helvetica",Font.BOLD,20);
         oneRadioButton = new JRadioButton("Create for one vehicle");
         oneRadioButton.setFont(radioFont);
         oneRadioButton.setSelected(true);
@@ -233,9 +317,9 @@ public class CreatePage {
         rightTitle = new JLabel(
                 "<html><body><p align=\"center\">Add Incentive Details for A Certain Vehicle<br>Or Group of Vehicles</p><body</html>");
 
-        Font rightTitleFont = new Font("Courier", Font.BOLD, 17);
+        Font rightTitleFont = new Font("Helvetica", Font.BOLD, 17);
         rightTitle.setFont(rightTitleFont);
-        Font rightCommonFont = new Font("Courier", Font.PLAIN, 15);
+        Font rightCommonFont = new Font("Helvetica", Font.PLAIN, 15);
         titleLabel = new JLabel("Title");
         titleLabel.setFont(rightCommonFont);
         valueLabel = new JLabel("Value");
@@ -324,7 +408,7 @@ public class CreatePage {
     private void placeMainComponents() {
         int mainLabelX = 50;
         int mainTextX = 180;
-        mainTitle.setBounds(325, 40, 800, 20);
+        mainTitle.setBounds(325, 40, 800, 40);
         welcomeLabel.setBounds(750,10,150,20);
 
         oneRadioButton.setBounds(20, 130,300,40);
@@ -352,7 +436,7 @@ public class CreatePage {
     private void placeRightComponents() {
         int rightLabelX = 25;
         int rightTextX = 150;
-        rightTitle.setBounds(35, 25, 500, 40);
+        rightTitle.setBounds(65, 25, 500, 40);
         titleLabel.setBounds(rightLabelX, 100, 130, 30);
         valueLabel.setBounds(rightLabelX, 215, 130, 30);
         descriptionLabel.setBounds(rightLabelX, 285, 130, 50);
