@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.sql.PreparedStatement;
 
 public class IncentivesManagerImpl implements IncentivesManager {
     ConnectionToSql connect = new ConnectionToSql();
