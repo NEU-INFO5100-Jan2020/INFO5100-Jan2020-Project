@@ -5,16 +5,11 @@ import java.awt.*;
 import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-// import javax.swing.JOptionPane;
 import com.toedter.calendar.JDateChooser;
 import dto.Incentives;
 import persist.IncentivesManagerImpl;
-import ui.incentiveui.IncentiveMainPage;
-
 //        import lombok.Data;
 
-
-// import javax.swing.JCalendar;
 //@Data
 class EditPage extends JFrame {
     /**
@@ -63,7 +58,7 @@ class EditPage extends JFrame {
         placeComponents();
         addComponents();
         addListeners();
-        // makeVisible();
+        jframe.setLocation(1200,20);
         jframe.setVisible(true);
 
     }
@@ -170,7 +165,7 @@ class EditPage extends JFrame {
         endDateChooser = new JDateChooser();
         endDateChooser.setDate(incentives.getEndDate());
 
-        applyButton = new JButton("Apply");
+        applyButton = new JButton("Edit");
         applyButton.setFont(botton);
         incenitveTypeLabel = new JLabel("IncentiveType");
         incenitveTypeLabel.setFont(rightCommonFont);
@@ -248,13 +243,13 @@ class EditPage extends JFrame {
         dateLabel.setBounds(rightLabelX, 450, 175, 40);
         incenitveTypeLabel.setBounds(rightLabelX,155,130,30);
 
-        titleText.setBounds(rightTextX, 100, 130, 30);
-        valueText.setBounds(rightTextX, 215, 130, 30);
+        titleText.setBounds(rightTextX, 100, 150, 30);
+        valueText.setBounds(rightTextX, 215, 150, 30);
         descriptionText.setBounds(rightTextX, 285, 250, 50);
         descriptionText.setText(incentives.getDescription());
         disclaimerText.setBounds(rightTextX, 380, 250, 50);
         disclaimerText.setText(incentives.getDisclaimer());
-        incentiveTypeBox.setBounds(rightTextX,155,130,30);
+        incentiveTypeBox.setBounds(rightTextX,155,150,30);
 
         slashLabel.setBounds(340, 450, 10, 40);
         startDateChooser.setBounds(210,450, 125,40);
@@ -264,9 +259,6 @@ class EditPage extends JFrame {
 
     }
 
-    private void saveApplicationData(String titleText, String incentiveType,String valueText, String descriptionTextring, String disclaimerText, String startDate, String endDate) {
-        System.out.println("This Is Updated Incentive Details.");
-        System.out.println(titleText+ " + "+ incentiveType+" + "+valueText + " + "+descriptionTextring+" + "+ disclaimerText+ " + " + startDate+" + "+endDate );
-    }
+
 
 }
