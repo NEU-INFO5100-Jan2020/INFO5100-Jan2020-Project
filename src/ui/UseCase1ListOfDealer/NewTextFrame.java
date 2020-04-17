@@ -2,6 +2,7 @@ package ui.UseCase1ListOfDealer;
 
 import javax.swing.*;
 import java.awt.*;
+import dto.Dealer;
 
 class NewTextFrame extends JFrame
 {
