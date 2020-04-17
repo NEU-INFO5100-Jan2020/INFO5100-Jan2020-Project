@@ -1,7 +1,7 @@
 package persist;
 
 import dto.Incentives;
-import ui.incentiveui.DateToSqlDatetime;
+import ui.guiforcase5.DateToSqlDatetime;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

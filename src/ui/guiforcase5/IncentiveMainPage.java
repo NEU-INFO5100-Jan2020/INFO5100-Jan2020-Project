@@ -1,4 +1,4 @@
-package ui.incentiveui;
+package ui.guiforcase5;
 
 import dto.Incentives;
 import persist.IncentivesManager;
@@ -52,7 +52,7 @@ public class IncentiveMainPage extends JFrame {
                     Incentives incentives=extract(rowIndex);
 
 
-                    new ui.incentiveui.EditPage(dealerID,incentives);
+                    new ui.guiforcase5.EditPage(dealerID,incentives);
                 }catch (Exception e1){
                     JOptionPane.showMessageDialog(null,"plesae select a row");
                 }
