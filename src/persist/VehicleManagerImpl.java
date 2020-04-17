@@ -94,10 +94,10 @@ public class VehicleManagerImpl implements VehicleManager {
   @Override
   public Vehicle addVehicle(Vehicle vehicle) {
     String query = "INSERT INTO VehicleTable (VIN , DealerId ,Make , Model , Year , " +
-            "Category , Price , Color , Miles , Image , IncentiveId , DiscountPrice , Ratings) " +
+            "Category , Price , Color , Miles, IncentiveId , DiscountPrice , Ratings) " +
             "VALUES ('"+vehicle.getVin()+"' , "+vehicle.getDealerId()+" , '"+vehicle.getMake()+"' , '"+vehicle.getModel()+
                "' , "+vehicle.getYear()+" , '"+vehicle.getCategory()+"' , "+vehicle.getPrice()+" , '"+vehicle.getColor()+
-               "' , "+vehicle.getMileage()+" , '"+vehicle.getImage()+"' , '"+vehicle.getIncentiveId()+
+               "' , "+vehicle.getMileage()+" , '"+vehicle.getIncentiveId()+
                "' , "+vehicle.getDiscountPrice()+ " , "+vehicle.getRatings()+
                ") ;";
 
@@ -112,7 +112,7 @@ public class VehicleManagerImpl implements VehicleManager {
     String query = "UPDATE VehicleTable SET VIN='" + vehicle.getVin() + "' , DealerId=" + vehicle.getDealerId() +
             " , Make='" + vehicle.getMake() + "' , Model='" + vehicle.getModel() + "' , Year= " + vehicle.getYear() +
             " , Category = '" + vehicle.getCategory() + "' , Price = " + vehicle.getPrice() + " , Color = '" + vehicle.getColor() +
-            "' , Miles = " + vehicle.getMileage() + " , Image = '" + vehicle.getImage() + "' , IncentiveId= '" + vehicle.getIncentiveId() +
+            "' , Miles = " + vehicle.getMileage() + " , IncentiveId= '" + vehicle.getIncentiveId() +
             "' , DiscountPrice = " + vehicle.getDiscountPrice() + " , Ratings = "+vehicle.getRatings()+
             " WHERE VehicleId=" + vehicle.getVehicleId() +
             " ;";
