@@ -62,8 +62,9 @@ public class FrameUtilities {
     }
 
     public static String[] getMake(ArrayList<MakeModel> makeDTOS) {
-        String[] makeArray = new String[makeDTOS.size()];
-        for (int i = 0; i < makeDTOS.size(); i++) {
+        String[] makeArray = new String[makeDTOS.size() + 1];
+        makeArray[0] = "All Make";
+        for (int i = 1; i < makeDTOS.size(); i++) {
             makeArray[i] = makeDTOS.get(i).getMake();
         }
         return makeArray;
