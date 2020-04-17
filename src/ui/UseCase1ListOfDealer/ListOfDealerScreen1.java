@@ -76,7 +76,7 @@ public class ListOfDealerScreen1 {
     //method for right panel containg thr table
     private void initializeRightPanel() {
         panelRight= new JPanel();
-        panelRight.setBackground(new Color(222, 249, 250));
+//         panelRight.setBackground(new Color(222, 249, 250));
         panelRight.setPreferredSize(RightPanel);
         panelRight.setLayout(new BoxLayout(panelRight, BoxLayout.Y_AXIS));
         frame.getContentPane().add(panelRight,BorderLayout.CENTER);
@@ -316,7 +316,7 @@ public class ListOfDealerScreen1 {
 
             table.setPreferredSize(new Dimension(700,500));
             table.setForeground(White);
-            table.setBackground(new Color(222, 249, 250));
+//             table.setBackground(new Color(222, 249, 250));
             table.setShowGrid(false);
             table.setShowHorizontalLines(true);
             table.setRowHeight(table.getRowHeight() + 20); // set row height

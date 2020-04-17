@@ -1,4 +1,4 @@
-package ui.incentiveui;
+package ui.guiforcase5;
 
 import dto.Incentives;
 import persist.IncentivesManager;
@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
 // import javax.swing.JOptionPane;
-import com.toedter.calendar.JDateChooser;
+
 //        import lombok.Data;
 
 public class IncentiveMainPage extends JFrame {
@@ -17,10 +17,7 @@ public class IncentiveMainPage extends JFrame {
     private JButton createButton, editButton, deleteButton;
     private JScrollPane jScrollPane1;
     private JTabbedPane jTabbedPane1;
-    private DefaultTableModel defaultTableModel;
     private JTable jTable1;
-    private Collection<Incentives> incentivelist;
-    private IncentivesManagerImpl incentivesManagerImpl;
     private int dealerID;
 
 
@@ -29,9 +26,6 @@ public class IncentiveMainPage extends JFrame {
         initComponents();
         addActionListener();
         refreshTableContents();
-        IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
-        Collection<Incentives> incentivelist= incentivesManagerImpl.getListOfIncentives();
-
     }
 
 
@@ -44,7 +38,8 @@ public class IncentiveMainPage extends JFrame {
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                new ui.incentiveui.CreatePage(dealerID);
+//                new CreatePageWithSearchButton(dealerID);
+                new CreatePage(dealerID);
             }
         });
         editButton.addActionListener(new ActionListener() {
@@ -57,7 +52,7 @@ public class IncentiveMainPage extends JFrame {
                     Incentives incentives=extract(rowIndex);
 
 
-                    new ui.incentiveui.EditPage(dealerID,incentives);
+                    new ui.guiforcase5.EditPage(dealerID,incentives);
                 }catch (Exception e1){
                     JOptionPane.showMessageDialog(null,"plesae select a row");
                 }
@@ -232,50 +227,9 @@ public class IncentiveMainPage extends JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[])  {
-//        ui.Incentivedb.operations operations=new operations();
-//        try {
-//            operations.createConection();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
-        /* Set the Nimbus look and feel */
-        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
-        // (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the default
-         * look and feel. For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(IncentiveMainPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(IncentiveMainPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(IncentiveMainPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(IncentiveMainPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        // </editor-fold>
 
-        /* Create and display the form */
-        //java.awt.EventQueue.invokeLater(new Runnable() {
-//        IncentiveMainPage incentiveMainPage=new IncentiveMainPage(7839);
-//        incentiveMainPage.setVisible(true);
-        new IncentiveMainPage(78721).setVisible(true);
-//            public void run() {
-//                new IncentiveMainPage().setVisible(true);
-//            }
+        new IncentiveMainPage(31).setVisible(true);
 
-        // });
     }
 
 
