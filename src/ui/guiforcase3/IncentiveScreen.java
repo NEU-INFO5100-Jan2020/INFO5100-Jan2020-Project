@@ -33,11 +33,12 @@ public class IncentiveScreen {
 		else {
 		JFrame frame = new JFrame("Incentive Details");		
 		frame.setSize(700, 300);
-		String[] columns = {"Title", "Type", "Value", "End Date"};
+		String[] columns = {"IncentiveId","Title", "Type", "Value", "End Date"};
 		DefaultTableModel model = new DefaultTableModel(columns, 0);
 		
 		for (Incentives inc : result) {
 			Vector<String> row = new Vector<>();
+			row.add(inc.getIncentiveId()+"");
 			row.add(inc.getTitle());
 			row.add(inc.getDiscountType());
 			row.add(inc.getDiscountValue() + "");						
