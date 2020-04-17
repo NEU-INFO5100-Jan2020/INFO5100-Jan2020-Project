@@ -15,7 +15,7 @@ class VehicleSorterTest {
 
   void initialize() {
     vsf = new VehicleSearchFilter(1);
-    dsf = new DealerSearchFilter("WA98109", 1, 2);
+    //dsf = new DealerSearchFilter("WA98109", 1, 2);
     isf = new IncentiveSearchFilter(19);
     SortFilter dummy = new SortFilter();
   }
