@@ -25,7 +25,7 @@ public class Frame_1 extends JFrame {
     JLabel lbl_headline, lbl_make, lbl_model, lbl_year, lbl_gif, lbl_price, lbl_Err_YearEnd, lbl_to;
     ImageIcon icon;
     ArrayList<JComboBox<String>> cbbList;
-    JComboBox cbb_make, cbb_model, cbb_price;
+    JComboBox<String> cbb_make, cbb_model, cbb_price;
     JComboBox<String> cbb_yearStart, cbb_yearEnd;
     ArrayList<JButton> jbList;
     ArrayList<ImageIcon> imageList;
@@ -98,13 +98,15 @@ public class Frame_1 extends JFrame {
                 }
 
                 String make = cbb_make.getSelectedItem().toString();
-                if (make.equals("All Make")) {
+                if (make.equals("All Make") ) {
                     make = "";
                 }
 
-                String model = cbb_model.getSelectedItem().toString();
-                if (model.equals("All Model")) {
+                String model = "";
+                if (cbb_model.getSelectedItem() == null || model.equals("All Model") || make.isEmpty() || make == null) {
                     model = "";
+                } else {
+                    model = cbb_model.getSelectedItem().toString();
                 }
 
                 Frame_2 f2 = new Frame_2(dealer,
@@ -161,22 +163,25 @@ public class Frame_1 extends JFrame {
         this.add(cbb_price);
 
 
-        DefaultComboBoxModel makeModel = new DefaultComboBoxModel();
-        makeModel.addElement("All Make");
-        makeModel.addElement(FrameUtilities.getMake(makeList));
+        DefaultComboBoxModel<String> makeModel = new DefaultComboBoxModel<>(FrameUtilities.getMake(makeList));
         cbb_make.setModel(makeModel);
 
-        DefaultComboBoxModel modelModel = new DefaultComboBoxModel();
-        modelModel.addElement("All Model");
-        modelModel.addElement(FrameUtilities.getModelOnMake(makeList,cbb_make.getSelectedItem().toString()));
-        cbb_model.setModel(modelModel);
+        DefaultComboBoxModel<String> modelModel = new DefaultComboBoxModel<>(FrameUtilities.getModelOnMake(makeList,cbb_make.getSelectedItem().toString()));
 
+        cbb_model.setModel(modelModel);
+        cbb_model.setEnabled(false);
         cbb_make.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     System.out.println("User Select" + cbb_make.getSelectedItem());
                 }
+                if (cbb_make.getSelectedItem().toString() == "All Make") {
+                    cbb_model.setEnabled(false);
+                } else {
+                    cbb_model.setEnabled(true);
+                }
+
                 cbb_model.setModel(new DefaultComboBoxModel(FrameUtilities.getModelOnMake(makeList,cbb_make.getSelectedItem().toString())));
             }
         });
@@ -229,9 +234,10 @@ public class Frame_1 extends JFrame {
 
 //    public static void main(String[] args) {
 //        Dealer d = new Dealer();
-//        d.setDealerId(10);
+//        d.setDealerId(1);
 //        d.setDealerName("default");
-//        new Frame_1(d);
+//
+//        new Frame_1(d, new JFrame());
 //    }
 
 }
