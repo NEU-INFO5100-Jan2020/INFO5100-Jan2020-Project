@@ -44,7 +44,7 @@ class EditPage extends JFrame {
     public Incentives incentives;
     // public int[][] priceRangeArray;
 
-    Font botton = new Font("Courier", Font.BOLD, 21);
+    Font botton = new Font("Helvetica", Font.BOLD, 21);
 
     public EditPage(int dealerID, int rowIndex, ActionListener actionListener) {
 
@@ -104,9 +104,9 @@ class EditPage extends JFrame {
 
     private void createMainComponent(int dealerID) {
         mainTitle = new JLabel("Edit Incentives");
-        Font mainTitleFont = new Font("Courier", Font.BOLD, 27);
+        Font mainTitleFont = new Font("Helvetica", Font.BOLD, 27);
         mainTitle.setFont(mainTitleFont);
-        Font mainCommonFont = new Font("Courier", Font.PLAIN, 17);
+        Font mainCommonFont = new Font("Helvetica", Font.PLAIN, 17);
         vehicleIDLabel = new JLabel("VIN: ");
         vehicleIDLabel.setFont(mainCommonFont);
 //        selectPriceLabel = new JLabel("<html><body><p>Select Price Range for Vehicles</p><body></html>");
@@ -124,7 +124,7 @@ class EditPage extends JFrame {
         welcomeLabel = new JLabel("Welcome, " + dealerID);
         welcomeLabel.setFont(mainCommonFont);
 
-        Font cautionFont = new Font("Courier", Font.PLAIN,5);
+        Font cautionFont = new Font("Helvetica", Font.PLAIN,5);
 
 
         newVehicleButton = new JCheckBox("New Vehicles");
@@ -138,9 +138,9 @@ class EditPage extends JFrame {
         rightTitle = new JLabel(
                 "<html><body><p align=\"center\">Edit Incentive Details for A Certain Vehicle<br>Or Group of Vehicles</p><body</html>");
 
-        Font rightTitleFont = new Font("Courier", Font.BOLD, 17);
+        Font rightTitleFont = new Font("Helvetica", Font.BOLD, 17);
         rightTitle.setFont(rightTitleFont);
-        Font rightCommonFont = new Font("Courier", Font.PLAIN, 15);
+        Font rightCommonFont = new Font("Helvetica", Font.PLAIN, 15);
         titleLabel = new JLabel("Title");
         titleLabel.setFont(rightCommonFont);
         valueLabel = new JLabel("Value");
@@ -223,7 +223,7 @@ class EditPage extends JFrame {
     private void placeMainComponents() {
         int mainLabelX = 40;
         int mainTextX = 180;
-        mainTitle.setBounds(150, 40, 250, 20);
+        mainTitle.setBounds(150, 40, 250, 30);
         welcomeLabel.setBounds(300,10,200,20);
         vehicleIDLabel.setBounds(mainLabelX, 100, 150, 20);
         selectPriceLabel.setBounds(mainLabelX, 120, 150, 20);
@@ -235,7 +235,7 @@ class EditPage extends JFrame {
     private void placeRightComponents() {
         int rightLabelX = 25;
         int rightTextX = 150;
-        rightTitle.setBounds(35, 25, 500, 40);
+        rightTitle.setBounds(65, 25, 500, 40);
         titleLabel.setBounds(rightLabelX, 100, 130, 30);
         valueLabel.setBounds(rightLabelX, 215, 130, 30);
         descriptionLabel.setBounds(rightLabelX, 285, 130, 50);

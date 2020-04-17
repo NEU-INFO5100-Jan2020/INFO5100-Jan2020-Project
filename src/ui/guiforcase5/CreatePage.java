@@ -1,5 +1,6 @@
 package ui.guiforcase5;
 
+import dto.BigDataType;
 import service.IncentiveSearchFilterElement;
 import service.SortFilter;
 import service.Search;
@@ -13,6 +14,9 @@ import javax.swing.border.Border;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
+import java.util.List;
+
 import com.toedter.calendar.JDateChooser;
 
 //        import lombok.Data;
@@ -39,7 +43,7 @@ public class CreatePage {
     private int dealerID;
     private static int[] vehicleIDList;
 
-    Font botton = new Font("Courier", Font.BOLD, 21);
+    Font botton = new Font("Helvetica", Font.BOLD, 21);
 
     public CreatePage(int dealerID) {
         setDealerID(dealerID);
@@ -142,8 +146,10 @@ public class CreatePage {
 
         Search s = new Search(isf, dummy);
         s.doSearch();
-//        vehicleIDList = s.getResults();
-        vehicleIDList = s.getArrayOfVehicleID();
+//        Collection<? extends BigDataType> results =  s.getResults();
+//
+////        vehicleIDList = s.getResults();
+//        vehicleIDList = s.getArrayOfVehicleID((List<? extends BigDataType>) results);
     }
 
 
@@ -187,9 +193,9 @@ public class CreatePage {
 
     private void createMainComponent(int dealerID) {
         mainTitle = new JLabel("Create Incentives");
-        Font mainTitleFont = new Font("Courier", Font.BOLD, 27);
+        Font mainTitleFont = new Font("Helvetica", Font.BOLD, 27);
         mainTitle.setFont(mainTitleFont);
-        Font mainCommonFont = new Font("Courier", Font.PLAIN, 17);
+        Font mainCommonFont = new Font("Helvetica", Font.PLAIN, 17);
         vehicleIDLabel = new JLabel("VIN");
         vehicleIDLabel.setFont(mainCommonFont);
         selectPriceLabel = new JLabel("<html><body><p>Price Range</p><body></html>");
@@ -205,13 +211,13 @@ public class CreatePage {
         welcomeLabel = new JLabel("Welcome, " + dealerID);
         welcomeLabel.setFont(mainCommonFont);
         cautionLabel = new JLabel("Enter in integers.");
-        Font cautionFont = new Font("Courier", Font.PLAIN,12);
+        Font cautionFont = new Font("Helvetica", Font.PLAIN,12);
         cautionLabel.setFont(cautionFont);
 
         makeCombobox = new JComboBox(makelist);
         makeCombobox.setFont(mainCommonFont);
 
-        Font radioFont = new Font("Courier",Font.BOLD,20);
+        Font radioFont = new Font("Helvetica",Font.BOLD,20);
         oneRadioButton = new JRadioButton("Create for one vehicle");
         oneRadioButton.setFont(radioFont);
         oneRadioButton.setSelected(true);
@@ -233,9 +239,9 @@ public class CreatePage {
         rightTitle = new JLabel(
                 "<html><body><p align=\"center\">Add Incentive Details for A Certain Vehicle<br>Or Group of Vehicles</p><body</html>");
 
-        Font rightTitleFont = new Font("Courier", Font.BOLD, 17);
+        Font rightTitleFont = new Font("Helvetica", Font.BOLD, 17);
         rightTitle.setFont(rightTitleFont);
-        Font rightCommonFont = new Font("Courier", Font.PLAIN, 15);
+        Font rightCommonFont = new Font("Helvetica", Font.PLAIN, 15);
         titleLabel = new JLabel("Title");
         titleLabel.setFont(rightCommonFont);
         valueLabel = new JLabel("Value");
@@ -324,7 +330,7 @@ public class CreatePage {
     private void placeMainComponents() {
         int mainLabelX = 50;
         int mainTextX = 180;
-        mainTitle.setBounds(325, 40, 800, 20);
+        mainTitle.setBounds(325, 40, 800, 40);
         welcomeLabel.setBounds(750,10,150,20);
 
         oneRadioButton.setBounds(20, 130,300,40);
@@ -352,7 +358,7 @@ public class CreatePage {
     private void placeRightComponents() {
         int rightLabelX = 25;
         int rightTextX = 150;
-        rightTitle.setBounds(35, 25, 500, 40);
+        rightTitle.setBounds(65, 25, 500, 40);
         titleLabel.setBounds(rightLabelX, 100, 130, 30);
         valueLabel.setBounds(rightLabelX, 215, 130, 30);
         descriptionLabel.setBounds(rightLabelX, 285, 130, 50);
