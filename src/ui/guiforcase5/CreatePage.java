@@ -1,6 +1,5 @@
 package ui.guiforcase5;
 
-import dto.BigDataType;
 import service.IncentiveSearchFilterElement;
 import service.SortFilter;
 import service.Search;
@@ -14,9 +13,9 @@ import javax.swing.border.Border;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -42,6 +41,7 @@ public class CreatePage {
     private JDateChooser startDateChooser, endDateChooser;
 
     private int dealerID;
+    int min, max;
     private static int[] vehicleIDList;
 
     Font botton = new Font("Helvetica", Font.BOLD, 21);
@@ -51,7 +51,7 @@ public class CreatePage {
         createComponents(dealerID);
         placeComponents();
         addComponents();
-        addListeners();
+        addListeners2();
         jframe.setLocation(30,370);
         jframe.setVisible(true);
 
@@ -61,41 +61,89 @@ public class CreatePage {
         this.dealerID = dealerID;
     }
 
-    private void addListeners() {
+//    private void addListeners() {
+//        createButton.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                Incentives incentive=new Incentives();
+//                try {
+//                    vehicleIDList = setSearchFilter();
+//                } catch (NumberFormatException enf) {
+//                    JOptionPane.showMessageDialog(jframe, "Please Enter Price Range in Integers.");
+//                } catch (IllegalArgumentException iae) {
+//                    JOptionPane.showMessageDialog(jframe, "Price Range Is Invalid.");
+//                }
+//
+//
+//
+//                if (vehicleIDList == null || vehicleIDList.length == 0) {
+//                    System.out.println(0);
+//                    JOptionPane.showMessageDialog(jframe, "There is no vehicle meeting your requirements.");
+//                } else {
+//                    System.out.println(vehicleIDList.length);
+//                    IncentivesManagerImpl incentivesManagerImpl=new IncentivesManagerImpl();
+//                    IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
+//
+//
+//                    try {
+//                        setIncentiveApplyData(incentive);
+//
+//                        incentivesManagerImpl.addIncentive2(incentive, vehicleIDList);
+//                    }
+//                    catch (NumberFormatException eN) {
+//                        JOptionPane.showMessageDialog(jframe, "Please Enter Value in Integer");
+//                    } catch (NullPointerException eEmpty) {
+//                        JOptionPane.showMessageDialog(jframe, "Please enter All The Details.");
+//                    }
+//                    catch (SQLException e1) {
+//                        e1.printStackTrace();
+//                    }
+//                    finally {
+////                    CreatePage.dispose();
+//                        incentiveMainPage.setVisible(true);
+//
+//                        incentiveMainPage.refreshTableContents();
+//                    }
+//                }
+//
+//            }
+//        });
+//    }
+
+
+    private void addListeners2() {
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Incentives incentive=new Incentives();
-                vehicleIDList = setSearchFilter();
-                System.out.println(vehicleIDList.length);
-                if (vehicleIDList.length == 0) {
-                    JOptionPane.showMessageDialog(jframe, "There is no vehicle meeting your requirements.");
-                } else {
-                    IncentivesManagerImpl incentivesManagerImpl=new IncentivesManagerImpl();
-                    IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
-
-
-                    try {
+                try {
+                    vehicleIDList = setSearchFilter();
+                    System.out.println(vehicleIDList.length);
+                    if (vehicleIDList == null || vehicleIDList.length == 0) {
+                        System.out.println(0);
+                        JOptionPane.showMessageDialog(jframe, "There is no vehicle meeting your requirements.");
+                    }else{
+                        IncentivesManagerImpl incentivesManagerImpl=new IncentivesManagerImpl();
                         setIncentiveApplyData(incentive);
-
                         incentivesManagerImpl.addIncentive2(incentive, vehicleIDList);
-                    } catch (NullPointerException eEmpty) {
-                        JOptionPane.showMessageDialog(jframe, "Please enter All The Details.");
-                    } catch (SQLException e1) {
-                        e1.printStackTrace();
-                    }
-                    finally {
-//                    CreatePage.dispose();
-                        incentiveMainPage.setVisible(true);
-
-                        incentiveMainPage.refreshTableContents();
                     }
                 }
-
+                catch (NumberFormatException enf) {
+                    JOptionPane.showMessageDialog(jframe, "Please Enter Value Or Price Range in Integer");
+                } catch (IllegalArgumentException iae) {
+                    JOptionPane.showMessageDialog(jframe, "Price Range Is Invalid.");
+                } catch(NullPointerException eNull) {
+                    JOptionPane.showMessageDialog(jframe, "Please enter All The Details.");
+                } catch(SQLException e1) {
+                    e1.printStackTrace();
+                } finally {
+                    IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
+                    incentiveMainPage.setVisible(true);
+                    incentiveMainPage.refreshTableContents();
+                }
             }
         });
     }
 
-    private int[] setSearchFilter() {
+    private int[] setSearchFilter() throws RuntimeException{
         IncentiveSearchFilter isf = new IncentiveSearchFilter(dealerID);
         SortFilter dummy = new SortFilter();
 
@@ -105,27 +153,26 @@ public class CreatePage {
             isf.addElement(vinNum);
         }
         if (groupRadioButton.isSelected()) {
-            int min;
-            try {
-                min = Integer.parseInt(minimumInt.getText());
-            } catch (NumberFormatException e) {
+            if(minimumInt.getText().equals("")) {
                 min = Integer.MIN_VALUE;
+            } else{
+                min = Integer.parseInt(minimumInt.getText());
             }
-            int max;
-            try {
-                max = Integer.parseInt(maximumInt.getText());
-            } catch (NumberFormatException e) {
+            if(maximumInt.getText().equals("")) {
                 max = Integer.MAX_VALUE;
+            }else{
+                max = Integer.parseInt(maximumInt.getText());
             }
 
+
             if (max < min || max < 0) {
-                JOptionPane.showMessageDialog(jframe, "Range is invalid.");
-            } else {
-                IncentiveSearchFilterElement minimum = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MINPrice, Integer.toString(min));
-                isf.addElement(minimum);
-                IncentiveSearchFilterElement maximum = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAXPrice, Integer.toString(max));
-                isf.addElement(maximum);
+                throw new IllegalArgumentException();
             }
+            IncentiveSearchFilterElement minimum = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MINPrice, Integer.toString(min));
+            isf.addElement(minimum);
+            IncentiveSearchFilterElement maximum = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAXPrice, Integer.toString(max));
+            isf.addElement(maximum);
+
             if (! makeCombobox.getSelectedItem().toString().equals("Default")) {
                 IncentiveSearchFilterElement make = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAKE, makeCombobox.getSelectedItem().toString());
                 isf.addElement(make);
@@ -146,29 +193,35 @@ public class CreatePage {
         return s.getArrayOfVehicleID();
 
     }
+    private boolean isNumericzidai(String str) {
+        Pattern pattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
+        Matcher isNum = pattern.matcher(str);
+        return isNum.matches();
+    }
 
 
     // apply button
-    private void setIncentiveApplyData(Incentives incentive)  {
-        try {
-            incentive.setDiscountValue(Integer.parseInt(valueText.getText()));
-            incentive.setTitle(titleText.getText());
-            incentive.setDiscountType(String.valueOf(incentiveTypeBox.getSelectedItem()));
-            incentive.setDescription(descriptionText.getText());
-            incentive.setDisclaimer(disclaimerText.getText());
-            incentive.setStartDate(startDateChooser.getDate());
-            incentive.setEndDate(endDateChooser.getDate());
-            incentive.setDealerId(dealerID);
-            incentive.setIsDeleted(false);
-            String filterList = convertFilterListToString();
-            incentive.setFilterList(filterList);
-            incentive.setVehicleIdList("");
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(jframe, "Please Enter Value in Integer");
+    private void setIncentiveApplyData(Incentives incentive) throws NullPointerException{
+        if(titleText.getText().equals("") || Objects.equals(incentiveTypeBox.getSelectedItem(), "Default") || valueText.getText().equals("") || descriptionText.getText().equals("") || disclaimerText.getText().equals("") || startDateChooser.getDate() == null || endDateChooser.getDate() == null) {
+            throw new NullPointerException();
         }
+
+        incentive.setDiscountValue(Integer.parseInt(valueText.getText()));
+        incentive.setTitle(titleText.getText());
+        incentive.setDiscountType(String.valueOf(incentiveTypeBox.getSelectedItem()));
+        incentive.setDescription(descriptionText.getText());
+        incentive.setDisclaimer(disclaimerText.getText());
+        incentive.setStartDate(startDateChooser.getDate());
+        incentive.setEndDate(endDateChooser.getDate());
+        incentive.setDealerId(dealerID);
+        incentive.setIsDeleted(false);
+        String filterList = convertFilterListToString();
+        incentive.setFilterList(filterList);
+        incentive.setVehicleIdList("");
+
     }
 
-    private String convertFilterListToString() {
+    private String convertFilterListToString()  {
         String[] arr = new String[6];
         if (newVehicleButton.isSelected()) {
             if (vehicleIDText.getText().equals("")) {
@@ -184,16 +237,17 @@ public class CreatePage {
         }
         if (groupRadioButton.isSelected()) {
             arr[0] = "null";
+
             if (minimumInt.getText().equals("")) {
                 arr[1] = "null";
-            }else {
-                arr[1] = minimumInt.getText();
             }
             if (maximumInt.getText().equals("")) {
                 arr[2] = "null";
-            }else {
-                arr[2] = maximumInt.getText();
             }
+
+            arr[1] = minimumInt.getText();
+            arr[2] = maximumInt.getText();
+
             arr[3] = Objects.requireNonNull(makeCombobox.getSelectedItem()).toString();
             if (newVehicleButton.isSelected()) {
                 arr[4] = "true";
@@ -414,4 +468,6 @@ public class CreatePage {
 
 
     }
+
+
 }
