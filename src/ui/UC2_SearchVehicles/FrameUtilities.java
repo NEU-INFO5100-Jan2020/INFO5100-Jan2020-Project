@@ -4,9 +4,7 @@ import dto.Vehicle;
 
 import persist.VehicleManager;
 import persist.VehicleManagerImpl;
-import service.SearchFilterElement;
-import service.VehicleSearchFilter;
-import service.VehicleSearchFilterElement;
+import service.*;
 
 import java.util.*;
 
@@ -15,11 +13,17 @@ public class FrameUtilities {
     String make;
     int price;
     int VIN;
+
+    private static MakeModelContainer mmc;
+    private static MakeModelContainerPopulator mmcp = new MakeModelContainerPopulator();
+
     public FrameUtilities(String make, int price, int VIN) {
         this.make = make;
         this.price = price;
         this.VIN = VIN;
     }
+
+
 
     @Override
     public String toString() {
@@ -55,19 +59,19 @@ public class FrameUtilities {
         return priceModel.toArray(arrayModel);
     }
 
-    public static String[] getMake(ArrayList<MakeDTO> makeDTOS) {
+    public static String[] getMake(ArrayList<MakeModel> makeDTOS) {
         String[] makeArray = new String[makeDTOS.size()];
         for (int i = 0; i < makeDTOS.size(); i++) {
-            makeArray[i] = makeDTOS.get(i).make;
+            makeArray[i] = makeDTOS.get(i).getMake();
         }
         return makeArray;
     }
 
-    public static Vector<String> getModelOnMake(ArrayList<MakeDTO> makeDTOS, String make) {
+    public static Vector<String> getModelOnMake(ArrayList<MakeModel> makeDTOS, String make) {
         Vector<String> dataMode = new Vector<>();
-        for (MakeDTO makeDTO : makeDTOS) {
-            if (makeDTO.make.equals(make)) {
-                for (String model : makeDTO.models) {
+        for (MakeModel makeDTO : makeDTOS) {
+            if (makeDTO.getMake().equals(make)) {
+                for (String model : makeDTO.getModels()) {
                     dataMode.add(model);
                 }
             }
@@ -75,14 +79,10 @@ public class FrameUtilities {
         return dataMode;
     }
 
-    public static ArrayList<MakeDTO> getMakeModelFromDb() {
-        MakeModelCbbInitiator mccInit = new MakeModelCbbInitiator();
-        Collection<MakeDTO> temp = mccInit.getMakeModel();
-        ArrayList<MakeDTO> dtoList = new ArrayList<>();
-        for (MakeDTO makeDTO : temp) {
-            dtoList.add(makeDTO);
-        }
-        return dtoList;
+    public static Collection<MakeModel> getMakeModelFromDb() {
+        mmc = mmcp.getMakeModels();
+        return mmc.getMakeModels();
+
     }
 
 

@@ -4,6 +4,8 @@ package ui.UC2_SearchVehicles;
 //import dto.*;
 
 import dto.Dealer;
+import service.MakeModel;
+import service.MakeModelContainerPopulator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +19,7 @@ public class Frame_1 extends JFrame {
 
     private Dealer dealer;
 
-    private ArrayList<MakeDTO> makeList;
+    private ArrayList<MakeModel> makeList;
 
     ArrayList<JLabel> lblList;
     JLabel lbl_headline, lbl_make, lbl_model, lbl_year, lbl_gif, lbl_price, lbl_Err_YearEnd, lbl_to;
@@ -27,14 +29,14 @@ public class Frame_1 extends JFrame {
     JComboBox<Integer> cbb_yearStart, cbb_yearEnd;
     ArrayList<JButton> jbList;
     ArrayList<ImageIcon> imageList;
-    JFrame jf;
+    JFrame jf, previousPage;
 
     final static int yInternal = 100;
     final static int xInterval = 100;
 
-    public Frame_1(Dealer dealer) {
+    public Frame_1(Dealer dealer, JFrame previousPage) {
         this.dealer = dealer;
-
+        this.previousPage = previousPage;
         InitData();
         InitialComponents();
         AddComponents();
@@ -43,7 +45,7 @@ public class Frame_1 extends JFrame {
     }
 
     private void InitData() {
-        makeList = FrameUtilities.getMakeModelFromDb();
+        makeList = (ArrayList<MakeModel>) FrameUtilities.getMakeModelFromDb();
     }
 
 
@@ -117,7 +119,7 @@ public class Frame_1 extends JFrame {
 
         cbb_yearStart = new JComboBox<>(FrameUtilities.initStartYearModel());
         //cbb_yearStart.setBounds(lbl_year.getX() + xInterval - 30, lbl_year.getY(), 60, 20);
-        cbb_yearStart.setBounds(lbl_year.getX() + xInterval , lbl_year.getY(), 60, 20);
+        cbb_yearStart.setBounds(lbl_year.getX() + xInterval , lbl_year.getY(), 100, 20);
         cbb_yearStart.setMaximumRowCount(8);
         this.add(cbb_yearStart);
 
@@ -194,21 +196,21 @@ public class Frame_1 extends JFrame {
     }
 
     private void InitFrame() {
-        setBounds(00, 00, 800, 650);
-        setLocationRelativeTo(null);
+        setBounds(00, 00, 1000, 650);
+        setLocationRelativeTo(previousPage);
         setResizable(false);
         setTitle("5100 Final Project UserCase 2");
 
         getContentPane().setLayout(null);
         jf =this;
     }
-
-    public static void main(String[] args) {
-        Dealer d = new Dealer();
-        d.setDealerId(10);
-        d.setDealerName("default");
-        new Frame_1(d);
-    }
+//
+//    public static void main(String[] args) {
+//        Dealer d = new Dealer();
+//        d.setDealerId(10);
+//        d.setDealerName("default");
+//        new Frame_1(d);
+//    }
 
 }
 

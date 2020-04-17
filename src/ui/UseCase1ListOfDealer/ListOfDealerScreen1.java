@@ -352,7 +352,7 @@ public class ListOfDealerScreen1 {
                     int row = table.rowAtPoint(me.getPoint());
                     if(row!=-1) {
                         // Stephen added
-                        new Frame_1(dealerList.get(row));
+                        new Frame_1(dealerList.get(row), frame);
 
                         //temprory screen for usecase 2 has to be replaced
                         //change made to pass the complete Dealer object instead of just the dealer id.
