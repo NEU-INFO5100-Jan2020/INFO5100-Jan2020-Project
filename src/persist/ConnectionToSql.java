@@ -68,7 +68,7 @@ public class ConnectionToSql {
                     temp.add(resultSet.getString(9)); //Color
                     temp.add(resultSet.getInt(10)); //Mileage
                     temp.add(resultSet.getObject(11)); //Image
-                    temp.add(resultSet.getInt(12)); //IncentiveId
+                    temp.add(resultSet.getString(12)); //IncentiveId
                     temp.add(resultSet.getFloat(13)); //DiscountPrice
                     temp.add(resultSet.getInt(14)); //Ratings
 

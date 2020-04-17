@@ -1,6 +1,7 @@
 package persist;
 
 import dto.Vehicle;
+import service.IncentiveSearchFilter;
 import service.VehicleSearchFilter;
 
 
@@ -12,6 +13,8 @@ public interface VehicleManager {
     /*Returns a list of Vehicles with its details, based on the specific 'dealerId' passed*/
     // Use case 4 backend
     Collection<Vehicle> getVehiclesBasedOnDealerId(int dealerId);
+
+    Collection<Vehicle> getVehiclesForCase5(IncentiveSearchFilter incentiveSearchFilter);
 
     /*Returns a list of Vehicles with its details, based on 'vehicleModel' / 'vehicleMake' / 'year' / 'vehiclePrice'. Vehicle object is passed as argument*/
     // Use case 2, 5 backend
