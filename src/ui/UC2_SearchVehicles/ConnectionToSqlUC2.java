@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class ConnectionToSql {
+public class ConnectionToSqlUC2 {
     private static final String hostName = "is-swang01.ischool.uw.edu";
     private static final String dbName = "Jan2020_Info5100";
     private static final String user = "INFO6210";

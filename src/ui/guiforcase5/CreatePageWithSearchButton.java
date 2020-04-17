@@ -142,7 +142,7 @@ public class CreatePageWithSearchButton extends JFrame {
 
         Search s = new Search(isf, dummy);
         s.doSearch();
-        vid = s.getArrayOfVehicleID();
+//        vid = s.getArrayOfVehicleID();
     }
     private void searchButtonActionPerformed(ActionEvent evt) {
             setSearchFilter();
