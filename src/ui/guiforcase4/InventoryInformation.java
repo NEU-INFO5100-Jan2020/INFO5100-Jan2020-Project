@@ -78,7 +78,15 @@ public class InventoryInformation extends JFrame {
     btn1.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        int vehID = (int) list_jp_vList.getSelectedValue();
+        //Get the VehicleID, VIN of selected vehicle
+        /*int vehID = (int) list_jp_vList.getSelectedValue();
+        Collection<Vehicle> veh = vmi.getVehiclesBasedOnDealerId(dID);
+        Vehicle modifyV = new Vehicle();
+        for (Vehicle v : veh) {
+          if (v.getVehicleId() == vehID) {
+            modifyV = v;
+          }
+        }*/
         new ModifyInventory(dID);
         frame.dispose();
       }
