@@ -1,14 +1,7 @@
-
 /.idea
 src/ui/.DS_Store
 src/.DS_Store
 .DS_Store
 *.class
-<<<<<<< HEAD
-*.kotlin_module
-*.iml
-target
-=======
 *.kotlintarget_module
 /target
->>>>>>> e58cedf62d691c16a28ba68adc4502ae17720241
