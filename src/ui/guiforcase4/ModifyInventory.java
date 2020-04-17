@@ -17,12 +17,12 @@ public class ModifyInventory extends JFrame {
 
   public ModifyInventory(Vehicle modifyV) {
     this.modifyV = modifyV;
-    //this.dID=dID;
+    this.dID=modifyV.getDealerId();
     initialFrame();
   }
 
   private void initialFrame() {
-    JFrame frame = new JFrame("Modifying Inventory of DealerID " + modifyV.getDealerId());
+    JFrame frame = new JFrame("Modifying Inventory of DealerID " + dID);
     JPanel panel = new JPanel(null);
     frame.setSize(400, 480);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,15 +32,15 @@ public class ModifyInventory extends JFrame {
   }
 
   private void addComponents(JFrame frame, JPanel panel) {
-    JLabel jl = new JLabel("Dealer" + modifyV.getDealerId());
+    JLabel jl = new JLabel("Dealer" + dID);
     jl.setFont(new Font("Arial", Font.PLAIN, 18));
     jl.setForeground(Color.BLUE);
     jl.setHorizontalAlignment(JTextField.CENTER);
     jl.setBounds(160, 10, 80, 30);
     panel.add(jl);
     String[] jLabelTexts = new String[]{"VehicleId:", "VIN:", "Make:", "Model:", "Year:", "Category:", "Price:",
-            "Color:", "Miles:", "Image:"};
-    JLabel[] jls = new JLabel[10];
+            "Color:", "Miles:"};//delete the image button, since db team says the field isn't working
+    JLabel[] jls = new JLabel[9];
     for (int i = 0; i < jls.length; i++) {
       jls[i] = new JLabel();
       jls[i].setText(jLabelTexts[i]);
@@ -72,14 +72,13 @@ public class ModifyInventory extends JFrame {
     JTextField tf6 = new JTextField(10);
     tf6.setBounds(160, 230, 160, 25);
     tf6.setText(Float.toString(modifyV.getPrice()));
-    tf6.setEditable(false);
     JTextField tf7 = new JTextField(10);
     tf7.setBounds(160, 290, 160, 25);
     tf7.setText(Integer.toString(modifyV.getMileage()));
-    JTextField tf8 = new JTextField(10);
-    tf8.setBounds(160, 320, 160, 25);
+    /*JTextField tf8 = new JTextField(10);
+    tf8.setBounds(160, 320, 160, 25);*/
     //tf9.setText(Image.toString(modifyV.getImage()));
-    JTextField[] jtfs = new JTextField[]{tf1, tf2, tf3, tf4, tf5,tf6,tf7,tf8};
+    JTextField[] jtfs = new JTextField[]{tf1, tf2, tf3, tf4, tf5,tf6,tf7};
     for (int i = 0; i < jtfs.length; i++) {
       jtfs[i].setFont(new Font("Arial", Font.PLAIN, 15));
       panel.add(jtfs[i]);
