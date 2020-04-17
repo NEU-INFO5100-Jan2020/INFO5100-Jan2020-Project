@@ -136,8 +136,8 @@ class EditPage extends JFrame {
 
         makeLabel = new JLabel("Make: ");
         makeMakeLabel = new JLabel("");
-        makeLabel.setFont(mainCommonFont);
-        makeMakeLabel.setFont(mainBoldFont);
+        makeLabel.setFont(mainBoldFont);
+        makeMakeLabel.setFont(mainCommonFont);
 
         welcomeLabel = new JLabel("Welcome, " + dealerID);
         welcomeLabel.setFont(mainCommonFont);

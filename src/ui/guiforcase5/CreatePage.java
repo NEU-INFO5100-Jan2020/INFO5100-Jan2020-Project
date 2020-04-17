@@ -167,37 +167,7 @@ public class CreatePage {
             JOptionPane.showMessageDialog(jframe, "Please Enter Value in Integer");
         }
     }
-//    private String convertFilterListToString() {
-//        String[] arr = new String[6];
-//
-//        try {
-//            arr[0] = vehicleIDText.getText();
-//        } catch (NullPointerException e) {
-//            arr[0] = "null";
-//        }
-//        try {
-//            arr[1] = minimumInt.getText();
-//        } catch (NullPointerException e) {
-//            arr[1] = "null";
-//        }
-//        try {
-//            arr[2] = maximumInt.getText();
-//        } catch (NullPointerException e) {
-//            arr[2] = "null";
-//        }
-//        arr[3] = Objects.requireNonNull(makeCombobox.getSelectedItem()).toString();
-//        if (newVehicleButton.isSelected()) {
-//            arr[4] = "true";
-//        } else {
-//            arr[4] = "false";
-//        }
-//        if (usedVehicleButton.isSelected()) {
-//            arr[5] = "true";
-//        } else {
-//            arr[5] = "false";
-//        }
-//        return String.join(" ", arr);
-//    }
+
     private String convertFilterListToString() {
         String[] arr = new String[6];
         if (newVehicleButton.isSelected()) {
