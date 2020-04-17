@@ -22,6 +22,8 @@ class VehicleSorter implements Sorter {
 
   @Override
   public ArrayList<? extends BigDataType> sort(Collection<? extends BigDataType> in) {
+     ((ArrayList<Vehicle> )in).sort(Vehicle::compareTo);
+
     return (ArrayList<Vehicle>) in;
   }
 }
