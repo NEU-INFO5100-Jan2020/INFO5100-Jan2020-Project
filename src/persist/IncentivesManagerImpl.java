@@ -248,4 +248,48 @@ public class IncentivesManagerImpl implements IncentivesManager {
 
         return incentivesResult;
     }
+	@Override
+	//CheckIncentives of a specific VehicleId
+	public Collection<Incentives> checkIncentives(int VehicleId) {
+		ArrayList<ArrayList> result = new ArrayList<ArrayList>();
+		try {
+			ConnectionToSql connect = new ConnectionToSql();
+			Connection connection = connect.connectToDB();
+			String query = "SELECT * from Incentives inc\r\n"
+					+ "				inner join VehicleIncentivesMap map on map.IncentiveId = inc.IncentiveId				\r\n"
+					+ "				where inc.EndDate>=GETDATE() \r\n" + "				and inc.Isdeleted=0 \r\n"
+					+ "				and VehicleId= ?";
+
+			PreparedStatement pstmt = connection.prepareStatement(query);
+			pstmt.setInt(1, VehicleId);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ArrayList temp = new ArrayList();
+				temp.add(rs.getInt("IncentiveId")); // IncentiveId
+				temp.add(rs.getString("Title")); // Title
+				temp.add(rs.getString("Description")); // Description
+				temp.add(rs.getString("Disclaimer")); // Disclaimer
+				temp.add(rs.getDate("StartDate")); // StartDate
+				temp.add(rs.getDate("EndDate")); // EndDate
+				temp.add(rs.getInt("DiscountValue")); // DiscountValue
+				temp.add(rs.getString("DiscountType")); // DiscountType
+				temp.add(rs.getInt("DealerId")); // DealerId
+				temp.add(rs.getBoolean("IsDeleted")); // IsDeleted
+				temp.add(rs.getString("FilterList")); // FilterList
+				temp.add(rs.getString("VehicleIdList")); // VehicleIdList
+
+				// Adding each row to the result
+				result.add(temp);
+			}
+			/* Convert to Incentives object */
+			ArrayList<Incentives> incentivesResult = convertToIncentivesObject(result);
+			return incentivesResult;
+
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
