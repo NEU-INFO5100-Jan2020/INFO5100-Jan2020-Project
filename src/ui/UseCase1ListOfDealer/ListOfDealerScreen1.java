@@ -13,8 +13,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Vector;
-import static ui.UseCase1ListOfDealer.Constants.Constant.*;
-
 import ui.UC2_SearchVehicles.Frame_1;
 import ui.UseCase1ListOfDealer.Validator.Validation;
 import persist.*;
@@ -59,7 +57,7 @@ public class ListOfDealerScreen1 {
         frame = new JFrame();
         frame.setTitle("Automotive Dealers Website");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000,500);
+        frame.setSize(1000,650);
         frame.getContentPane().setLayout(new BorderLayout());
         initializeLeftPanel();
         initializeRightPanel();
@@ -69,15 +67,14 @@ public class ListOfDealerScreen1 {
         panelLeft= new JPanel();
         panelLeft.setBackground(new Color(0, 30, 54));
         panelLeft.setLayout(null);
-        panelLeft.setPreferredSize(LeftPanel);
+        panelLeft.setPreferredSize(new Dimension(280,650));
         frame.getContentPane().add(panelLeft,BorderLayout.WEST);
     }
 
     //method for right panel containg thr table
     private void initializeRightPanel() {
         panelRight= new JPanel();
-//         panelRight.setBackground(new Color(222, 249, 250));
-        panelRight.setPreferredSize(RightPanel);
+        panelRight.setPreferredSize(new Dimension(720,650));
         panelRight.setLayout(new BoxLayout(panelRight, BoxLayout.Y_AXIS));
         frame.getContentPane().add(panelRight,BorderLayout.CENTER);
     }
@@ -86,11 +83,11 @@ public class ListOfDealerScreen1 {
     private void initializeDealerName() {
         JLabel lblName = new JLabel("Enter Dealers Name: ");
         lblName.setBounds(10, 50, 200, 14);
-        lblName.setForeground(White);
+        lblName.setForeground(Color.WHITE);
         panelLeft.add(lblName);
 
         textFieldDealerName = new JTextField();
-        textFieldDealerName.setBounds(10, 80, 200, 20);
+        textFieldDealerName.setBounds(10, 90, 200, 20);
         textFieldDealerName.setColumns(10);
         panelLeft.add(textFieldDealerName);
         highlightDealerName();
@@ -118,8 +115,7 @@ public class ListOfDealerScreen1 {
     private void highlightDealerName(){
         Border defaultBorder = textFieldDealerName.getBorder();
 
-        textFieldDealerName.setBorder(BorderFactory.createLineBorder(Blue, 3));
-
+        textFieldDealerName.setBorder(BorderFactory.createLineBorder(new Color(0, 113, 238), 3));
         textFieldDealerName.getDocument().addDocumentListener(new DocumentListener()
         {
             @Override
@@ -145,7 +141,7 @@ public class ListOfDealerScreen1 {
                 }
                 else
                 {
-                    textFieldDealerName.setBorder(BorderFactory.createLineBorder(Blue, 3));
+                    textFieldDealerName.setBorder(BorderFactory.createLineBorder(new Color(0, 113, 238), 3));
                 }
             }
         });
@@ -154,12 +150,12 @@ public class ListOfDealerScreen1 {
     //method to handel zipcode
     private void initializeZipCode() {
         JLabel lblPhone = new JLabel("Enter Zipcode (Search Dealers Near You): ");
-        lblPhone.setBounds(10, 150, 270, 14);
+        lblPhone.setBounds(10, 190, 270, 14);
         lblPhone.setForeground(Color.WHITE);
         panelLeft.add(lblPhone);
 
         textFieldZipCode = new JTextField();
-        textFieldZipCode.setBounds(10, 180, 200, 20);
+        textFieldZipCode.setBounds(10, 230, 200, 20);
         textFieldZipCode.setColumns(10);
         panelLeft.add(textFieldZipCode);
         highlightZipCode();
@@ -169,7 +165,7 @@ public class ListOfDealerScreen1 {
     // method to highlight zipcode textfield if empty
     private void highlightZipCode(){
         Border defaultBorder2 = textFieldZipCode.getBorder();
-        textFieldZipCode.setBorder(BorderFactory.createLineBorder(Blue, 3));
+        textFieldZipCode.setBorder(BorderFactory.createLineBorder(new Color(0, 113, 238), 3));
         textFieldZipCode.getDocument().addDocumentListener(new DocumentListener()
         {
             @Override
@@ -195,7 +191,7 @@ public class ListOfDealerScreen1 {
                 }
                 else
                 {
-                    textFieldZipCode.setBorder(BorderFactory.createLineBorder(Blue, 3));
+                    textFieldZipCode.setBorder(BorderFactory.createLineBorder(new Color(0, 113, 238), 3));
                 }
             }
         });
@@ -221,8 +217,8 @@ public class ListOfDealerScreen1 {
     //method to handle range in miles
     private void initializeMileRange() {
         JLabel lblDistanceInMiles = new JLabel("Select the distance range in miles: ");
-        lblDistanceInMiles.setBounds(10, 250, 300, 14);
-        lblDistanceInMiles.setForeground(White);
+        lblDistanceInMiles.setBounds(10, 330, 300, 14);
+        lblDistanceInMiles.setForeground(Color.WHITE);
         panelLeft.add(lblDistanceInMiles);
 
         comboBox = new JComboBox<String>();
@@ -236,14 +232,14 @@ public class ListOfDealerScreen1 {
             public void actionPerformed(ActionEvent arg0) {
             }
         });
-        comboBox.setBounds(10, 280, 200, 20);
+        comboBox.setBounds(10, 370, 200, 20);
         panelLeft.add(comboBox);
     }
 
     // method to handel search button
     private void initializeSearchButton() {
         btnSearch = new JButton("Search");
-        btnSearch.setBounds(45, 370, 180, 40);
+        btnSearch.setBounds(45, 500, 180, 40);
         panelLeft.add(btnSearch);
 
         //Action Listener for SearchButton
@@ -277,17 +273,12 @@ public class ListOfDealerScreen1 {
     //CreationOfTable
     private void initialiseAndCreateTable() throws Exception {
         String[] columns = {"ID","Dealer Name", "Dealer Address", "Phone Number","ZipCod"};
+
         DefaultTableModel model = new DefaultTableModel(columns, 0);
         DealerSearchFilter dsf= new DealerSearchFilter();
-        ArrayList<String> zipcodes = dsf.zipCodeRadius(textFieldZipCode.getText(),0,Integer.parseInt(comboBox.getSelectedItem().toString()));
+        dealerList = (ArrayList<Dealer>) dsf.dealerZipSearch(textFieldDealerName.getText(),textFieldZipCode.getText(),0,Integer.parseInt(comboBox.getSelectedItem().toString()));
 
-       for(String zip: zipcodes){
-           System.out.print(zip + " ");
-       }
-       DealerManagerImpl imp = new DealerManagerImpl();
-       dealerList= (ArrayList<Dealer>) imp.getDealerDetails(textFieldDealerName.getText(), zipcodes );
        if(dealerList.size()>0){
-
             for( Dealer detail : dealerList)
             {
                 Vector<String> row = new Vector<>();
@@ -314,9 +305,8 @@ public class ListOfDealerScreen1 {
                 }
             };
 
-            table.setPreferredSize(new Dimension(700,500));
-            table.setForeground(White);
-//             table.setBackground(new Color(222, 249, 250));
+            table.setPreferredSize(new Dimension(700,650));
+            table.setForeground(Color.WHITE);
             table.setShowGrid(false);
             table.setShowHorizontalLines(true);
             table.setRowHeight(table.getRowHeight() + 20); // set row height
@@ -331,7 +321,7 @@ public class ListOfDealerScreen1 {
 
             //Table Header
             JTableHeader header = table.getTableHeader();
-            header.setFont(Header);
+            header.setFont(new Font("Arial", Font.CENTER_BASELINE, 15));
             header.setBackground(new Color(0, 30, 54));
             header.setForeground(Color.WHITE);
             //set header size
@@ -349,32 +339,29 @@ public class ListOfDealerScreen1 {
             // entry point for usecase 2 by click on a particular table row
             table.addMouseListener(new MouseAdapter() {
                 public void mouseReleased(MouseEvent me) {
-                    int row = table.rowAtPoint(me.getPoint());
+                    if(me.getClickCount()==2)
+                    {int row = table.rowAtPoint(me.getPoint());
                     if(row!=-1) {
-                        // Stephen added
-                        new Frame_1(dealerList.get(row), frame);
-
-                        //temprory screen for usecase 2 has to be replaced
-                        //change made to pass the complete Dealer object instead of just the dealer id.
-                        // NewTextFrame nf= new NewTextFrame(dealerList.get(row));
-                    }
+                        // Stephen added (USECASE_2)
+                        new Frame_1(dealerList.get(row),frame);
+                    }}
                 }
             });
             System.out.println(table.getHeight());
-        }
-        else {
+       }
+       else {
              JLabel lblNoDataFound= new JLabel("No Record Available with Dealer Name " + textFieldDealerName.getText().toUpperCase() +
                      " within " + (comboBox.getSelectedItem().toString()) + " Miles of ZipCode "+ textFieldZipCode.getText());
 
-             lblNoDataFound.setForeground(Blue);
+             lblNoDataFound.setForeground(new Color(0, 113, 238));
              lblNoDataFound.setFont(new Font("Arial", Font.PLAIN, 15));
              lblNoDataFound.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-             lblNoDataFound.setPreferredSize(new Dimension(700, 500));
+             lblNoDataFound.setPreferredSize(new Dimension(700, 650));
              panelRight.add(lblNoDataFound);
              panelRight.setEnabled(true);
-        }
+       }
     }
-    
+
     // method to set the column width dynamically
     public static void setJTableColumnsWidth(JTable table, int tablePreferredWidth,
                                              double... percentages) {
