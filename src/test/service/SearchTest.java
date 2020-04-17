@@ -35,13 +35,13 @@ class SearchTest {
   @Test
   void IncentiveSearch() {
     initialize();
-    IncentiveSearchFilterElement isfe1 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "Used");
+//    IncentiveSearchFilterElement isfe1 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "Used");
     IncentiveSearchFilterElement isfe2 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAXPrice, "100000");
-//    IncentiveSearchFilterElement isfe3 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "New");
+    IncentiveSearchFilterElement isfe3 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "New");
 
-    isf.addElement(isfe1);
+//    isf.addElement(isfe1);
     isf.addElement(isfe2);
-//    isf.addElement(isfe3);
+    isf.addElement(isfe3);
     s = new Search(isf, dummy);
     s.doSearch();
     for (BigDataType v: s.getResults()){

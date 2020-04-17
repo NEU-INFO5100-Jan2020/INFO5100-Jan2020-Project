@@ -65,57 +65,37 @@ public class CreatePage {
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Incentives incentive=new Incentives();
-//                setSearchFilter();
-//                System.out.println(vehicleIDList.length);
-//                if (vehicleIDList.length == 0) {
-//                    JOptionPane.showMessageDialog(jframe, "There is no vehicle meeting your requirements.");
-//                } else {
-//                    IncentivesManagerImpl incentivesManagerImpl=new IncentivesManagerImpl();
-//                    IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
-//
-//
-//                    try {
-//                        setIncentiveApplyData(incentive);
-//
-//                        incentivesManagerImpl.addIncentive2(incentive, vehicleIDList);
-//                    } catch (NullPointerException eEmpty) {
-//                        JOptionPane.showMessageDialog(jframe, "Please enter All The Details.");
-//                    } catch (SQLException e1) {
-//                        e1.printStackTrace();
-//                    }
-//                    finally {
-////                    CreatePage.dispose();
-//                        incentiveMainPage.setVisible(true);
-////                    JOptionPane.showMessageDialog(jframe, "Applied.");
-//                        incentiveMainPage.refreshTableContents();
-//                    }
-//                }
+                vehicleIDList = setSearchFilter();
+                System.out.println(vehicleIDList.length);
+                if (vehicleIDList.length == 0) {
+                    JOptionPane.showMessageDialog(jframe, "There is no vehicle meeting your requirements.");
+                } else {
+                    IncentivesManagerImpl incentivesManagerImpl=new IncentivesManagerImpl();
+                    IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
 
 
-                IncentivesManagerImpl incentivesManagerImpl=new IncentivesManagerImpl();
-                IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
+                    try {
+                        setIncentiveApplyData(incentive);
 
-
-                try {
-                    setIncentiveApplyData(incentive);
-
-                    incentivesManagerImpl.addIncentive2(incentive, vehicleIDList);
-                } catch (NullPointerException eEmpty) {
-                    JOptionPane.showMessageDialog(jframe, "Please enter All The Details.");
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
-                finally {
+                        incentivesManagerImpl.addIncentive2(incentive, vehicleIDList);
+                    } catch (NullPointerException eEmpty) {
+                        JOptionPane.showMessageDialog(jframe, "Please enter All The Details.");
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
+                    finally {
 //                    CreatePage.dispose();
-                    incentiveMainPage.setVisible(true);
-//                    JOptionPane.showMessageDialog(jframe, "Applied.");
-                    incentiveMainPage.refreshTableContents();
+                        incentiveMainPage.setVisible(true);
+
+                        incentiveMainPage.refreshTableContents();
+                    }
                 }
+
             }
         });
     }
 
-    private void setSearchFilter() {
+    private int[] setSearchFilter() {
         IncentiveSearchFilter isf = new IncentiveSearchFilter(dealerID);
         SortFilter dummy = new SortFilter();
 
@@ -163,10 +143,8 @@ public class CreatePage {
 
         Search s = new Search(isf, dummy);
         s.doSearch();
-//        Collection<? extends BigDataType> results =  s.getResults();
-//
-////        vehicleIDList = s.getResults();
-//        vehicleIDList = s.getArrayOfVehicleID((List<? extends BigDataType>) results);
+        return s.getArrayOfVehicleID();
+
     }
 
 
@@ -189,67 +167,46 @@ public class CreatePage {
             JOptionPane.showMessageDialog(jframe, "Please Enter Value in Integer");
         }
     }
-//    private String convertFilterListToString() {
-//        String[] arr = new String[6];
-//
-//        try {
-//            arr[0] = vehicleIDText.getText();
-//        } catch (NullPointerException e) {
-//            arr[0] = "null";
-//        }
-//        try {
-//            arr[1] = minimumInt.getText();
-//        } catch (NullPointerException e) {
-//            arr[1] = "null";
-//        }
-//        try {
-//            arr[2] = maximumInt.getText();
-//        } catch (NullPointerException e) {
-//            arr[2] = "null";
-//        }
-//        arr[3] = Objects.requireNonNull(makeCombobox.getSelectedItem()).toString();
-//        if (newVehicleButton.isSelected()) {
-//            arr[4] = "true";
-//        } else {
-//            arr[4] = "false";
-//        }
-//        if (usedVehicleButton.isSelected()) {
-//            arr[5] = "true";
-//        } else {
-//            arr[5] = "false";
-//        }
-//        return String.join(" ", arr);
-//    }
+
     private String convertFilterListToString() {
         String[] arr = new String[6];
-        if (vehicleIDText.getText().equals("")) {
-            arr[0] = "null";
-        }else {
-            arr[0] = vehicleIDText.getText();
-        }
-        if (minimumInt.getText().equals("")) {
-            arr[1] = "null";
-        }else {
-            arr[1] = minimumInt.getText();
-        }
-        if (maximumInt.getText().equals("")) {
-            arr[2] = "null";
-        }else {
-            arr[2] = maximumInt.getText();
-        }
-        arr[3] = Objects.requireNonNull(makeCombobox.getSelectedItem()).toString();
         if (newVehicleButton.isSelected()) {
-            arr[4] = "true";
-        } else {
+            if (vehicleIDText.getText().equals("")) {
+                arr[0] = "null";
+            }else {
+                arr[0] = vehicleIDText.getText();
+            }
+            arr[1] = "null";
+            arr[2] = "null";
+            arr[3] = "Default";
             arr[4] = "false";
-        }
-        if (usedVehicleButton.isSelected()) {
-            arr[5] = "true";
-        } else {
             arr[5] = "false";
         }
+        if (groupRadioButton.isSelected()) {
+            arr[0] = "null";
+            if (minimumInt.getText().equals("")) {
+                arr[1] = "null";
+            }else {
+                arr[1] = minimumInt.getText();
+            }
+            if (maximumInt.getText().equals("")) {
+                arr[2] = "null";
+            }else {
+                arr[2] = maximumInt.getText();
+            }
+            arr[3] = Objects.requireNonNull(makeCombobox.getSelectedItem()).toString();
+            if (newVehicleButton.isSelected()) {
+                arr[4] = "true";
+            } else {
+                arr[4] = "false";
+            }
+            if (usedVehicleButton.isSelected()) {
+                arr[5] = "true";
+            } else {
+                arr[5] = "false";
+            }
+        }
         return String.join(" ", arr);
-
     }
 
     private void createComponents(int dealerID) {
