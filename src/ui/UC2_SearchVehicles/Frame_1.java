@@ -26,7 +26,7 @@ public class Frame_1 extends JFrame {
     ImageIcon icon;
     ArrayList<JComboBox<String>> cbbList;
     JComboBox cbb_make, cbb_model, cbb_price;
-    JComboBox<Integer> cbb_yearStart, cbb_yearEnd;
+    JComboBox<String> cbb_yearStart, cbb_yearEnd;
     ArrayList<JButton> jbList;
     ArrayList<ImageIcon> imageList;
     JFrame jf, previousPage;
@@ -92,10 +92,25 @@ public class Frame_1 extends JFrame {
                     price = price.substring(1);
                 }
 
+                String year = cbb_yearStart.getSelectedItem().toString();
+                if (year.equals("All Year")) {
+                    year = "";
+                }
+
+                String make = cbb_make.getSelectedItem().toString();
+                if (make.equals("All Make")) {
+                    make = "";
+                }
+
+                String model = cbb_model.getSelectedItem().toString();
+                if (model.equals("All Model")) {
+                    model = "";
+                }
+
                 Frame_2 f2 = new Frame_2(dealer,
-                        cbb_make.getSelectedItem().toString(),
-                        cbb_model.getSelectedItem().toString(),
-                        cbb_yearStart.getSelectedItem().toString(),
+                        make,
+                        model,
+                        year,
                         price);
 
                 f2.setBounds(100, 100, 600, 700);
@@ -146,8 +161,15 @@ public class Frame_1 extends JFrame {
         this.add(cbb_price);
 
 
-        cbb_make.setModel(new DefaultComboBoxModel(FrameUtilities.getMake(makeList)));
-        cbb_model.setModel(new DefaultComboBoxModel(FrameUtilities.getModelOnMake(makeList,cbb_make.getSelectedItem().toString())));
+        DefaultComboBoxModel makeModel = new DefaultComboBoxModel();
+        makeModel.addElement("All Make");
+        makeModel.addElement(FrameUtilities.getMake(makeList));
+        cbb_make.setModel(makeModel);
+
+        DefaultComboBoxModel modelModel = new DefaultComboBoxModel();
+        modelModel.addElement("All Model");
+        modelModel.addElement(FrameUtilities.getModelOnMake(makeList,cbb_make.getSelectedItem().toString()));
+        cbb_model.setModel(modelModel);
 
         cbb_make.addItemListener(new ItemListener() {
             @Override
@@ -204,7 +226,7 @@ public class Frame_1 extends JFrame {
         getContentPane().setLayout(null);
         jf =this;
     }
-//
+
 //    public static void main(String[] args) {
 //        Dealer d = new Dealer();
 //        d.setDealerId(10);
