@@ -78,6 +78,7 @@ public class InventoryInformation extends JFrame {
     btn1.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
+        int vehID = (int) list_jp_vList.getSelectedValue();
         new ModifyInventory(dID);
         frame.dispose();
       }
