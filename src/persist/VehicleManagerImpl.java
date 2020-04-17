@@ -93,7 +93,7 @@ public class VehicleManagerImpl implements VehicleManager {
 
   @Override
   public Vehicle addVehicle(Vehicle vehicle) {
-    String query = "INSERT INTO Dealer (VIN , DealerId ,Make , Model , Year , " +
+    String query = "INSERT INTO VehicleTable (VIN , DealerId ,Make , Model , Year , " +
             "Category , Price , Color , Miles , Image , IncentiveId , DiscountPrice , Ratings) " +
             "VALUES ('"+vehicle.getVin()+"' , "+vehicle.getDealerId()+" , '"+vehicle.getMake()+"' , '"+vehicle.getModel()+
                "' , "+vehicle.getYear()+" , '"+vehicle.getCategory()+"' , "+vehicle.getPrice()+" , '"+vehicle.getColor()+
