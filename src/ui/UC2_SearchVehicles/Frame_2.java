@@ -1,6 +1,7 @@
 package ui.UC2_SearchVehicles;
 
 
+import dto.Dealer;
 import dto.Vehicle;
 
 import javax.swing.*;
@@ -10,8 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Frame_2 extends JFrame{
-    List<Vehicle> vehicles;
 
+    private List<Vehicle> vehicleList;
+
+    public List<Vehicle> getVehicleList(int dealerID, String make, String model, String year, String maxPrice) {
+        if (vehicleList == null) {
+            vehicleList = FrameUtilities.vehicleSearchAndSort(dealerID, make, model, year,maxPrice);
+        }
+        return vehicleList;
+    }
     private String dealerName;
     private JScrollPane jsp;
     private JTable jt;
@@ -20,15 +28,17 @@ public class Frame_2 extends JFrame{
     ArrayList<JButton> button_list;
 
 
-    public Frame_2(String name){
-        dealerName = name;
+    public Frame_2(Dealer dealer, String make, String model, String year, String maxPrice){
+        getVehicleList(dealer.getDealerId(), make, model, year,maxPrice);
+
+        dealerName = dealer.getDealerName();
         label_list = new ArrayList<>();
         panel_list = new ArrayList<>();
         button_list = new ArrayList<>();
         createComponents();
         addComponents();
 
-        vehicles = FrameUtilities.createTestVehicles();
+        vehicleList = FrameUtilities.createTestVehicles();
     }
 
     public void createComponents(){
@@ -58,7 +68,7 @@ public class Frame_2 extends JFrame{
         }
         // hard coded paging size here
         int pagingSize = 5;
-        JPanel tempPanel = createPaging(jt, pagingSize, vehicles);
+        JPanel tempPanel = createPaging(jt, pagingSize, vehicleList);
         panel_main.add(tempPanel);
 
 
@@ -66,19 +76,20 @@ public class Frame_2 extends JFrame{
     }
     public void createLabel(){
 
-        JLabel lbl_header = new JLabel("List of Vehicles of Dealer " + dealerName);
+        JLabel lbl_header = new JLabel("Vehicles of " + dealerName);
         lbl_header.setBounds(300,50,300,30);
+        lbl_header.setFont(new Font("Arial", Font.BOLD, 15));
         label_list.add(lbl_header);
 
     }
 
     public void createTable(){
         String[] header = {"Make", "Price", "Vin"};
-        vehicles = FrameUtilities.createTestVehicles();
+        //vehicleList = FrameUtilities.createTestVehicles();
 
-        String[][] jt_data = new String[vehicles.size()][header.length];
+        String[][] jt_data = new String[vehicleList.size()][header.length];
         int row = 0;
-        for (Vehicle vehicle : vehicles) {
+        for (Vehicle vehicle : vehicleList) {
             jt_data[row++] = new String[]{vehicle.getMake(), String.valueOf(vehicle.getPrice()), String.valueOf(vehicle.getVin())};
         }
         jt = new JTable(jt_data, header){
