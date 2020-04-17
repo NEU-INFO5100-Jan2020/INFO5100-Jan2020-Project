@@ -24,7 +24,3 @@ class SortFilterElement {
     this.order = order;
   }
 }
-
-class IncentiveSortFilter extends SortFilter{
-
-}
