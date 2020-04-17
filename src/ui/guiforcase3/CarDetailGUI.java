@@ -40,14 +40,15 @@ public class CarDetailGUI extends JPanel {
         JButton button = new JButton("Discount Details");
         panel.add(button);
         button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                frame.dispose();
-                new DummyFirstPage();
+             public void actionPerformed(ActionEvent ae) {
+            	//frame.dispose();
+            	Vehicle v = (Vehicle) vehicleResult.toArray()[0];
+            	IncentiveScreen incs=new IncentiveScreen(v.getVehicleId());   	
+            	
             }
-        });
-
-        return panel;
-    }
+            });          	
+       return panel;    
+	}
 
     public JPanel panelStarRating(JFrame frame) {
         JPanel panel = new JPanel();

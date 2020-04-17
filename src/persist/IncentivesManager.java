@@ -35,4 +35,7 @@ public interface IncentivesManager {
       Returns true - if incentive is de-applied successfully
              false - if there is an error in operation and incentive isn't de-applied*/
     boolean deApplyIncentive(int incentiveId, int[] vehicleIdsArray);
+    
+    /*Check incentives for a specific vehicleId*/    
+    Collection<Incentives> checkIncentives(int VehicleId);
 }

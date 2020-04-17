@@ -1,13 +1,14 @@
-package ui.UseCase1ListOfDealers;
+package ui.UseCase1ListOfDealer;
 
 import javax.swing.*;
 import java.awt.*;
+import dto.Dealer;
 
 class NewTextFrame extends JFrame
 {
     private JFrame frame;
     private JTextField textFieldDealerName;
-    public NewTextFrame(Dealer dealer) {
+    public NewTextFrame(dto.Dealer dealer) {
         frame = new JFrame();
         frame.setTitle("Automotive Dealers Website");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
