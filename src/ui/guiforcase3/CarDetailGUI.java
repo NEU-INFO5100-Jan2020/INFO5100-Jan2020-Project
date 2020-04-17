@@ -10,18 +10,18 @@ import java.awt.event.ActionListener;
 import java.util.Collection;
 
 public class CarDetailGUI extends JPanel {
-    Collection<Vehicle> vehicleResult;
-    int rating;
+	Collection<Vehicle> vehicleResult;
+	int rating;
 
-    public JPanel panelCarDetails(Collection<Vehicle> vehicleResult){
-        JPanel panel = new CarDetailPanel(vehicleResult);
-        panel.setBackground(Color.GRAY);
-        panel.getPreferredSize();
+	public JPanel panelCarDetails(Collection<Vehicle> vehicleResult) {
+		JPanel panel = new CarDetailPanel(vehicleResult);
+		panel.setBackground(Color.GRAY);
+		panel.getPreferredSize();
 
-        return panel;
-    }
+		return panel;
+	}
 
-    public JPanel panelBackButton(JFrame frame){
+	public JPanel panelBackButton(JFrame frame){
         JPanel panel = new JPanel();
         JButton button = new JButton("Back");
         panel.add(button);
@@ -35,19 +35,22 @@ public class CarDetailGUI extends JPanel {
         return panel;
     }
 
-    public JPanel panelDiscountDetails(JFrame frame){
+	public JPanel panelDiscountDetails(JFrame frame){
         JPanel panel = new JPanel();
         JButton button = new JButton("Discount Details");
         panel.add(button);
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                frame.dispose();
-                new DummyFirstPage();
+            	//frame.dispose();
+            	Vehicle v = (Vehicle) vehicleResult.toArray()[0];
+            	IncentiveScreen incs=new IncentiveScreen(v.getVehicleId());     	
+            	
             }
-        });
-
+            });           	
+                
         return panel;
-    }
+    
+	}
 
     public JPanel panelStarRating(JFrame frame) {
         JPanel panel = new JPanel();
