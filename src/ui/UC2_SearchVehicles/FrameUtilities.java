@@ -1,30 +1,116 @@
 package ui.UC2_SearchVehicles;
 
-//import dto.*;
-
 import dto.Vehicle;
-import org.omg.PortableInterceptor.INACTIVE;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
+import persist.VehicleManager;
+import persist.VehicleManagerImpl;
+import service.*;
+
+import java.util.*;
 
 public class FrameUtilities {
+
     String make;
     int price;
     int VIN;
+
+    private static MakeModelContainer mmc;
+    private static MakeModelContainerPopulator mmcp = new MakeModelContainerPopulator();
+
     public FrameUtilities(String make, int price, int VIN) {
         this.make = make;
         this.price = price;
         this.VIN = VIN;
     }
 
+
+
     @Override
     public String toString() {
         return "Make : " + make +
                 "price : " + price
                  ;
+    }
+
+
+    public static String[] initStartYearModel() {
+        ArrayList<String> startYearModel = new ArrayList<>();
+        startYearModel.add("All Year");
+        for (int i = 2020; i >= 1990; i--) {
+            startYearModel.add(String.valueOf(i));
+        }
+        return startYearModel.toArray(new String[startYearModel.size()]);
+    }
+
+    public static Integer[] initEndYearModel(int startYear) {
+        ArrayList<Integer> endYearModel = new ArrayList<>();
+        for (int i = 2020; i >= startYear; i--) {
+            endYearModel.add(i);
+        }
+        return endYearModel.toArray(new Integer[endYearModel.size()]);
+    }
+
+    public static String[] initPriceModel() {
+        ArrayList<String> priceModel = new ArrayList<>();
+        priceModel.add("No Max Price");
+        for (int i = 50000; i >= 0; i = i - 5000) {
+            priceModel.add("$" + i);
+        }
+
+        String[] arrayModel = new String[priceModel.size()];
+        return priceModel.toArray(arrayModel);
+    }
+
+    public static String[] getMake(ArrayList<MakeModel> makeDTOS) {
+        String[] makeArray = new String[makeDTOS.size()];
+        for (int i = 0; i < makeDTOS.size(); i++) {
+            makeArray[i] = makeDTOS.get(i).getMake();
+        }
+        return makeArray;
+    }
+
+    public static Vector<String> getModelOnMake(ArrayList<MakeModel> makeDTOS, String make) {
+        Vector<String> dataMode = new Vector<>();
+        for (MakeModel makeDTO : makeDTOS) {
+            if (makeDTO.getMake().equals(make)) {
+                for (String model : makeDTO.getModels()) {
+                    dataMode.add(model);
+                }
+            }
+        }
+        return dataMode;
+    }
+
+    public static Collection<MakeModel> getMakeModelFromDb() {
+        mmc = mmcp.getMakeModels();
+        return mmc.getMakeModels();
+
+    }
+
+
+    public static List<Vehicle> vehicleSearchAndSort(int dealerID, String make, String model, String year, String maxPrice) {
+        VehicleSearchFilter vsf = new VehicleSearchFilter(dealerID);
+        // VehicleSearchFilterElement vsfe1 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.MODEL, "Infiniti");
+        if (!make.isEmpty() && make != null) {
+            VehicleSearchFilterElement vsfe2 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.MAKE, make);
+            vsf.addElement(vsfe2);
+        }
+        if (!model.isEmpty() && model != null) {
+            VehicleSearchFilterElement vsfe1 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.MODEL, model);
+            vsf.addElement(vsfe1);
+        }
+        if (!year.isEmpty() && year != null) {
+            VehicleSearchFilterElement vsfe3 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.YEAR, year);
+            vsf.addElement(vsfe3);
+        }
+
+        VehicleSearchFilterElement vsfe4 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.PRICE, maxPrice);
+        vsf.addElement(vsfe4);
+
+        VehicleManager vhcManager = new VehicleManagerImpl();
+        ArrayList<Vehicle> vehicleList = (ArrayList<Vehicle>) vhcManager.getVehicles(vsf);
+
+        return vehicleList;
     }
 
     public static List<Vehicle> createTestVehicles() {
@@ -49,74 +135,5 @@ public class FrameUtilities {
     public static String[] createMake() {
         return new String[] {"Toyota", "Nissan", "Ford"};
     }
-
-    public static String[] createModel (String make) {
-        if (make == null)
-            return new String[] {"NULL"};
-        if (make.equals("Toyota")){
-            return new String[] {"Camry", "Corolla"};
-        }
-        else if (make.equals("Nissan")) {
-            return new String[] {"Altima", "GT-R", "Rogue"};
-        }
-        if (make.equals("Ford")){
-            return new String[] {"Focus"};
-        }
-        else
-            return new String[]{"No Model"};
-
-    }
-
-    public static Vehicle createVehicle() {
-        Vehicle vehicle = new Vehicle();
-        vehicle.setColor("Black");
-        vehicle.setCategory("Category");
-        vehicle.setDiscountPrice(8000);
-        vehicle.setPrice(10000);
-        vehicle.setMake("Ford");
-        vehicle.setModel("Focus");
-        vehicle.setMileage(11333);
-        vehicle.setVehicleId(9999);
-        vehicle.setDealerId(999);
-        vehicle.setRatings(555);
-        vehicle.setVin(12312312);
-        vehicle.setYear(2020);
-
-        return vehicle;
-    }
-
-    public static Integer[] initStartYearModel() {
-        ArrayList<Integer> startYearModel = new ArrayList<>();
-        for (int i = 1990; i <= 2020; i++) {
-            startYearModel.add(i);
-        }
-        Integer[] arrayModel = new Integer[startYearModel.size()];
-        return startYearModel.toArray(arrayModel);
-    }
-
-    public static Integer[] initEndYearModel(int startYear) {
-        ArrayList<Integer> endYearModel = new ArrayList<>();
-        for (int i = 2020; i >= startYear; i--) {
-            endYearModel.add(i);
-        }
-        Integer[] arrayModel = new Integer[endYearModel.size()];
-        return endYearModel.toArray(arrayModel);
-    }
-
-    public static String[] initPriceModel() {
-        ArrayList<String> priceModel = new ArrayList<>();
-        for (int i = 0; i < 50000; i = i + 5000) {
-            priceModel.add("$" + i);
-        }
-        priceModel.add("No Max Price");
-        String[] arrayModel = new String[priceModel.size()];
-        return priceModel.toArray(arrayModel);
-    }
-
-//    public static Collection<Vehicle> callDB(int dealerID) {
-//        Vehicle vhDB = new Vehicle();
-//        Collection<Vehicle> vehicles = vhDB.getListOfVehiclesBasedOnDealerId(dealerID);
-//        return vehicles;
-//    }
 
 }
