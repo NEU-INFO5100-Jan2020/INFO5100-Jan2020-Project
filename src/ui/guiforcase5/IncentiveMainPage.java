@@ -73,7 +73,7 @@ public class IncentiveMainPage extends JFrame {
         return null;
     }
 
-    public IncentiveMainPage incentiveMainPage;
+//    public IncentiveMainPage incentiveMainPage;
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -228,7 +228,7 @@ public class IncentiveMainPage extends JFrame {
      */
     public static void main(String args[])  {
 
-        new IncentiveMainPage(31).setVisible(true);
+        new IncentiveMainPage(19).setVisible(true);
 
     }
 
