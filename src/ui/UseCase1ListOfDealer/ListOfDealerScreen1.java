@@ -76,7 +76,7 @@ public class ListOfDealerScreen1 {
     //method for right panel containg thr table
     private void initializeRightPanel() {
         panelRight= new JPanel();
-        panelRight.setBackground(new Color(222, 249, 250));
+//         panelRight.setBackground(new Color(222, 249, 250));
         panelRight.setPreferredSize(RightPanel);
         panelRight.setLayout(new BoxLayout(panelRight, BoxLayout.Y_AXIS));
         frame.getContentPane().add(panelRight,BorderLayout.CENTER);
@@ -316,7 +316,7 @@ public class ListOfDealerScreen1 {
 
             table.setPreferredSize(new Dimension(700,500));
             table.setForeground(White);
-            table.setBackground(new Color(222, 249, 250));
+//             table.setBackground(new Color(222, 249, 250));
             table.setShowGrid(false);
             table.setShowHorizontalLines(true);
             table.setRowHeight(table.getRowHeight() + 20); // set row height
@@ -352,7 +352,7 @@ public class ListOfDealerScreen1 {
                     int row = table.rowAtPoint(me.getPoint());
                     if(row!=-1) {
                         // Stephen added
-                        // new Frame_1(selected dealer);
+                        new Frame_1(dealerList.get(row));
 
                         //temprory screen for usecase 2 has to be replaced
                         //change made to pass the complete Dealer object instead of just the dealer id.

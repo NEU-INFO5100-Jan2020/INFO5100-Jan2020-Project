@@ -92,7 +92,6 @@ public class TablePagingPanel extends JPanel {
                 if (jTable.getSelectedRow() >= 0) {
                     int selectIndex = jTable.getSelectedRow();
                     Vehicle selectedVehicle = vehicles.get(selectIndex);
-                    System.out.println(selectedVehicle);
                     ArrayList<Vehicle> parameters = new ArrayList<>();
                     parameters.add(selectedVehicle);
                     new CarDetailGUI(parameters);
