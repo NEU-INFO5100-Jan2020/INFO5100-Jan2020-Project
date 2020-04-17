@@ -110,7 +110,7 @@ public class ModifyInventory extends JFrame {
     cmb1.addItem("White");
     cmb1.addItem("Red");
     cmb1.addItem("Gray");
-
+    cmb1.setSelectedItem(modifyV.getColor());
     JComboBox cmb2 = new JComboBox();
     cmb2.setBounds(160, 200, 160, 25);
     cmb2.addItem("New");
