@@ -22,7 +22,7 @@ class EditPage extends JFrame {
 
 
 
-    private JLabel mainTitle, vehicleIDLabel, selectPriceLabel,  makeLabel, welcomeLabel;
+    private JLabel mainTitle, vehicleIDLabel, makeLabel, welcomeLabel;
     private JCheckBox newVehicleButton, usedVehicleButton;
     private JButton applyButton;
 
@@ -32,23 +32,15 @@ class EditPage extends JFrame {
     private JTextArea descriptionText, disclaimerText;
     private JDateChooser startDateChooser, endDateChooser;
 
-    // IncentiveInput searchInput, applyInput;
-
-    private String vehicleID, title, description, disclaimer, incentiveType;
-    private int maximum, minimum;
-    private String value;
-    private boolean isNewVehicle;
-    private String startDate, endDate;
+    private JLabel vinLabel, minLabel, maxLabel, makeMakeLabel, lowLabel, highLabel;
     int rowIndex;
     private static int dealerID;
     public Incentives incentives;
-    // public int[][] priceRangeArray;
 
-    Font botton = new Font("Courier", Font.BOLD, 21);
 
-    public EditPage(int dealerID, int rowIndex, ActionListener actionListener) {
+    Font botton = new Font("Helvetica", Font.BOLD, 21);
 
-    }
+
 
     public EditPage(int dealerID, Incentives incentives) {
         this.dealerID=dealerID;
@@ -58,9 +50,28 @@ class EditPage extends JFrame {
         placeComponents();
         addComponents();
         addListeners();
+        displayFilterList();
         jframe.setLocation(1200,20);
         jframe.setVisible(true);
 
+    }
+    private void displayFilterList(){
+        String filterList = this.incentives.getFilterList();
+        String[] filterArray = filterList.split(" ");
+        vinLabel.setText(filterArray[0]);
+        minLabel.setText(filterArray[1]);
+        maxLabel.setText(filterArray[2]);
+        makeMakeLabel.setText(filterArray[3]);
+        if(filterArray[4].equals("true")) {
+            newVehicleButton.setSelected(true);
+        }else {
+            newVehicleButton.setSelected(false);
+        }
+        if(filterArray[5].equals("true")){
+            usedVehicleButton.setSelected(true);
+        }else{
+            usedVehicleButton.setSelected(false);
+        }
     }
 
     private void addListeners() {
@@ -104,33 +115,42 @@ class EditPage extends JFrame {
 
     private void createMainComponent(int dealerID) {
         mainTitle = new JLabel("Edit Incentives");
-        Font mainTitleFont = new Font("Courier", Font.BOLD, 27);
+        Font mainTitleFont = new Font("Helvetica", Font.BOLD, 27);
         mainTitle.setFont(mainTitleFont);
-        Font mainCommonFont = new Font("Courier", Font.PLAIN, 17);
+        Font mainCommonFont = new Font("Helvetica", Font.PLAIN, 17);
+        Font mainBoldFont = new Font("Helvetica", Font.BOLD,17);
         vehicleIDLabel = new JLabel("VIN: ");
-        vehicleIDLabel.setFont(mainCommonFont);
-//        selectPriceLabel = new JLabel("<html><body><p>Select Price Range for Vehicles</p><body></html>");
-        selectPriceLabel = new JLabel("<html><body><p>Price Range: </p><body></html>");
-        selectPriceLabel.setFont(mainCommonFont);
+        vehicleIDLabel.setFont(mainBoldFont);
+        vinLabel = new JLabel("");
+        vinLabel.setFont(mainCommonFont);
+        lowLabel = new JLabel("Min:");
+        lowLabel.setFont(mainBoldFont);
+        highLabel = new JLabel("Max:");
+        highLabel.setFont(mainBoldFont);
+        minLabel = new JLabel("");
+        minLabel.setFont(mainCommonFont);
+        maxLabel = new JLabel("");
+        maxLabel.setFont(mainCommonFont);
 
 
-//        vehicleIDText = new JTextField(17);
+
         makeLabel = new JLabel("Make: ");
-        makeLabel.setFont(mainCommonFont);
-//        minimumInt = new JTextField(7);
-//        maximumInt.addFocusListener(new JTextFieldHintListener(minimumInt, "min"));
-//        maximumInt = new JTextField(7);
-//        maximumInt.addFocusListener(new JTextFieldHintListener(maximumInt, "Max"));
+        makeMakeLabel = new JLabel("");
+        makeLabel.setFont(mainBoldFont);
+        makeMakeLabel.setFont(mainCommonFont);
+
         welcomeLabel = new JLabel("Welcome, " + dealerID);
         welcomeLabel.setFont(mainCommonFont);
 
-        Font cautionFont = new Font("Courier", Font.PLAIN,5);
+
 
 
         newVehicleButton = new JCheckBox("New Vehicles");
-        newVehicleButton.setFont(mainCommonFont);
+        newVehicleButton.setFont(mainBoldFont);
+        newVehicleButton.setEnabled(false);
         usedVehicleButton = new JCheckBox("Used Vehicles");
-        usedVehicleButton.setFont(mainCommonFont);
+        usedVehicleButton.setFont(mainBoldFont);
+        usedVehicleButton.setEnabled(false);
     }
 
 
@@ -138,9 +158,9 @@ class EditPage extends JFrame {
         rightTitle = new JLabel(
                 "<html><body><p align=\"center\">Edit Incentive Details for A Certain Vehicle<br>Or Group of Vehicles</p><body</html>");
 
-        Font rightTitleFont = new Font("Courier", Font.BOLD, 17);
+        Font rightTitleFont = new Font("Helvetica", Font.BOLD, 17);
         rightTitle.setFont(rightTitleFont);
-        Font rightCommonFont = new Font("Courier", Font.PLAIN, 15);
+        Font rightCommonFont = new Font("Helvetica", Font.PLAIN, 15);
         titleLabel = new JLabel("Title");
         titleLabel.setFont(rightCommonFont);
         valueLabel = new JLabel("Value");
@@ -187,12 +207,17 @@ class EditPage extends JFrame {
     private void addMainPanel() {
         mainPanel.add(mainTitle);
         mainPanel.add(vehicleIDLabel);
-        mainPanel.add(selectPriceLabel);
+        mainPanel.add(lowLabel);
+        mainPanel.add(highLabel);
         mainPanel.add(usedVehicleButton);
         mainPanel.add(newVehicleButton);
 
         mainPanel.add(makeLabel);
         mainPanel.add(welcomeLabel);
+        mainPanel.add(vinLabel);
+        mainPanel.add(minLabel);
+        mainPanel.add(maxLabel);
+        mainPanel.add(makeMakeLabel);
     }
 
     private void addRightPanel() {
@@ -222,12 +247,21 @@ class EditPage extends JFrame {
 
     private void placeMainComponents() {
         int mainLabelX = 40;
-        int mainTextX = 180;
-        mainTitle.setBounds(150, 40, 250, 20);
+        int filterX = 100;
+        mainTitle.setBounds(150, 40, 250, 30);
         welcomeLabel.setBounds(300,10,200,20);
-        vehicleIDLabel.setBounds(mainLabelX, 100, 150, 20);
-        selectPriceLabel.setBounds(mainLabelX, 120, 150, 20);
-        makeLabel.setBounds(mainLabelX,140,150,20);
+
+        vehicleIDLabel.setBounds(mainLabelX, 85, 60, 20);
+        vinLabel.setBounds(filterX,85,150,20);
+
+
+        lowLabel.setBounds(mainLabelX,110,60,20);
+        minLabel.setBounds(filterX,110,100,20);
+        highLabel.setBounds(200,110,60,20);
+        maxLabel.setBounds(260,110,150,20);
+
+        makeLabel.setBounds(mainLabelX,135,60,20);
+        makeMakeLabel.setBounds(filterX,135,150,20);
         newVehicleButton.setBounds(mainLabelX, 160, 150, 20);
         usedVehicleButton.setBounds(200,160,200,20);
     }
@@ -235,7 +269,7 @@ class EditPage extends JFrame {
     private void placeRightComponents() {
         int rightLabelX = 25;
         int rightTextX = 150;
-        rightTitle.setBounds(35, 25, 500, 40);
+        rightTitle.setBounds(65, 25, 500, 40);
         titleLabel.setBounds(rightLabelX, 100, 130, 30);
         valueLabel.setBounds(rightLabelX, 215, 130, 30);
         descriptionLabel.setBounds(rightLabelX, 285, 130, 50);

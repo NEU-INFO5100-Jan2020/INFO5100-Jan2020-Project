@@ -16,7 +16,7 @@ class SearchTest {
   void initialize() {
     vsf = new VehicleSearchFilter(1);
     dsf = new DealerSearchFilter("WA98109", 1, 2);
-    isf = new IncentiveSearchFilter(1);
+    isf = new IncentiveSearchFilter(19);
     SortFilter dummy = new SortFilter();
   }
 
@@ -35,13 +35,13 @@ class SearchTest {
   @Test
   void IncentiveSearch() {
     initialize();
-    IncentiveSearchFilterElement isfe1 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "Used");
-    IncentiveSearchFilterElement isfe2 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAXPrice, "10000");
-//    IncentiveSearchFilterElement isfe3 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "New");
+//    IncentiveSearchFilterElement isfe1 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "Used");
+    IncentiveSearchFilterElement isfe2 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAXPrice, "100000");
+    IncentiveSearchFilterElement isfe3 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "New");
 
-    isf.addElement(isfe1);
+//    isf.addElement(isfe1);
     isf.addElement(isfe2);
-//    isf.addElement(isfe3);
+    isf.addElement(isfe3);
     s = new Search(isf, dummy);
     s.doSearch();
     for (BigDataType v: s.getResults()){
@@ -78,11 +78,12 @@ class SearchTest {
   void getArrayOfVID(){
     initialize();
     IncentiveSearchFilterElement isfe1 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.NEW, "New");
-    IncentiveSearchFilterElement isfe2 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAXPrice, "50000");
+    IncentiveSearchFilterElement isfe2 = new IncentiveSearchFilterElement(IncentiveSearchFilterElement.IncentiveSearchCriterion.MAXPrice, "500000");
     isf.addElement(isfe1);
     isf.addElement(isfe2);
     s = new Search(isf, dummy);
     s.doSearch();
+    System.out.println(s.getArrayOfVehicleID().length);
     for (int vid: s.getArrayOfVehicleID()){
       System.out.println(vid);
     }
