@@ -12,17 +12,17 @@ import java.util.Vector;
 
 public class ModifyInventory extends JFrame {
   int dID;
-  //Vehicle modifyV;
+  Vehicle modifyV;
   private Map<Integer, Vector<String>> map = new HashMap<Integer, Vector<String>>();
 
-  public ModifyInventory(int dID) {
-    //this.modifyV = modifyV;
-    this.dID=dID;
+  public ModifyInventory(Vehicle modifyV) {
+    this.modifyV = modifyV;
+    //this.dID=dID;
     initialFrame();
   }
 
   private void initialFrame() {
-    JFrame frame = new JFrame("Managing Inventory of DealerI " + this.dID);
+    JFrame frame = new JFrame("Modifying Inventory of DealerID " + modifyV.getDealerId());
     JPanel panel = new JPanel(null);
     frame.setSize(400, 480);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,7 +32,7 @@ public class ModifyInventory extends JFrame {
   }
 
   private void addComponents(JFrame frame, JPanel panel) {
-    JLabel jl = new JLabel("Dealer" + this.dID);
+    JLabel jl = new JLabel("Dealer" + modifyV.getDealerId());
     jl.setFont(new Font("Arial", Font.PLAIN, 18));
     jl.setForeground(Color.BLUE);
     jl.setHorizontalAlignment(JTextField.CENTER);
@@ -51,22 +51,41 @@ public class ModifyInventory extends JFrame {
 //Ekie edit here
     JTextField tf1 = new JTextField(10);
     tf1.setBounds(160, 50, 160, 25);
-    //vehID.setText(Integer.toString(modifyV.getVehicleId()));
+    tf1.setText(Integer.toString(modifyV.getVehicleId()));
+    tf1.setEditable(false);
     JTextField tf2 = new JTextField(10);
     tf2.setBounds(160, 80, 160, 25);
+    tf2.setText(Integer.toString(modifyV.getVin()));
+    tf2.setEditable(false);
     JTextField tf3 = new JTextField(10);
-    tf3.setBounds(160, 230, 160, 25);
+    tf3.setBounds(160, 110, 160, 25);
+    tf3.setText(modifyV.getMake());
+    tf3.setEditable(false);
     JTextField tf4 = new JTextField(10);
-    tf4.setBounds(160, 290, 160, 25);
+    tf4.setBounds(160, 140, 160, 25);
+    tf4.setText(modifyV.getModel());
+    tf4.setEditable(false);
     JTextField tf5 = new JTextField(10);
-    tf5.setBounds(160, 320, 160, 25);
-    JTextField[] jtfs = new JTextField[]{tf1, tf2, tf3, tf4, tf5};
+    tf5.setBounds(160, 170, 160, 25);
+    tf5.setText(Integer.toString(modifyV.getYear()));
+    tf5.setEditable(false);
+    JTextField tf6 = new JTextField(10);
+    tf6.setBounds(160, 230, 160, 25);
+    tf6.setText(Float.toString(modifyV.getPrice()));
+    tf6.setEditable(false);
+    JTextField tf7 = new JTextField(10);
+    tf7.setBounds(160, 290, 160, 25);
+    tf7.setText(Integer.toString(modifyV.getMileage()));
+    JTextField tf8 = new JTextField(10);
+    tf8.setBounds(160, 320, 160, 25);
+    //tf9.setText(Image.toString(modifyV.getImage()));
+    JTextField[] jtfs = new JTextField[]{tf1, tf2, tf3, tf4, tf5,tf6,tf7,tf8};
     for (int i = 0; i < jtfs.length; i++) {
       jtfs[i].setFont(new Font("Arial", Font.PLAIN, 15));
       panel.add(jtfs[i]);
     }
 
-    JButton btn1 = new JButton("Modify");
+    JButton btn1 = new JButton("Confirm");
     JButton btn2 = new JButton("Back");
     Dimension preferredSize = new Dimension(120, 40);
     JButton[] jButtons = new JButton[]{btn1, btn2};
@@ -91,28 +110,27 @@ public class ModifyInventory extends JFrame {
     cmb1.addItem("White");
     cmb1.addItem("Red");
     cmb1.addItem("Gray");
+
     JComboBox cmb2 = new JComboBox();
     cmb2.setBounds(160, 200, 160, 25);
     cmb2.addItem("New");
     cmb2.addItem("Used");
-    String[] years = new String[]{"2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010",
-            "2009", "2008", "2007",};
-    JComboBox cmb3 = new JComboBox();
-    cmb3.setBounds(160, 170, 160, 25);
-    for (int i = 0; i < years.length; i++) {
-      cmb3.addItem(years[i]);
-    }
+    cmb2.setSelectedItem(modifyV.getCategory());
+    if(cmb2.getSelectedItem()=="Used"){
+      cmb2.setEditable(false);
+    } //Cannot change used vehicles to new
+
     panel.add(cmb1);
     panel.add(cmb2);
-    panel.add(cmb3);
 
-    JComboBox make = new JComboBox();
+
+   /* JComboBox make = new JComboBox();
     make.setBounds(160, 110, 160, 25);
     JComboBox model = new JComboBox();
     model.setBounds(160, 140, 160, 25);
     makeModel(make, model);
     panel.add(make);
-    panel.add(model);
+    panel.add(model);*/
   }
 
   private void makeModel(JComboBox make, JComboBox model) {
