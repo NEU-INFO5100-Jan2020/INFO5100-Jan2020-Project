@@ -37,12 +37,14 @@ class EditPage extends JFrame {
     private static int dealerID;
     public Incentives incentives;
 
+    private IncentiveMainPage parentPage;
 
     Font botton = new Font("Helvetica", Font.BOLD, 21);
 
 
 
-    protected EditPage(int dealerID, Incentives incentives) {
+    protected EditPage(int dealerID, Incentives incentives, IncentiveMainPage parentPage) {
+        this.parentPage = parentPage;
         this.dealerID=dealerID;
 
         this.incentives=incentives;
@@ -88,8 +90,10 @@ class EditPage extends JFrame {
                 incentives.setStartDate(startDateChooser.getDate());
                 incentives.setEndDate(endDateChooser.getDate());
                 incentivesManagerImpl.updateIncentive2(incentives);
-                IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
-                incentiveMainPage.setVisible(true);
+//                IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
+//                incentiveMainPage.setVisible(true);
+                parentPage.refreshTableContents();
+                jframe.dispose();
 
             }
         });

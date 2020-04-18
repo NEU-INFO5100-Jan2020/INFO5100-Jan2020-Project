@@ -40,13 +40,15 @@ public class CreatePage {
     private JTextArea descriptionText, disclaimerText;
     private JDateChooser startDateChooser, endDateChooser;
 
+    private IncentiveMainPage parentPage;
     private int dealerID;
     int min, max;
     private static int[] vehicleIDList;
 
     Font botton = new Font("Helvetica", Font.BOLD, 21);
 
-    protected CreatePage(int dealerID) {
+    protected CreatePage(int dealerID,IncentiveMainPage parentPage) {
+        this.parentPage = parentPage;
         setDealerID(dealerID);
         createComponents(dealerID);
         placeComponents();
@@ -135,9 +137,11 @@ public class CreatePage {
                 } catch(SQLException e1) {
                     e1.printStackTrace();
                 } finally {
-                    IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
-                    incentiveMainPage.setVisible(true);
-                    incentiveMainPage.refreshTableContents();
+//                    parentPage.dispose();
+//                    IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
+//                    incentiveMainPage.setVisible(true);
+                    parentPage.refreshTableContents();
+                    jframe.dispose();
                 }
             }
         });

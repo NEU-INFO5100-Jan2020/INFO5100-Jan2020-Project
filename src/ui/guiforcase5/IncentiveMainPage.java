@@ -13,15 +13,19 @@ import java.util.Collection;
 //        import lombok.Data;
 
 public class IncentiveMainPage extends JFrame {
-
     private JButton createButton, editButton, deleteButton;
     private JScrollPane jScrollPane1;
     private JTabbedPane jTabbedPane1;
     private JTable jTable1;
     private int dealerID;
+    private IncentiveMainPage thisPage;
 
+    public int getDealerID() {
+        return dealerID;
+    }
 
     public IncentiveMainPage(int dealerID) {
+        thisPage = this;
         setDealerID(dealerID);
         initComponents();
         addActionListener();
@@ -34,12 +38,12 @@ public class IncentiveMainPage extends JFrame {
     private void setDealerID(int dealerID) {
         this.dealerID = dealerID;
     }
-    private void addActionListener( ) {
+    private void addActionListener() {
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
 //                new CreatePageWithSearchButton(dealerID);
-                new CreatePage(dealerID);
+                new CreatePage(dealerID,thisPage);
             }
         });
         editButton.addActionListener(new ActionListener() {
@@ -52,7 +56,7 @@ public class IncentiveMainPage extends JFrame {
                     Incentives incentives=extract(rowIndex);
 
 
-                    new ui.guiforcase5.EditPage(dealerID,incentives);
+                    new ui.guiforcase5.EditPage(dealerID,incentives, thisPage);
                 }catch (Exception e1){
                     JOptionPane.showMessageDialog(null,"plesae select a row");
                 }
