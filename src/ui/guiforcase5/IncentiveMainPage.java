@@ -228,7 +228,7 @@ public class IncentiveMainPage extends JFrame {
      */
     public static void main(String args[])  {
 
-        new IncentiveMainPage(19).setVisible(true);
+        new IncentiveMainPage(1).setVisible(true);
 
     }
 

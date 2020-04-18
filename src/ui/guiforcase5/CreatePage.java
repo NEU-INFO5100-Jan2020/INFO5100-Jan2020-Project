@@ -46,7 +46,7 @@ public class CreatePage {
 
     Font botton = new Font("Helvetica", Font.BOLD, 21);
 
-    public CreatePage(int dealerID) {
+    protected CreatePage(int dealerID) {
         setDealerID(dealerID);
         createComponents(dealerID);
         placeComponents();

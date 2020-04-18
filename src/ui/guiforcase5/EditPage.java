@@ -33,7 +33,7 @@ class EditPage extends JFrame {
     private JDateChooser startDateChooser, endDateChooser;
 
     private JLabel vinLabel, minLabel, maxLabel, makeMakeLabel, lowLabel, highLabel;
-    int rowIndex;
+    private int rowIndex;
     private static int dealerID;
     public Incentives incentives;
 
@@ -42,7 +42,7 @@ class EditPage extends JFrame {
 
 
 
-    public EditPage(int dealerID, Incentives incentives) {
+    protected EditPage(int dealerID, Incentives incentives) {
         this.dealerID=dealerID;
 
         this.incentives=incentives;
