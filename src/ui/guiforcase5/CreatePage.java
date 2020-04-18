@@ -46,7 +46,7 @@ public class CreatePage {
 
     Font botton = new Font("Helvetica", Font.BOLD, 21);
 
-    public CreatePage(int dealerID) {
+    protected CreatePage(int dealerID) {
         setDealerID(dealerID);
         createComponents(dealerID);
         placeComponents();
@@ -223,7 +223,7 @@ public class CreatePage {
 
     private String convertFilterListToString()  {
         String[] arr = new String[6];
-        if (newVehicleButton.isSelected()) {
+        if (oneRadioButton.isSelected()) {
             if (vehicleIDText.getText().equals("")) {
                 arr[0] = "null";
             }else {
