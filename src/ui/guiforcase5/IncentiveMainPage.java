@@ -226,11 +226,11 @@ public class IncentiveMainPage extends JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[])  {
-
-        new IncentiveMainPage(1).setVisible(true);
-
-    }
+//    public static void main(String args[])  {
+//
+//        new IncentiveMainPage(1).setVisible(true);
+//
+//    }
 
 
     protected void refreshTableContents(){
