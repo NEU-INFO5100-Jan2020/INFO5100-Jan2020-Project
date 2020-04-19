@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class MakeModelContainerPopulator {
     ConnectionToSql connect = new ConnectionToSql();
 
-    public MakeModelContainer getMakeModels() {
+    public MakeModelContainer getMakeModels2() {
 
 
         String query = "SELECT * FROM VehicleTable;";
