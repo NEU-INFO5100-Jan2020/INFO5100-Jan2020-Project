@@ -54,6 +54,7 @@ public class OperationOptions extends JFrame {
                 new InventoryInformation(dID);
             }
         });
+
         btn3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
