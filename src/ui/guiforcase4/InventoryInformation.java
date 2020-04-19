@@ -51,7 +51,7 @@ public class InventoryInformation extends JFrame {
   private void initialFrame() {
 
     JFrame frame = new JFrame("Inventory of Dealer" + this.dID);
-    frame.setSize(520, 500);
+    frame.setSize(560, 500);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     JPanel panel = new JPanel(null);
     frame.add(panel);
@@ -79,11 +79,11 @@ public class InventoryInformation extends JFrame {
     //table.setCellRenderer(renderer);
     panel.add(js);
     JButton btn1 = new JButton("Modify");
-    btn1.setBounds(120, 320, 120, 40);
+    btn1.setBounds(80, 320, 140, 40);
     JButton btn2 = new JButton("Delete");
-    btn2.setBounds(300, 320, 120, 40);
+    btn2.setBounds(340, 320, 140, 40);
     JButton btn3 = new JButton("Add Vehicles");
-    btn3.setBounds(120, 380, 300, 40);
+    btn3.setBounds(80, 380, 400, 40);
     JButton[] jButtons = new JButton[]{btn1, btn2, btn3};
     Dimension preferredSize = new Dimension(120, 40);
     for (JButton jButton : jButtons) {
