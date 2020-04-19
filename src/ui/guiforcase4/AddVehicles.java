@@ -27,7 +27,7 @@ public class AddVehicles extends JFrame {
     public AddVehicles(int dID) {
         this.dID = dID;
         this.vehicle = vehicle;
-        mmc = mmcp.getMakeModels2();
+        mmc = mmcp.getMakeModels();
         initialFrame();
     }
 
@@ -153,7 +153,7 @@ public class AddVehicles extends JFrame {
 
     }
     private MakeModel makeModel(String makeValue) {
-        makeModels =(ArrayList<MakeModel>) (mmc.getMakeModels1());
+        makeModels =(ArrayList<MakeModel>) (mmc.getMakeModels());
         for (MakeModel mm : makeModels) {
             if (mm.getMake().equals(makeValue)) {
                 return mm;

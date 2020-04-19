@@ -6,8 +6,10 @@ import java.util.ArrayList;
 
 public class MakeModelContainerPopulator {
     ConnectionToSql connect = new ConnectionToSql();
+    final static int make = 3;
+    final static int model = 4;
 
-    public MakeModelContainer getMakeModels2() {
+    public MakeModelContainer getMakeModels() {
 
 
         String query = "SELECT * FROM VehicleTable;";
@@ -26,14 +28,14 @@ public class MakeModelContainerPopulator {
             ArrayList temp = sqlQueryOutput.get(i);
 
 
-            MakeModel d = mmc.getMakeModel(temp.get(3).toString());
+            MakeModel d = mmc.getMakeModel(temp.get(make).toString());
             if (d == null) {
-                d = new MakeModel(temp.get(3).toString());
-                d.addModelToModels(temp.get(4).toString());
+                d = new MakeModel(temp.get(make).toString());
+                d.addModelToModels(temp.get(model).toString());
                 mmc.addMakeModel(d);
             }
-            if (!d.getModels().contains(temp.get(4))) {
-                d.addModelToModels(temp.get(4).toString());
+            if (!d.getModels().contains(temp.get(model))) {
+                d.addModelToModels(temp.get(model).toString());
             }
         }
         return mmc;

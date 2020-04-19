@@ -15,7 +15,7 @@ public class MakeModelContainer {
         return null;
     }
 
-    public Collection<MakeModel> getMakeModels1() {
+    public Collection<MakeModel> getMakeModels() {
         return makeModels;
     }
     public MakeModelContainer(){
