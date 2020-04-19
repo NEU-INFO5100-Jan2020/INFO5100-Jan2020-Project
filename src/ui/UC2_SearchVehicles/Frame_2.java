@@ -84,13 +84,17 @@ public class Frame_2 extends JFrame{
     }
 
     public void createTable(){
-        String[] header = {"Make", "Price", "Vin"};
+        String[] header = {"Make", "Model", "Price", "Vin", "Year"};
         //vehicleList = FrameUtilities.createTestVehicles();
 
         String[][] jt_data = new String[vehicleList.size()][header.length];
         int row = 0;
         for (Vehicle vehicle : vehicleList) {
-            jt_data[row++] = new String[]{vehicle.getMake(), String.valueOf(vehicle.getPrice()), String.valueOf(vehicle.getVin())};
+            jt_data[row++] = new String[]{vehicle.getMake(),
+                    String.valueOf(vehicle.getModel()),
+                    String.valueOf(vehicle.getPrice()),
+                    String.valueOf(vehicle.getVin()),
+                    String.valueOf(vehicle.getYear())};
         }
         jt = new JTable(jt_data, header){
             public boolean editCellAt(int row, int column, java.util.EventObject e) {

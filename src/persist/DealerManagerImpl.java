@@ -47,7 +47,7 @@ public class DealerManagerImpl implements DealerManager {
         }
 
         String query = "SELECT * from Dealer " +
-                "WHERE DealerName = '"+dealerName+"' and ZipCode IN ("+zipCodeString+") ;";
+                "WHERE DealerName LIKE '"+"%"+dealerName+"%"+"' and ZipCode IN ("+zipCodeString+") ;";
 
         /*Call 'executeQuery' method to run the query*/
         ArrayList<ArrayList> result = connect.executeDealerQuery(query, "SELECT");

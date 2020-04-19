@@ -4,9 +4,7 @@ import dto.Vehicle;
 
 import persist.VehicleManager;
 import persist.VehicleManagerImpl;
-import service.SearchFilterElement;
-import service.VehicleSearchFilter;
-import service.VehicleSearchFilterElement;
+import service.*;
 
 import java.util.*;
 
@@ -15,11 +13,17 @@ public class FrameUtilities {
     String make;
     int price;
     int VIN;
+
+    private static MakeModelContainer mmc;
+    private static MakeModelContainerPopulator mmcp = new MakeModelContainerPopulator();
+
     public FrameUtilities(String make, int price, int VIN) {
         this.make = make;
         this.price = price;
         this.VIN = VIN;
     }
+
+
 
     @Override
     public String toString() {
@@ -29,12 +33,13 @@ public class FrameUtilities {
     }
 
 
-    public static Integer[] initStartYearModel() {
-        ArrayList<Integer> startYearModel = new ArrayList<>();
+    public static String[] initStartYearModel() {
+        ArrayList<String> startYearModel = new ArrayList<>();
+        startYearModel.add("All Year");
         for (int i = 2020; i >= 1990; i--) {
-            startYearModel.add(i);
+            startYearModel.add(String.valueOf(i));
         }
-        return startYearModel.toArray(new Integer[startYearModel.size()]);
+        return startYearModel.toArray(new String[startYearModel.size()]);
     }
 
     public static Integer[] initEndYearModel(int startYear) {
@@ -47,27 +52,29 @@ public class FrameUtilities {
 
     public static String[] initPriceModel() {
         ArrayList<String> priceModel = new ArrayList<>();
-        for (int i = 0; i < 50000; i = i + 5000) {
+        priceModel.add("No Max Price");
+        for (int i = 50000; i >= 0; i = i - 5000) {
             priceModel.add("$" + i);
         }
-        priceModel.add("No Max Price");
+
         String[] arrayModel = new String[priceModel.size()];
         return priceModel.toArray(arrayModel);
     }
 
-    public static String[] getMake(ArrayList<MakeDTO> makeDTOS) {
-        String[] makeArray = new String[makeDTOS.size()];
-        for (int i = 0; i < makeDTOS.size(); i++) {
-            makeArray[i] = makeDTOS.get(i).make;
+    public static String[] getMake(ArrayList<MakeModel> makeDTOS) {
+        String[] makeArray = new String[makeDTOS.size() + 1];
+        makeArray[0] = "All Make";
+        for (int i = 1; i < makeDTOS.size(); i++) {
+            makeArray[i] = makeDTOS.get(i).getMake();
         }
         return makeArray;
     }
 
-    public static Vector<String> getModelOnMake(ArrayList<MakeDTO> makeDTOS, String make) {
+    public static Vector<String> getModelOnMake(ArrayList<MakeModel> makeDTOS, String make) {
         Vector<String> dataMode = new Vector<>();
-        for (MakeDTO makeDTO : makeDTOS) {
-            if (makeDTO.make.equals(make)) {
-                for (String model : makeDTO.models) {
+        for (MakeModel makeDTO : makeDTOS) {
+            if (makeDTO.getMake().equals(make)) {
+                for (String model : makeDTO.getModels()) {
                     dataMode.add(model);
                 }
             }
@@ -75,28 +82,30 @@ public class FrameUtilities {
         return dataMode;
     }
 
-    public static ArrayList<MakeDTO> getMakeModelFromDb() {
-        MakeModelCbbInitiator mccInit = new MakeModelCbbInitiator();
-        Collection<MakeDTO> temp = mccInit.getMakeModel();
-        ArrayList<MakeDTO> dtoList = new ArrayList<>();
-        for (MakeDTO makeDTO : temp) {
-            dtoList.add(makeDTO);
-        }
-        return dtoList;
+    public static Collection<MakeModel> getMakeModelFromDb() {
+        mmc = mmcp.getMakeModels();
+        return mmc.getMakeModels();
+
     }
 
 
     public static List<Vehicle> vehicleSearchAndSort(int dealerID, String make, String model, String year, String maxPrice) {
         VehicleSearchFilter vsf = new VehicleSearchFilter(dealerID);
-//        VehicleSearchFilterElement vsfe1 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.MODEL, "Infiniti");
-        VehicleSearchFilterElement vsfe1 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.MODEL, model);
-        VehicleSearchFilterElement vsfe2 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.MAKE, make);
-        VehicleSearchFilterElement vsfe3 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.YEAR, year);
-        VehicleSearchFilterElement vsfe4 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.PRICE, maxPrice);
+        // VehicleSearchFilterElement vsfe1 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.MODEL, "Infiniti");
+        if (!make.isEmpty() && make != null) {
+            VehicleSearchFilterElement vsfe2 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.MAKE, make);
+            vsf.addElement(vsfe2);
+        }
+        if (!model.isEmpty() && model != null) {
+            VehicleSearchFilterElement vsfe1 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.MODEL, model);
+            vsf.addElement(vsfe1);
+        }
+        if (!year.isEmpty() && year != null) {
+            VehicleSearchFilterElement vsfe3 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.YEAR, year);
+            vsf.addElement(vsfe3);
+        }
 
-        vsf.addElement(vsfe1);
-        vsf.addElement(vsfe2);
-        vsf.addElement(vsfe3);
+        VehicleSearchFilterElement vsfe4 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.PRICE, maxPrice);
         vsf.addElement(vsfe4);
 
         VehicleManager vhcManager = new VehicleManagerImpl();
