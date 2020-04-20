@@ -14,7 +14,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Vector;
 import ui.UC2_SearchVehicles.Frame_1;
-import ui.UseCase1ListOfDealer.Validator.Address;
+
 import ui.UseCase1ListOfDealer.Validator.Validation;
 import persist.*;
 import dto.*;
@@ -205,16 +205,16 @@ public class ListOfDealerScreen1 {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 //this will be called on tab i.e when the field looses focus
-                String zipCode=textFieldZipCode.getText();                
-                try {                	
-                if(!Validation.isAValidZipCode(zipCode)) {                
+                String zipCode=textFieldZipCode.getText();
+                try {
+                if(!Validation.isAValidZipCode(zipCode)) {
                 	JOptionPane.showMessageDialog(frame, "This is an invalide US zipcode, please enter again");
                 }
                 }
                 catch(Exception e) {
                 	e.printStackTrace();
                 }
-               
+
             }
 
         });
