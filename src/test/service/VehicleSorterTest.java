@@ -2,9 +2,8 @@ package service;
 
 import dto.BigDataType;
 import dto.Vehicle;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class VehicleSorterTest {
   VehicleSearchFilter vsf;
@@ -13,6 +12,7 @@ class VehicleSorterTest {
   SortFilter dummy;
   Search s;
 
+  @BeforeEach
   void initialize() {
     vsf = new VehicleSearchFilter(1);
     //dsf = new DealerSearchFilter("WA98109", 1, 2);
@@ -22,10 +22,9 @@ class VehicleSorterTest {
 
   @Test
   void sort() {
-    initialize();
-    s = new Search(vsf,dummy);
+    s = new Search(vsf, dummy);
     s.doSearch();
-    for (BigDataType v:s.getResults()){
+    for (BigDataType v : s.getResults()) {
       System.out.println(((Vehicle) v).getVehicleId());
     }
   }

@@ -10,8 +10,8 @@ public class MakeModelContainerV2 {
   }
 
   public void populateContainer(){
-    if (MakeModelFromJson.populateMakeModel() != null) {
-      this.makeModelVer2s = MakeModelFromJson.populateMakeModel();
+    if (MakeModelJsonPopulator.populateMakeModel() != null) {
+      this.makeModelVer2s = MakeModelJsonPopulator.populateMakeModel();
     }
   }
 }

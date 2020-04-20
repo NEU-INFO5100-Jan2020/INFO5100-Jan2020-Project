@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MakeModelFromJson {
+public class MakeModelJsonPopulator {
 
   public static List<MakeModelVer2> populateMakeModel() {
     Gson gson = new Gson();
