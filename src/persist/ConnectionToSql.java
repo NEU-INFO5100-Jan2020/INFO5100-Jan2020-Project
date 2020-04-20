@@ -2,10 +2,7 @@ package persist;
 
 import dto.*;
 
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.ResultSet;
-import java.sql.DriverManager;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class ConnectionToSql {
@@ -43,7 +40,7 @@ public class ConnectionToSql {
             return;
         }
     }
-    
+
     public ArrayList<ArrayList> executeVehicleQuery(String queryToExecute, String queryType) {
         ArrayList<ArrayList> result = new ArrayList<ArrayList>();
 
@@ -170,5 +167,20 @@ public class ConnectionToSql {
 
         /*Return result*/
         return result;
+    }
+
+    public ResultSet executeVinValidationQuery(String sqlQuery){
+       connectToDB();
+
+       try{
+         Statement stmt = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+         return stmt.executeQuery(sqlQuery);
+       } catch (SQLException e) {
+         System.out.println(e.getMessage());
+       } catch (Exception e) {
+         System.out.println("Unknown exception");
+         System.out.println(e.getMessage());
+       }
+       return null;
     }
 }
