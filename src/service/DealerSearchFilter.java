@@ -34,7 +34,7 @@ public class DealerSearchFilter implements SearchFilter {
   }
 
   public Collection<Dealer> dealerZipSearch(String dealerName, String zipCode, int minRadius, int maxRadius) throws Exception {
-    String url = "https://api.zip-codes.com/ZipCodesAPI.svc/1.0/FindZipCodesInRadius?zipcode=" + zipCode + "&minimumradius=" + minRadius + "&maximumradius=" + maxRadius + "&key=Q4OGENOO4JCXT4QTD965";
+    String url = "https://api.zip-codes.com/ZipCodesAPI.svc/1.0/FindZipCodesInRadius?zipcode=" + zipCode + "&minimumradius=" + minRadius + "&maximumradius=" + maxRadius + "&key=HW719CTPUR5832K7KPQJ";
     URL obj = new URL(url);
     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
     con.setRequestMethod("GET");
