@@ -226,11 +226,11 @@ public class IncentiveMainPage extends JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[])  {
-
-        new IncentiveMainPage(19).setVisible(true);
-
-    }
+//    public static void main(String args[])  {
+//
+//        new IncentiveMainPage(1).setVisible(true);
+//
+//    }
 
 
     protected void refreshTableContents(){
@@ -248,6 +248,7 @@ public class IncentiveMainPage extends JFrame {
         IncentivesManagerImpl  incentivesManagerimpl=new IncentivesManagerImpl ();
         Collection<Incentives> incentivelist= incentivesManagerimpl.getListOfIncentives();
         for(Incentives i:incentivelist){
+            if(i.getDealerId() != this.dealerID) continue;
             if(i.getIsDeleted() != false) continue;
             tableModel.addRow(new String[]{
                     String.valueOf(i.getIncentiveId()),

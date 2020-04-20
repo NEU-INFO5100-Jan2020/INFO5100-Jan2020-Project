@@ -1,5 +1,7 @@
 package ui.guiforcase4;
 
+import ui.guiforcase5.IncentiveMainPage;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -32,7 +34,7 @@ public class OperationOptions extends JFrame {
 
         JButton btn2 = new JButton("View Inventory");
         btn2.setBounds(110, 80, 160, 40);
-        JButton btn3 = new JButton("Create Incentives");
+        JButton btn3 = new JButton("Manage Incentives");
         btn3.setBounds(110, 160, 160, 40);
         Dimension preferredSize = new Dimension(120, 40);
         btn2.setPreferredSize(preferredSize);
@@ -50,6 +52,13 @@ public class OperationOptions extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new InventoryInformation(dID);
+            }
+        });
+
+        btn3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new IncentiveMainPage(dID).setVisible(true);
             }
         });
     }

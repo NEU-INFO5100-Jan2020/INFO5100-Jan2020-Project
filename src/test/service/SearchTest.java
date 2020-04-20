@@ -1,4 +1,4 @@
-package test.service;
+package service;
 
 import dto.BigDataType;
 import dto.Vehicle;
