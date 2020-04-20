@@ -1,5 +1,12 @@
 package service;
 
+
 public class DealerUtilities {
-  MakeModelFromJson makeModelFromJson;
+  MakeModelContainerV2 makeModelContainer;
+  VinValidator vinValidator;
+  DealerIDValidator dealerIDValidator;
+  ColorContainer colorContainer;
+  public DealerUtilities(){
+
+  }
 }

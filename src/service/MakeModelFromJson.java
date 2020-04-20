@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MakeModelFromJson {
 
-  public void populateMakeModel() {
+  public static List<MakeModelVer2> populateMakeModel() {
     Gson gson = new Gson();
 
     String jsonPath = "Documents/car-models.json";
@@ -22,14 +22,11 @@ public class MakeModelFromJson {
       BufferedReader br = new BufferedReader(new FileReader(jsonPath));
       Type MakeModelListType = new TypeToken<ArrayList<MakeModelVer2>>(){}.getType();
       List<MakeModelVer2> makeModelVer2s = gson.fromJson(br, MakeModelListType);
-
-      for (MakeModelVer2 makeModelVer2: makeModelVer2s) {
-        System.out.println(makeModelVer2.getBrand());
-        System.out.println(makeModelVer2.getModels());
-      }
+      return makeModelVer2s;
     } catch (IOException e) {
       e.printStackTrace();
     }
+    return null;
   }
 
 }
