@@ -89,7 +89,6 @@ public class IncentiveScreen {
 		setJTableColumnsWidth(table, 400, 10, 30, 30, 20, 10);
 		JScrollPane jScrollPane = new JScrollPane(table);
 		frame.add(jScrollPane);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout());	 
        
 		frame.getContentPane().add(jScrollPane,BorderLayout.CENTER);

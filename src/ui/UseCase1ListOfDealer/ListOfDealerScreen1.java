@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Vector;
 import ui.UC2_SearchVehicles.Frame_1;
+
 import ui.UseCase1ListOfDealer.Validator.Validation;
 import persist.*;
 import dto.*;
@@ -205,10 +206,15 @@ public class ListOfDealerScreen1 {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 //this will be called on tab i.e when the field looses focus
                 String zipCode=textFieldZipCode.getText();
-                if(!zipCode.isEmpty()&&!Validation.isAValidZipCode(zipCode)) {
-                    JOptionPane.showMessageDialog(frame,
-                            "This is a invalid zip code, Please enter again");
+                try {
+                if((!textFieldZipCode.getText().isEmpty()) && !Validation.isAValidZipCodeCharacters(zipCode)) {
+                    JOptionPane.showMessageDialog(frame, "This is a invalid zip code, Please enter again"); // if zipcode is invalid
                 }
+                }
+                catch(Exception e) {
+                	e.printStackTrace();
+                }
+
             }
 
         });
@@ -246,19 +252,18 @@ public class ListOfDealerScreen1 {
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
 
-                if(textFieldDealerName.getText().isEmpty()||(textFieldZipCode.getText().isEmpty())){
-                    JOptionPane.showMessageDialog(frame, "All fields are Mandatory!"); // if any textfield is empty
-                } else if(!Validation.isAValidZipCode(textFieldZipCode.getText())){
-                    JOptionPane.showMessageDialog(frame, "This is a invalid zip code, Please enter again"); // if zipcode is invalid
-                } else {
-                    //call method to get list of dealers
+                if ((textFieldZipCode.getText().isEmpty())) {
+                    JOptionPane.showMessageDialog(frame, "ZipCode is a mandatory field!"); // if any textfield is empty
+                } else if (!Validation.isAValidZipCodeCharacters(textFieldZipCode.getText())) {
+                    JOptionPane.showMessageDialog(frame, "This is a invalid zip code, Please enter again");
+
+                } else { //call method to get list of dealers
                     frame.getContentPane().remove(panelRight);
                     initializeRightPanel();
                     panelRight.revalidate();
                     panelRight.repaint();
-                    System.out.println(textFieldDealerName.getText() + " "+ textFieldZipCode.getText() + " "
-                            + 0+ " "+ Integer.parseInt(comboBox.getSelectedItem().toString()));
-
+                    System.out.println(textFieldDealerName.getText() + " " + textFieldZipCode.getText() + " "
+                            + 0 + " " + Integer.parseInt(comboBox.getSelectedItem().toString()));
                     try {
                         initialiseAndCreateTable();
                     } catch (Exception e) {
@@ -267,7 +272,6 @@ public class ListOfDealerScreen1 {
                 }
             }
         });
-
     }
 
     //CreationOfTable
@@ -277,8 +281,16 @@ public class ListOfDealerScreen1 {
         DefaultTableModel model = new DefaultTableModel(columns, 0);
         DealerSearchFilter dsf= new DealerSearchFilter();
         dealerList = (ArrayList<Dealer>) dsf.dealerZipSearch(textFieldDealerName.getText(),textFieldZipCode.getText(),0,Integer.parseInt(comboBox.getSelectedItem().toString()));
+        if(dealerList==null) {
+            JLabel lblIncorrectUSZipcode= new JLabel(textFieldZipCode.getText() + " is not a valid US Zipcode.");
 
-       if(dealerList.size()>0){
+            lblIncorrectUSZipcode.setForeground(new Color(0, 113, 238));
+            lblIncorrectUSZipcode.setFont(new Font("Arial", Font.PLAIN, 15));
+            lblIncorrectUSZipcode.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+            lblIncorrectUSZipcode.setPreferredSize(new Dimension(700, 650));
+            panelRight.add(lblIncorrectUSZipcode);
+            panelRight.setEnabled(true);
+        } else if(dealerList.size()>0 ){
             for( Dealer detail : dealerList)
             {
                 Vector<String> row = new Vector<>();
@@ -348,9 +360,8 @@ public class ListOfDealerScreen1 {
                 }
             });
             System.out.println(table.getHeight());
-       }
-       else {
-             JLabel lblNoDataFound= new JLabel("No Record Available with Dealer Name " + textFieldDealerName.getText().toUpperCase() +
+       }  else  {
+             JLabel lblNoDataFound= new JLabel("No Record Available" + ((textFieldDealerName.getText().length()>0)?(" with Dealer Name " +textFieldDealerName.getText().toUpperCase()):" ") +
                      " within " + (comboBox.getSelectedItem().toString()) + " Miles of ZipCode "+ textFieldZipCode.getText());
 
              lblNoDataFound.setForeground(new Color(0, 113, 238));

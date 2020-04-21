@@ -40,6 +40,9 @@ public class DealerSearchFilter implements SearchFilter {
     in.close();
     response.replace(0, 1, " ");
     JSONObject myResponse = new JSONObject(response.toString());
+    if (myResponse.has("Error")){
+      return null;
+    }
     JSONArray DataList = myResponse.getJSONArray("DataList");
     ArrayList<String> arr = new ArrayList<>();
     for (int index = 0; index < DataList.length(); index++) {
