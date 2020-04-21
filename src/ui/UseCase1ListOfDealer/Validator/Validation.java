@@ -21,21 +21,21 @@ public class Validation {
         }
         return true;
     };
-    //Comment out this validation method as it only do format validation
-    /*public static boolean isAValidZipCode(String zipCode) {
+    // to check if zipcode is valid in terms of number of digits
+    public static boolean isAValidZipCodeCharacters(String zipCode) {
     	return Pattern.matches(regex, zipCode);
     }
-    */
 
-    public static boolean isAValidZipCode(String zipCode) throws Exception {
+    // to check if zipcode is valid USA zipcode
+    public static boolean isAValidUSZipCode(String zipCode) throws Exception {
     	if (!Pattern.matches(regex, zipCode)) {
     		return false;
-    	}       
-        String url = "https://api.zip-codes.com/ZipCodesAPI.svc/1.0/QuickGetZipCodeDetails/"+ zipCode +"?&key=Q4OGENOO4JCXT4QTD965";
+    	}
+        String url = "https://api.zip-codes.com/ZipCodesAPI.svc/1.0/QuickGetZipCodeDetails/"+ zipCode +"?&key=KENYGQSC9TEBBUVDTLY7";
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
-        con.setRequestProperty("User-Agent", "Mozilla/5.0");        
+        con.setRequestProperty("User-Agent", "Mozilla/5.0");
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer response = new StringBuffer();
@@ -43,10 +43,17 @@ public class Validation {
           response.append(inputLine);
         }
         in.close();
+        response.replace(0, 1, " ");
         //SubString(3) to get rid of the random chars in the returing json file
-        JSONObject myResponse = new JSONObject(response.toString().trim().substring(3));        
-        if (myResponse.toString().equals("{}")) return false;      
+        JSONObject myResponse = new JSONObject(response.toString().trim());
+        if (myResponse.toString().equals("{}"))
+        {
+            return false;
+
+        }else {
             return true;
         }
+    }
+
 
 }
