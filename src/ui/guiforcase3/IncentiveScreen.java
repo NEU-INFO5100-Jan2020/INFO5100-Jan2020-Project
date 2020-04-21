@@ -33,7 +33,7 @@ public class IncentiveScreen {
 		else {
 		JFrame frame = new JFrame("Incentive Details");		
 		frame.setSize(1000, 300);
-		String[] columns = {"Incentive ID","Title", "Type", "Value", "End Date"};
+		String[] columns = {"Sr no","Title", "Type", " Discount value ","Final Discounted Price","Valid Till"};
 		DefaultTableModel model = new DefaultTableModel(columns, 0);
 		
 		for (Incentives inc : result) {
@@ -41,7 +41,8 @@ public class IncentiveScreen {
 			row.add(inc.getIncentiveId()+"");
 			row.add(inc.getTitle());
 			row.add(inc.getDiscountType());
-			row.add(inc.getDiscountValue() + "");						
+			row.add(inc.getDiscountValue() + "");	
+			row.add(inc.getDiscountedPrice() + "");	
 			row.add(inc.getEndDate() + "");
 			model.addRow(row);
 		}
