@@ -3,6 +3,7 @@ package service;
 import dto.BigDataType;
 import dto.Vehicle;
 import org.junit.jupiter.api.Test;
+import service.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +16,7 @@ class SearchTest {
 
   void initialize() {
     vsf = new VehicleSearchFilter(1);
-    dsf = new DealerSearchFilter("WA98109", 1, 2);
+    dsf = new DealerSearchFilter("motors","WA98109", 1, 2);
     isf = new IncentiveSearchFilter(19);
     SortFilter dummy = new SortFilter();
   }
@@ -54,7 +55,7 @@ class SearchTest {
   @Test
   void testConstructor() {
     SearchFilter vsf = new VehicleSearchFilter(1);
-    SearchFilter dsf = new DealerSearchFilter("WA98109", 1, 2);
+    SearchFilter dsf = new DealerSearchFilter("motors","WA98109", 1, 2);
     SearchFilter isf = new IncentiveSearchFilter(1);
     SortFilter dummySortFilter = new SortFilter();
     Search s = new Search(vsf, dummySortFilter);
