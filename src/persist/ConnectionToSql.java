@@ -169,7 +169,7 @@ public class ConnectionToSql {
         return result;
     }
 
-    public ResultSet executeVinValidationQuery(String sqlQuery){
+    public ResultSet executeValidation(String sqlQuery){
        connectToDB();
 
        try{

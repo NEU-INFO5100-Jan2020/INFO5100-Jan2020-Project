@@ -1,5 +1,7 @@
 package ui.guiforcase4;
 
+import com.toedter.calendar.JYearChooser;
+import com.toedter.components.JSpinField;
 import dto.Vehicle;
 import persist.ExtractSingleColumnFromDB;
 import persist.VehicleManagerImpl;
@@ -8,10 +10,7 @@ import service.MakeModelContainer;
 import service.MakeModelContainerPopulator;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -48,9 +47,9 @@ public class AddVehicles extends JFrame {
         jl.setHorizontalAlignment(JTextField.CENTER);
         jl.setBounds(160, 10, 80, 30);
         panel.add(jl);
-        String[] jLabelTexts = new String[]{"VehicleId:", "VIN:", "Make:", "Model:", "Year:", "Category:", "Price:",
+        String[] jLabelTexts = new String[]{"VIN:", "Make:", "Model:", "Year:", "Category:", "Price:",
                 "Color:", "Miles:", "Image:"};
-        JLabel[] jls = new JLabel[10];
+        JLabel[] jls = new JLabel[9];
         for (int i = 0; i < jls.length; i++) {
             jls[i] = new JLabel();
             jls[i].setText(jLabelTexts[i]);
@@ -59,21 +58,62 @@ public class AddVehicles extends JFrame {
             panel.add(jls[i]);
         }
 
+
         JTextField tf1 = new JTextField(10);
         tf1.setBounds(160, 50, 160, 25);
         JTextField tf2 = new JTextField(10);
-        tf2.setBounds(160, 80, 160, 25);
+        tf2.setBounds(160, 200, 160, 25);
         JTextField tf3 = new JTextField(10);
-        tf3.setBounds(160, 230, 160, 25);
+        tf3.setBounds(160, 260, 160, 25);
         JTextField tf4 = new JTextField(10);
         tf4.setBounds(160, 290, 160, 25);
-        JTextField tf5 = new JTextField(10);
-        tf5.setBounds(160, 320, 160, 25);
-        JTextField[] jtfs = new JTextField[]{tf1, tf2, tf3, tf4, tf5};
+        JTextField[] jtfs = new JTextField[]{tf1, tf2, tf3, tf4};
         for (int i = 0; i < jtfs.length; i++) {
             jtfs[i].setFont(new Font("Arial", Font.PLAIN, 15));
             panel.add(jtfs[i]);
         }
+        CheckInput c1 = new CheckInput();
+        c1.setLength(4);
+        tf1.setDocument(c1);
+        CheckInput c2 = new CheckInput();
+        c2.setLength(10);
+        tf2.setDocument(c2);
+        CheckInput c3 = new CheckInput();
+        c3.setLength(10);
+        tf3.setDocument(c3);
+        tf1.addKeyListener(new KeyListener() {
+            public void keyTyped(KeyEvent e) {
+                if (Character.isLetter(e.getKeyChar())) {
+                    JOptionPane.showMessageDialog(null, "Please Enter A Number In Four Digits");
+                }
+            }
+            public void keyPressed(KeyEvent e) {
+            }
+            public void keyReleased(KeyEvent e) {
+            }
+        });
+        tf2.addKeyListener(new KeyListener() {
+            public void keyTyped(KeyEvent e) {
+                if (Character.isLetter(e.getKeyChar())) {
+                    JOptionPane.showMessageDialog(null, "Please Enter A Valid Number For Price!");
+                }
+            }
+            public void keyPressed(KeyEvent e) {
+            }
+            public void keyReleased(KeyEvent e) {
+            }
+        });
+        tf3.addKeyListener(new KeyListener() {
+            public void keyTyped(KeyEvent e) {
+                if (Character.isLetter(e.getKeyChar())) {
+                    JOptionPane.showMessageDialog(null, "Please Enter A Valid Number For Mileage!");
+                }
+            }
+                public void keyPressed (KeyEvent e){
+                }
+                public void keyReleased (KeyEvent e){
+                }
+        });
 
         JButton btn1 = new JButton("Add");
         btn1.setBounds(60, 380, 120, 40);
@@ -96,28 +136,38 @@ public class AddVehicles extends JFrame {
             }
         });
 
+        JYearChooser yc = new JYearChooser();
+        yc.setBounds(165, 140, 155, 23);
+        yc.setEndYear(2020);
+        yc.setStartYear(1985);
+        yc.setValue(2020);
+        yc.setFont(new Font("Arial", Font.PLAIN, 15));
+        yc.setHorizontalAlignment(SwingConstants.LEFT);
+        panel.add(yc);
+
         JComboBox cmb1 = new JComboBox(removeDuplicates(getColorsFromDatabase()));
-        cmb1.setBounds(160, 260, 160, 25);
+        cmb1.setBounds(160, 230, 160, 25);
+        cmb1.setFont(new Font("Arial", Font.PLAIN, 15));
         JComboBox cmb2 = new JComboBox();
-        cmb2.setBounds(160, 200, 160, 25);
+        cmb2.setBounds(160, 170, 160, 25);
         cmb2.addItem("New");
         cmb2.addItem("Used");
-        JComboBox cmb3 = new JComboBox(removeDuplicates(getYearsFromDatabase()));
-        cmb3.setBounds(160, 170, 160, 25);
-
+        cmb2.setFont(new Font("Arial", Font.PLAIN, 15));
         panel.add(cmb1);
         panel.add(cmb2);
-        panel.add(cmb3);
+
 
         JComboBox make = new JComboBox(removeDuplicates(getMakesFromDatabase()));
-        make.setBounds(160, 110, 160, 25);
+        make.setBounds(160, 80, 160, 25);
+        make.setFont(new Font("Arial", Font.PLAIN, 15));
         String makeValue = make.getSelectedItem().toString();
 
         JComboBox model = new JComboBox();
         Collection<String> models = makeModel(makeValue).getModels();
         String[] models1 = models.toArray(new String[models.size()]);
         model.setModel(new DefaultComboBoxModel(models1));
-        model.setBounds(160, 140, 160, 25);
+        model.setBounds(160, 110, 160, 25);
+        model.setFont(new Font("Arial", Font.PLAIN, 15));
         make.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -141,7 +191,7 @@ public class AddVehicles extends JFrame {
                 vehicle.setDealerId(dID);
                 vehicle.setMake(make.getSelectedItem().toString());
                 vehicle.setModel(model.getSelectedItem().toString());
-                vehicle.setYear(Integer.parseInt(cmb3.getSelectedItem().toString()));
+                vehicle.setYear(yc.getYear());
                 vehicle.setCategory(cmb2.getSelectedItem().toString());
                 vehicle.setPrice(Float.parseFloat(tf3.getText()));
                 vehicle.setColor(cmb1.getSelectedItem().toString());
@@ -149,8 +199,6 @@ public class AddVehicles extends JFrame {
                 vmi.addVehicle(vehicle);
             }
         });
-
-
     }
     private MakeModel makeModel(String makeValue) {
         makeModels =(ArrayList<MakeModel>) (mmc.getMakeModels());
@@ -162,14 +210,7 @@ public class AddVehicles extends JFrame {
         return null;
     }
 
-    public String[] getYearsFromDatabase() {
-        ArrayList<Vehicle>  vehicles = connect.executeVehicleQuery();
-        String[] years = new String[vehicles.size()];
-        for (int i = 0; i < vehicles.size(); i++) {
-            years[i] = vehicles.get(i).getYear()+"";
-        }
-        return years;
-    }
+
     public String[] getColorsFromDatabase() {
         ArrayList<Vehicle> vehicles = connect.executeVehicleQuery();
         String[] color = new String[vehicles.size()];
