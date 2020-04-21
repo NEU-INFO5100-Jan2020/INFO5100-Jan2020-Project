@@ -262,8 +262,8 @@ public class ListOfDealerScreen1 {
                     initializeRightPanel();
                     panelRight.revalidate();
                     panelRight.repaint();
-                    System.out.println(textFieldDealerName.getText() + " " + textFieldZipCode.getText() + " "
-                            + 0 + " " + Integer.parseInt(comboBox.getSelectedItem().toString()));
+//                    System.out.println(textFieldDealerName.getText() + " " + textFieldZipCode.getText() + " "
+//                            + 0 + " " + Integer.parseInt(comboBox.getSelectedItem().toString()));
                     try {
                         initialiseAndCreateTable();
                     } catch (Exception e) {
@@ -359,7 +359,7 @@ public class ListOfDealerScreen1 {
                     }}
                 }
             });
-            System.out.println(table.getHeight());
+//            System.out.println(table.getHeight());
        }  else  {
              JLabel lblNoDataFound= new JLabel("No Record Available" + ((textFieldDealerName.getText().length()>0)?(" with Dealer Name " +textFieldDealerName.getText().toUpperCase()):" ") +
                      " within " + (comboBox.getSelectedItem().toString()) + " Miles of ZipCode "+ textFieldZipCode.getText());

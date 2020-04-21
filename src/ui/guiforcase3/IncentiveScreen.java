@@ -32,8 +32,8 @@ public class IncentiveScreen {
 		}
 		else {
 		JFrame frame = new JFrame("Incentive Details");		
-		frame.setSize(700, 300);
-		String[] columns = {"IncentiveId","Title", "Type", "Value", "End Date"};
+		frame.setSize(1000, 300);
+		String[] columns = {"Incentive ID","Title", "Type", "Value", "End Date"};
 		DefaultTableModel model = new DefaultTableModel(columns, 0);
 		
 		for (Incentives inc : result) {
@@ -81,8 +81,9 @@ public class IncentiveScreen {
 		header.setFont(new Font("Dialog", Font.BOLD, 18));
 		header.setBackground(new Color(0, 30, 54));
 		header.setForeground(Color.WHITE);
-		
-		// set header size
+		((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+
+			// set header size
 		table.getTableHeader().setPreferredSize(new Dimension(400, table.getRowHeight())
 
 		);
