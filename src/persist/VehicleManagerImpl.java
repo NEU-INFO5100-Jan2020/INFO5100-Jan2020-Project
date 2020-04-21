@@ -6,7 +6,6 @@ import service.IncentiveSearchFilterElement;
 import service.VehicleSearchFilter;
 import service.VehicleSearchFilterElement;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -112,8 +111,7 @@ public class VehicleManagerImpl implements VehicleManager {
     String query = "UPDATE VehicleTable SET VIN='" + vehicle.getVin() + "' , DealerId=" + vehicle.getDealerId() +
             " , Make='" + vehicle.getMake() + "' , Model='" + vehicle.getModel() + "' , Year= " + vehicle.getYear() +
             " , Category = '" + vehicle.getCategory() + "' , Price = " + vehicle.getPrice() + " , Color = '" + vehicle.getColor() +
-            "' , Miles = " + vehicle.getMileage() + " , IncentiveId= '" + vehicle.getIncentiveId() +
-            "' , DiscountPrice = " + vehicle.getDiscountPrice() + " , Ratings = "+vehicle.getRatings()+
+            "' , Miles = " + vehicle.getMileage() +
             " WHERE VehicleId=" + vehicle.getVehicleId() +
             " ;";
 
@@ -129,7 +127,6 @@ public class VehicleManagerImpl implements VehicleManager {
 
     /*Call 'executeQuery' method to run the query*/
     ArrayList<ArrayList> result = connect.executeVehicleQuery(query, "UPDATE");
-
     return vehicle;
   }
 
