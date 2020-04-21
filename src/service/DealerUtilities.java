@@ -17,7 +17,7 @@ public class DealerUtilities {
     String sqlValidationQuery = String.format("SELECT VIN FROM VehicleTable WHERE VIN = '%s' AND DealerID = '%s'", vehicle.getVin(), vehicle.getDealerId());
     ConnectionToSql connectionToSql = new ConnectionToSql();
     ResultSet resultSet = connectionToSql.executeValidation(sqlValidationQuery);
-    return resultSet.next();
+    return !resultSet.next();
   }
 
   public boolean validateDealerID(int DealerID) throws SQLException {

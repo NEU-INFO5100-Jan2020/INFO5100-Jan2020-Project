@@ -32,10 +32,10 @@ class DealerUtilitiesTest {
     v4.setVin(1008);
     v4.setDealerId(2);
 
-    assert dealerUtilities.validateVin(v);
-    assert !dealerUtilities.validateVin(v2);
-    assert dealerUtilities.validateVin(v3);
-    assert !dealerUtilities.validateVin(v4);
+    assert !dealerUtilities.validateVin(v);
+    assert dealerUtilities.validateVin(v2);
+    assert !dealerUtilities.validateVin(v3);
+    assert dealerUtilities.validateVin(v4);
   }
 
   @Test
