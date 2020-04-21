@@ -332,7 +332,7 @@ private ArrayList<Incentives> convToIncObjForShowingDisPrice(ArrayList<ArrayList
             in.setIsDeleted(Boolean.parseBoolean(temp.get(9).toString()));
             in.setFilterList(temp.get(10).toString());
             in.setVehicleIdList(temp.get(11).toString());
-            in.setDiscountedPrice(Float.parseFloat((String) temp.get(12)));
+            in.setDiscountedPrice(Float.parseFloat((temp.get(12).toString())));
 
 
             incentivesResult.add(in);
