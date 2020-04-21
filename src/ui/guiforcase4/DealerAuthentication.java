@@ -1,13 +1,11 @@
 package ui.guiforcase4;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class DealerAuthentication extends JFrame {
 
@@ -24,18 +22,32 @@ public class DealerAuthentication extends JFrame {
     private void placeComponents(JFrame jf, JPanel panel) {
         panel.setLayout(null);
         JLabel userLabel = new JLabel("Dealer Id:");
-        JLabel message = new JLabel();
+        JLabel message = new JLabel(" ");
         userLabel.setFont(new Font("Arial", Font.PLAIN, 15));
         message.setFont(new Font("Arial", Font.PLAIN, 15));
-        message.setText("Please Enter A Valid User Id!");
         message.setForeground(Color.RED);
         userLabel.setBounds(10, 20, 80, 25);
         message.setBounds(60, 100, 200, 25);
         panel.add(userLabel);
+        panel.add(message);
 
         JTextField userText = new JTextField(20);
         userText.setBounds(100, 20, 165, 25);
         userText.setFont(new Font("Arial", Font.PLAIN, 15));
+        CheckInput c1 = new CheckInput();
+        c1.setLength(10);
+        userText.setDocument(c1);
+        userText.addKeyListener(new KeyListener() {
+            public void keyTyped(KeyEvent e) {
+                if (Character.isLetter(e.getKeyChar())) {
+                    JOptionPane.showMessageDialog(null, "Please Enter A Valid Number For Id!");
+                }
+            }
+            public void keyPressed(KeyEvent e) {
+            }
+            public void keyReleased(KeyEvent e) {
+            }
+        });
         panel.add(userText);
 
         JButton loginButton = new JButton("login");
@@ -45,15 +57,20 @@ public class DealerAuthentication extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int dealerID = Integer.parseInt(userText.getText());
-                if (dealerID == 0) {
-                    panel.add(message);
-                } else {
+                if (userText.getText().equals("")) {
+                    loginButton.setEnabled(false);
+                    JOptionPane.showMessageDialog(null, "Please Enter A Valid Id!");
+                    loginButton.setEnabled(true);
+                }
+                else{
+                    int dealerID = Integer.parseInt(userText.getText());
                     new OperationOptions(dealerID);
                     jf.dispose();
                 }
+
             }
         });
+
 
     }
 }
