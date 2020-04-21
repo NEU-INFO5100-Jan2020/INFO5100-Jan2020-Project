@@ -256,17 +256,22 @@ public class IncentivesManagerImpl implements IncentivesManager {
 		try {
 			ConnectionToSql connect = new ConnectionToSql();
 			Connection connection = connect.connectToDB();
-			String query = "SELECT * from Incentives inc\r\n"
-					+ "				inner join VehicleIncentivesMap map on map.IncentiveId = inc.IncentiveId				\r\n"
-					+ "				where inc.EndDate>=GETDATE() \r\n" + "				and inc.Isdeleted=0 \r\n"
-					+ "				and VehicleId= ?";
+			String query="SELECT ROW_NUMBER() OVER(ORDER BY inc.IncentiveId ASC) AS Row,inc.Title,inc.Description,inc.Disclaimer,inc.StartDate,"
+					+ "inc.EndDate,inc.DiscountValue,inc.DiscountType,inc.DealerId,inc.IsDeleted,inc.FilterList,inc.VehicleIdList,veh.price"
+					+ "  FROM Incentives inc,"
+					+ "	 VehicleIncentivesMap map,VehicleTable veh "
+					+ "	 where map.IncentiveId = inc.IncentiveId"
+					+ "	 and veh.VehicleId=map.VehicleId"
+					+ "	 and inc.EndDate>=GETDATE()" 
+					+"   and inc.Isdeleted=0"
+					+ "	 and map.VehicleId= ?";
 
 			PreparedStatement pstmt = connection.prepareStatement(query);
 			pstmt.setInt(1, VehicleId);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				ArrayList temp = new ArrayList();
-				temp.add(rs.getInt("IncentiveId")); // IncentiveId
+				temp.add(rs.getInt("Row")); // Srno
 				temp.add(rs.getString("Title")); // Title
 				temp.add(rs.getString("Description")); // Description
 				temp.add(rs.getString("Disclaimer")); // Disclaimer
@@ -278,12 +283,13 @@ public class IncentivesManagerImpl implements IncentivesManager {
 				temp.add(rs.getBoolean("IsDeleted")); // IsDeleted
 				temp.add(rs.getString("FilterList")); // FilterList
 				temp.add(rs.getString("VehicleIdList")); // VehicleIdList
-
-				// Adding each row to the result
+				Float discountedPrice=calculateDiscountedPrice(rs.getFloat("price"),rs.getInt("DiscountValue"),rs.getString("DiscountType"));
+				if(discountedPrice!=null)
+					temp.add(discountedPrice); // Price
 				result.add(temp);
 			}
 			/* Convert to Incentives object */
-			ArrayList<Incentives> incentivesResult = convertToIncentivesObject(result);
+			ArrayList<Incentives> incentivesResult = convToIncObjForShowingDisPrice(result);
 			return incentivesResult;
 
 		}
@@ -293,4 +299,45 @@ public class IncentivesManagerImpl implements IncentivesManager {
 		}
 		return null;
 	}
+
+	private float calculateDiscountedPrice(float originalPrice, int discountValue, String discountType) {
+		float discountedPrice = 0;
+		float temp = 0;
+		if(discountType.toUpperCase().startsWith("CASH")) {
+			discountedPrice=originalPrice-discountValue;
+		}else {
+			temp=(originalPrice*discountValue)/100;
+			discountedPrice=originalPrice-temp;
+		}
+		return discountedPrice;
+		
+	}
+	
+private ArrayList<Incentives> convToIncObjForShowingDisPrice(ArrayList<ArrayList> sqlQueryOutput) {
+        ArrayList<Incentives> incentivesResult = new ArrayList<>();
+	for(int i=0;i<sqlQueryOutput.size();i++){
+            ArrayList temp = sqlQueryOutput.get(i);
+
+            Incentives in = new Incentives();
+
+            in.setIncentiveId((Integer)temp.get(0));
+            in.setTitle(temp.get(1).toString());
+            in.setDescription(temp.get(2).toString());
+            in.setDisclaimer(temp.get(3).toString());
+            in.setStartDate((Date)temp.get(4));
+            in.setEndDate((Date)temp.get(5));
+            in.setDiscountValue((Integer)temp.get(6));
+            in.setDiscountType(temp.get(7).toString());
+            in.setDealerId((Integer) temp.get(8));
+            in.setIsDeleted(Boolean.parseBoolean(temp.get(9).toString()));
+            in.setFilterList(temp.get(10).toString());
+            in.setVehicleIdList(temp.get(11).toString());
+            in.setDiscountedPrice(Float.parseFloat((String) temp.get(12)));
+
+
+            incentivesResult.add(in);
+        }
+
+        return incentivesResult;
+    }
 }
