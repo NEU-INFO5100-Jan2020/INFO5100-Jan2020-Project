@@ -1,7 +1,6 @@
 package ui.guiforcase4;
 
 import com.toedter.calendar.JYearChooser;
-import com.toedter.components.JSpinField;
 import dto.Vehicle;
 import persist.ExtractSingleColumnFromDB;
 import persist.VehicleManagerImpl;
@@ -37,7 +36,7 @@ public class AddVehicles extends JFrame {
         frame.add(panel);
         addComponents(frame, panel);
         frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     private void addComponents(JFrame frame, JPanel panel) {
@@ -187,16 +186,28 @@ public class AddVehicles extends JFrame {
         btn1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                vehicle.setVin(Integer.parseInt(tf2.getText()));
-                vehicle.setDealerId(dID);
-                vehicle.setMake(make.getSelectedItem().toString());
-                vehicle.setModel(model.getSelectedItem().toString());
-                vehicle.setYear(yc.getYear());
-                vehicle.setCategory(cmb2.getSelectedItem().toString());
-                vehicle.setPrice(Float.parseFloat(tf3.getText()));
-                vehicle.setColor(cmb1.getSelectedItem().toString());
-                vehicle.setMileage(Integer.parseInt(tf4.getText()));
-                vmi.addVehicle(vehicle);
+
+                if (tf1.getText().equals("") || tf2.getText().equals("") || tf3.getText().equals("")) {
+                    btn1.setEnabled(false);
+                    JOptionPane.showMessageDialog(null, "Please  Fill In All Of" +
+                        " VIN, Make, Model, Year, Category, Price, Color, Mileage To Add The Vehicle!");
+                    btn1.setEnabled(true);
+                } else if (!tf1.getText().equals("") && tf1.getText().length() < 4) {
+                    btn1.setEnabled(false);
+                    JOptionPane.showMessageDialog(null, "Please Enter A Number In Four Digits For VIN!");
+                    btn1.setEnabled(true);
+                } else {
+                    vehicle.setVin(Integer.parseInt(tf1.getText()));
+                    vehicle.setDealerId(dID);
+                    vehicle.setMake(make.getSelectedItem().toString());
+                    vehicle.setModel(model.getSelectedItem().toString());
+                    vehicle.setYear(yc.getYear());
+                    vehicle.setCategory(cmb2.getSelectedItem().toString());
+                    vehicle.setPrice(Float.parseFloat(tf2.getText()));
+                    vehicle.setColor(cmb1.getSelectedItem().toString());
+                    vehicle.setMileage(Integer.parseInt(tf3.getText()));
+                    vmi.addVehicle(vehicle);
+                }
             }
         });
     }

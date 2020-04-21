@@ -12,7 +12,7 @@ public class DealerAuthentication extends JFrame {
     public DealerAuthentication() {
         JFrame jf = new JFrame("Dealer Authentication");
         jf.setSize(320, 160);
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JPanel panel = new JPanel();
         jf.add(panel);
         placeComponents(jf, panel);

@@ -20,7 +20,7 @@ public class OperationOptions extends JFrame {
         frame.setSize(400, 280);
         frame.add(panel);
         frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addComponents(panel);
     }
 

@@ -78,7 +78,7 @@ public class InventoryInformation extends JFrame {
 
     JFrame frame = new JFrame("Inventory of Dealer" + this.dID);
     frame.setSize(570, 520);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     JPanel panel = new JPanel(null);
     panel.setBackground(new Color(0, 0, 0, 0));
     frame.add(panel);
