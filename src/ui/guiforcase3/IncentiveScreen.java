@@ -88,7 +88,7 @@ public class IncentiveScreen {
 		table.getTableHeader().setPreferredSize(new Dimension(400, table.getRowHeight())
 
 		);
-		setJTableColumnsWidth(table, 400, 10, 30, 30, 20, 10);
+		setJTableColumnsWidth(table, 400, 10, 20, 20, 20, 10,20);
 		JScrollPane jScrollPane = new JScrollPane(table);
 		frame.add(jScrollPane);
 		frame.getContentPane().setLayout(new BorderLayout());	 

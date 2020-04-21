@@ -17,7 +17,7 @@ public class Incentives extends BigDataType{
     private boolean isDeleted;
     private String filterList;
     private String vehicleIdList;
-    private float discountedPrice;
+    private Float discountedPrice;
 
 
     public int getIncentiveId() {
@@ -116,11 +116,11 @@ public class Incentives extends BigDataType{
         this.vehicleIdList = vehicleIdList;
     }
     
-    public float getDiscountedPrice() {
+    public Float getDiscountedPrice() {
 		return discountedPrice;
 	}
 
-	public void setDiscountedPrice(float discountedPrice) {
+	public void setDiscountedPrice(Float discountedPrice) {
 		this.discountedPrice = discountedPrice;
 	}
 }

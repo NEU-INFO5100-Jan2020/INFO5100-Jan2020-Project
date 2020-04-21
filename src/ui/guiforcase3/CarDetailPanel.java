@@ -41,7 +41,7 @@ public class CarDetailPanel extends JPanel {
         Collection<Incentives> result = incImpl.checkIncentives(v.getVehicleId());
         for (Incentives inc : result){
            // if (inc.getDiscountType().equals("Cash")) {
-                discount = inc.getDiscountValue();
+                discount = inc.getDiscountedPrice();
            // }
         }
         // Draw Details
