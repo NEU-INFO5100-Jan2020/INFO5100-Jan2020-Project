@@ -126,6 +126,7 @@ public class CreatePage {
                         IncentivesManagerImpl incentivesManagerImpl=new IncentivesManagerImpl();
                         setIncentiveApplyData(incentive);
                         incentivesManagerImpl.addIncentive2(incentive, vehicleIDList);
+                        jframe.dispose();
                     }
                 }
                 catch (NumberFormatException enf) {
@@ -141,7 +142,6 @@ public class CreatePage {
 //                    IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
 //                    incentiveMainPage.setVisible(true);
                     parentPage.refreshTableContents();
-                    jframe.dispose();
                 }
             }
         });
