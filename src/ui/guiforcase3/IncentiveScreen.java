@@ -98,7 +98,7 @@ public class IncentiveScreen {
 	
 	//Show message dialog when there is no incentive
 	public static void showMessageDialog() {
-		String message= "Oops, there is no valide incentive aviliable on this vechile";
+		String message= "Oops, there is no valid incentive available on this vehicle";
 		JOptionPane.showMessageDialog(null, message,"Incentive",JOptionPane.INFORMATION_MESSAGE);
 	}
 	
