@@ -1,14 +1,16 @@
 package ui.guiforcase3;
 
 import dto.*;
+import persist.IncentivesManagerImpl;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Collection;
 import java.net.URL;
 
-public class CarDetailPanel extends JPanel {
 
+public class CarDetailPanel extends JPanel {
+    float discount = 0;
     Collection<Vehicle> vehicleResult;
     public static final int width = 600;
     public static final int height = 600;
@@ -33,7 +35,15 @@ public class CarDetailPanel extends JPanel {
 
     // PANEL 1 details + image
     public void paint(Graphics g){
+
         Vehicle v = (Vehicle) vehicleResult.toArray()[0];
+        IncentivesManagerImpl incImpl = new IncentivesManagerImpl();
+        Collection<Incentives> result = incImpl.checkIncentives(v.getVehicleId());
+        for (Incentives inc : result){
+            if (inc.getDiscountType().equals("Cash")) {
+                discount = inc.getDiscountValue();
+            }
+        }
         // Draw Details
         g.setColor(Color.gray);
         g.setFont(new Font("default", Font.ITALIC,16));
@@ -47,12 +57,12 @@ public class CarDetailPanel extends JPanel {
         g.drawString("YEAR", width/2, y + dis*3);
         g.drawString("MILEAGE", width/2, y + dis*4);
         g.drawString("VIN", width/2, y + dis*5);
-//            g.drawString("RATINGS", width/2, y + dis*5);
+
 
         g.setColor(Color.darkGray);
         g.setFont(new Font("default", Font.BOLD,14));
-        g.drawString(String.valueOf(v.getVehicleId()),x*5 + dis_info, y + dis*2);
-        g.drawString(String.format("$%,.2f", v.getPrice()-v.getDiscountPrice()), x*10 + dis_info, y + dis);
+        g.drawString(String.valueOf(v.getMake()),x*5 + dis_info, y + dis*2);
+        g.drawString(String.format("$%,.2f", v.getPrice()- discount), x*10 + dis_info, y + dis);
         g.drawString(v.getModel(), x*5 + dis_info, y + dis*3);
         g.drawString(v.getCategory(), x*5 + dis_info, y + dis*4);
         g.drawString(v.getColor(), x*5 + dis_info, y + dis*5);
@@ -73,22 +83,26 @@ public class CarDetailPanel extends JPanel {
 
         if (imgURL != null) {
             icon = new ImageIcon(imgURL);
+            img = icon.getImage();
         } else {
             imgFilename = "CarImages/" + carMake + ".jpg";
             imgURL = getClass().getClassLoader().getResource(imgFilename);
             if (imgURL != null){
                 icon = new ImageIcon(imgURL);
+                img = icon.getImage();
             }else{
                 imgFilename = "CarImages/" + carMake + ".jpeg";
                 imgURL = getClass().getClassLoader().getResource(imgFilename);
                 if (imgURL != null){
                     icon = new ImageIcon(imgURL);
+                    img = icon.getImage();
                 }else{
                     System.err.println("Couldn't find file: " + imgFilename);
+                    g.drawString("Couldn't find the car image: " + carMake,150, 200);
                 }
             }
         }
-        img = icon.getImage();
+
 
         // Draw Image
         g.drawImage(img,x, x,  width-x*2, height*1/2, null);
