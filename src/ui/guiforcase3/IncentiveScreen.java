@@ -61,7 +61,6 @@ public class IncentiveScreen {
 			}
 		};
 
-		table.setPreferredSize(new Dimension(700, 500));
 		table.setForeground(Color.WHITE);
 		table.setBackground(new Color(222, 249, 250));
 		table.setShowGrid(false);

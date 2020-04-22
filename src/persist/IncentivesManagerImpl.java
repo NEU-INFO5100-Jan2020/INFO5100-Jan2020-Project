@@ -285,9 +285,9 @@ public class IncentivesManagerImpl implements IncentivesManager {
 				temp.add(rs.getString("FilterList")); // FilterList
 				temp.add(rs.getString("VehicleIdList")); // VehicleIdList
 				if(discountedPrice==null)
-					discountedPrice = calculateDiscountedPrice(rs.getFloat("price"),rs.getInt("DiscountValue"),rs.getString("DiscountType"));
+					discountedPrice = calculateDiscountedPrice(rs.getFloat("price"),rs.getFloat("price"),rs.getInt("DiscountValue"),rs.getString("DiscountType"));
 				else
-					discountedPrice = calculateDiscountedPrice(discountedPrice,rs.getInt("DiscountValue"),rs.getString("DiscountType"));
+					discountedPrice = calculateDiscountedPrice(rs.getFloat("price"),discountedPrice,rs.getInt("DiscountValue"),rs.getString("DiscountType"));
 
 				temp.add(discountedPrice); // Price
 				result.add(temp);
@@ -304,14 +304,15 @@ public class IncentivesManagerImpl implements IncentivesManager {
 		return null;
 	}
 
-	private float calculateDiscountedPrice(float originalPrice, int discountValue, String discountType) {
-		float discountedPrice = 0;
+	private float calculateDiscountedPrice( float originalPrice, float discountedPrice, int discountValue, String discountType) {
+
+//    	float discountedPrice = 0;
 		float temp = 0;
 		if(discountType.toUpperCase().startsWith("CASH")) {
-			discountedPrice=originalPrice-discountValue;
+			discountedPrice=discountedPrice-discountValue;
 		}else {
 			temp=(originalPrice*discountValue)/100;
-			discountedPrice=originalPrice-temp;
+			discountedPrice=discountedPrice-temp;
 		}
 		return discountedPrice;
 		

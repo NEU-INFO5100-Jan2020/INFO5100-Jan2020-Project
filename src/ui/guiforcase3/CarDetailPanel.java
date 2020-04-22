@@ -39,11 +39,16 @@ public class CarDetailPanel extends JPanel {
         Vehicle v = (Vehicle) vehicleResult.toArray()[0];
         IncentivesManagerImpl incImpl = new IncentivesManagerImpl();
         Collection<Incentives> result = incImpl.checkIncentives(v.getVehicleId());
+
+        if(result.size()>0){
         for (Incentives inc : result){
-           // if (inc.getDiscountType().equals("Cash")) {
-                discount = inc.getDiscountedPrice();
-           // }
+            discount = inc.getDiscountedPrice();
         }
+        }else{
+            discount=v.getPrice();
+        }
+
+
         // Draw Details
         g.setColor(Color.gray);
         g.setFont(new Font("default", Font.ITALIC,16));
