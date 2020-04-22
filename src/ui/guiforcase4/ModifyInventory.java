@@ -25,7 +25,8 @@ public class ModifyInventory extends JFrame {
     JFrame frame = new JFrame("Modifying Inventory of DealerID " + dID);
     JPanel panel = new JPanel(null);
     frame.setSize(400, 480);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    frame.setLocationRelativeTo(null);
     frame.add(panel);
     addComponents(frame, panel);
     frame.setVisible(true);
@@ -34,7 +35,7 @@ public class ModifyInventory extends JFrame {
   private void addComponents(JFrame frame, JPanel panel) {
     JLabel jl = new JLabel("Dealer" + dID);
     jl.setFont(new Font("Arial", Font.PLAIN, 18));
-    jl.setForeground(Color.BLUE);
+    jl.setForeground(Color.BLACK);
     jl.setHorizontalAlignment(JTextField.CENTER);
     jl.setBounds(160, 10, 80, 30);
 

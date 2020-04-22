@@ -1,10 +1,7 @@
 package service;
 
 import com.google.gson.Gson;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -31,29 +28,3 @@ public class MakeModelJsonPopulator {
 
 }
 
-class MakeModelVer2 {
-
-  @SerializedName("brand")
-  @Expose
-  private String brand;
-  @SerializedName("models")
-  @Expose
-  private List<String> models = null;
-
-  public String getBrand() {
-    return brand;
-  }
-
-  public void setBrand(String brand) {
-    this.brand = brand;
-  }
-
-  public List<String> getModels() {
-    return models;
-  }
-
-  public void setModels(List<String> models) {
-    this.models = models;
-  }
-
-}

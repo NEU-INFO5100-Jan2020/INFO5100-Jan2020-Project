@@ -4,28 +4,25 @@ import com.toedter.calendar.JYearChooser;
 import dto.Vehicle;
 import persist.ExtractSingleColumnFromDB;
 import persist.VehicleManagerImpl;
-import service.MakeModel;
-import service.MakeModelContainer;
-import service.MakeModelContainerPopulator;
+import service.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 public class AddVehicles extends JFrame {
     int dID;
     ExtractSingleColumnFromDB connect = new ExtractSingleColumnFromDB();
-    MakeModelContainer mmc;
-    MakeModelContainerPopulator mmcp = new MakeModelContainerPopulator();
-    ArrayList<MakeModel> makeModels;
     Vehicle vehicle = new Vehicle();
     VehicleManagerImpl vmi = new VehicleManagerImpl();
-
+    DealerUtilities du = new DealerUtilities();
+    List<MakeModelVer2> makeModelVer2s = MakeModelJsonPopulator.populateMakeModel();
     public AddVehicles(int dID) {
         this.dID = dID;
         this.vehicle = vehicle;
-        mmc = mmcp.getMakeModels();
+
         initialFrame();
     }
 
@@ -33,6 +30,7 @@ public class AddVehicles extends JFrame {
         JFrame frame = new JFrame("Managing Inventory of Dealer " + this.dID);
         JPanel panel = new JPanel(null);
         frame.setSize(400, 480);
+        frame.setLocationRelativeTo(null);
         frame.add(panel);
         addComponents(frame, panel);
         frame.setVisible(true);
@@ -42,7 +40,7 @@ public class AddVehicles extends JFrame {
     private void addComponents(JFrame frame, JPanel panel) {
         JLabel jl = new JLabel("Dealer " + this.dID);
         jl.setFont(new Font("Arial", Font.PLAIN, 18));
-        jl.setForeground(java.awt.Color.BLUE);
+        jl.setForeground(Color.BLACK);
         jl.setHorizontalAlignment(JTextField.CENTER);
         jl.setBounds(160, 10, 80, 30);
         panel.add(jl);
@@ -56,7 +54,6 @@ public class AddVehicles extends JFrame {
             jls[i].setFont(new Font("Arial", Font.PLAIN, 15));
             panel.add(jls[i]);
         }
-
 
         JTextField tf1 = new JTextField(10);
         tf1.setBounds(160, 50, 160, 25);
@@ -80,6 +77,19 @@ public class AddVehicles extends JFrame {
         CheckInput c3 = new CheckInput();
         c3.setLength(10);
         tf3.setDocument(c3);
+//        if(tf1.getText().length() == 4) {
+//            tf1.addKeyListener(new KeyListener() {
+//            public void keyTyped(KeyEvent e) {
+//                if (e.getKeyChar() = true) {
+//                    JOptionPane.showMessageDialog(null, "Please Enter A Number In Four Digits");
+//                }
+//            }
+//            public void keyPressed(KeyEvent e) {
+//            }
+//            public void keyReleased(KeyEvent e) {
+//            }
+//        });
+//        }
         tf1.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent e) {
                 if (Character.isLetter(e.getKeyChar())) {
@@ -122,7 +132,7 @@ public class AddVehicles extends JFrame {
         JButton[] jButtons = new JButton[]{btn1, btn2};
         for (int i = 0; i < jButtons.length; i++) {
             jButtons[i].setPreferredSize(preferredSize);
-            jButtons[i].setBackground(java.awt.Color.blue);
+            jButtons[i].setBackground(Color.WHITE);
             jButtons[i].setOpaque(true);
             jButtons[i].setFont(new Font("Arial", Font.PLAIN, 15));
             panel.add(jButtons[i]);
@@ -154,15 +164,22 @@ public class AddVehicles extends JFrame {
         cmb2.setFont(new Font("Arial", Font.PLAIN, 15));
         panel.add(cmb1);
         panel.add(cmb2);
+//        if(cmb1.getSelectedItem().equals("New")) {
+//            tf3.setText("0");
+//            tf3.
+//
+//        }
 
-
-        JComboBox make = new JComboBox(removeDuplicates(getMakesFromDatabase()));
+        String[] makes = new String[makeModelVer2s.size()];
+        for(int i = 0; i < makeModelVer2s.size(); i++) {
+            makes[i] = makeModelVer2s.get(i).getBrand();
+        }
+        JComboBox make = new JComboBox(makes);
         make.setBounds(160, 80, 160, 25);
         make.setFont(new Font("Arial", Font.PLAIN, 15));
         String makeValue = make.getSelectedItem().toString();
-
+        List<String> models = makeModel(makeValue).getModels();
         JComboBox model = new JComboBox();
-        Collection<String> models = makeModel(makeValue).getModels();
         String[] models1 = models.toArray(new String[models.size()]);
         model.setModel(new DefaultComboBoxModel(models1));
         model.setBounds(160, 110, 160, 25);
@@ -172,7 +189,7 @@ public class AddVehicles extends JFrame {
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     String makeValue = make.getSelectedItem().toString();
-                    Collection<String> models = makeModel(makeValue).getModels();
+                    List<String> models = makeModel(makeValue).getModels();
                     String[] models1 = models.toArray(new String[models.size()]);
                     model.setModel(new DefaultComboBoxModel(models1));
                 }
@@ -197,30 +214,39 @@ public class AddVehicles extends JFrame {
                     JOptionPane.showMessageDialog(null, "Please Enter A Number In Four Digits For VIN!");
                     btn1.setEnabled(true);
                 } else {
-                    vehicle.setVin(Integer.parseInt(tf1.getText()));
-                    vehicle.setDealerId(dID);
-                    vehicle.setMake(make.getSelectedItem().toString());
-                    vehicle.setModel(model.getSelectedItem().toString());
-                    vehicle.setYear(yc.getYear());
-                    vehicle.setCategory(cmb2.getSelectedItem().toString());
-                    vehicle.setPrice(Float.parseFloat(tf2.getText()));
-                    vehicle.setColor(cmb1.getSelectedItem().toString());
-                    vehicle.setMileage(Integer.parseInt(tf3.getText()));
-                    vmi.addVehicle(vehicle);
+                    try {
+                        vehicle.setVin(Integer.parseInt(tf1.getText()));
+                        vehicle.setDealerId(dID);
+                        vehicle.setMake(make.getSelectedItem().toString());
+                        vehicle.setModel(model.getSelectedItem().toString());
+                        vehicle.setYear(yc.getYear());
+                        vehicle.setCategory(cmb2.getSelectedItem().toString());
+                        vehicle.setPrice(Float.parseFloat(tf2.getText()));
+                        vehicle.setColor(cmb1.getSelectedItem().toString());
+                        vehicle.setMileage(Integer.parseInt(tf3.getText()));
+                        if (du.validateVin(vehicle) == false) {
+                            btn1.setEnabled(false);
+                            JOptionPane.showMessageDialog(null, "The VIN You Entered Already " +
+                                "Exists! \nPlease Enter A New VIN");
+                            btn1.setEnabled(true);
+                        } else {
+                            vmi.addVehicle(vehicle);
+                        }
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         });
     }
-    private MakeModel makeModel(String makeValue) {
-        makeModels =(ArrayList<MakeModel>) (mmc.getMakeModels());
-        for (MakeModel mm : makeModels) {
-            if (mm.getMake().equals(makeValue)) {
+    private MakeModelVer2 makeModel(String makeValue) {
+        for (MakeModelVer2 mm : makeModelVer2s) {
+            if (mm.getBrand().equals(makeValue)) {
                 return mm;
             }
         }
         return null;
     }
-
 
     public String[] getColorsFromDatabase() {
         ArrayList<Vehicle> vehicles = connect.executeVehicleQuery();
@@ -229,14 +255,6 @@ public class AddVehicles extends JFrame {
             color[i] = vehicles.get(i).getColor();
         }
         return color;
-    }
-    public String[] getMakesFromDatabase() {
-        ArrayList<Vehicle> vehicles = connect.executeVehicleQuery();
-        String[] makes = new String[vehicles.size()];
-        for (int i = 0; i < vehicles.size(); i++) {
-            makes[i] = vehicles.get(i).getMake();
-        }
-        return makes;
     }
 
     public String[] removeDuplicates(String[] array) {
