@@ -23,13 +23,12 @@ public class Frame_1 extends JFrame {
 
     ArrayList<JLabel> lblList;
     JLabel lbl_headline, lbl_make, lbl_model, lbl_year, lbl_gif, lbl_price, lbl_Err_YearEnd, lbl_to;
-    ImageIcon icon;
     ArrayList<JComboBox<String>> cbbList;
     JComboBox<String> cbb_make, cbb_model, cbb_price;
     JComboBox<String> cbb_yearStart, cbb_yearEnd;
     ArrayList<JButton> jbList;
-    ArrayList<ImageIcon> imageList;
     JFrame jf, previousPage;
+    ImageIcon icon;
 
     final static int yInternal = 100;
     final static int xInterval = 100;
@@ -71,7 +70,7 @@ public class Frame_1 extends JFrame {
         InitImageIcon();
     }
     private void InitImageIcon(){
-        ImageIcon icon = new ImageIcon("src/ui/UC2_SearchVehicles/Dealer.png");
+        icon = new ImageIcon("src/ui/UC2_SearchVehicles/Dealer.png");
         lbl_gif = new JLabel(icon);
         lbl_gif.setBounds(350, 100, 400, 400);
         getContentPane().add(lbl_gif);
@@ -114,11 +113,11 @@ public class Frame_1 extends JFrame {
                         model,
                         year,
                         price);
-
-                f2.setBounds(100, 100, 600, 700);
+                getContentPane().add(f2);
+                f2.setBounds(400, 100, 600, 700);
+                lbl_gif.setVisible(false);
                 f2.setVisible(true);
             }
-
         });
         jbList.add(search);
     }
@@ -223,22 +222,22 @@ public class Frame_1 extends JFrame {
     }
 
     private void InitFrame() {
-        setBounds(00, 00, 1000, 650);
+        setBounds(00, 00, 1100, 800);
         setLocationRelativeTo(previousPage);
         setResizable(false);
         setTitle("5100 Final Project UserCase 2");
 
         getContentPane().setLayout(null);
-        jf =this;
+        jf = this;
     }
 
-//    public static void main(String[] args) {
-//        Dealer d = new Dealer();
-//        d.setDealerId(1);
-//        d.setDealerName("default");
-//
-//        new Frame_1(d, new JFrame());
-//    }
+    public static void main(String[] args) {
+        Dealer d = new Dealer();
+        d.setDealerId(1);
+        d.setDealerName("default");
+
+        new Frame_1(d, new JFrame());
+    }
 
 }
 
