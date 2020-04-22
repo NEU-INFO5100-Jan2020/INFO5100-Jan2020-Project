@@ -214,6 +214,7 @@ public class AddVehicles extends JFrame {
                     JOptionPane.showMessageDialog(null, "Please Enter A Number In Four Digits For VIN!");
                     btn1.setEnabled(true);
                 } else {
+
                     try {
                         vehicle.setVin(Integer.parseInt(tf1.getText()));
                         vehicle.setDealerId(dID);
