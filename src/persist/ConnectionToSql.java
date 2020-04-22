@@ -181,6 +181,7 @@ public class ConnectionToSql {
          System.out.println("Unknown exception");
          System.out.println(e.getMessage());
        }
+
        return null;
     }
 }
