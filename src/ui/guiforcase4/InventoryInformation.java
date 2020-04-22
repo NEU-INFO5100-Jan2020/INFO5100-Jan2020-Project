@@ -11,8 +11,6 @@ import java.awt.event.ActionListener;
 import java.util.Collection;
 import static java.awt.Font.PLAIN;
 
-import static java.awt.Font.PLAIN;
-
 public class InventoryInformation extends JFrame {
   int dID;
   private JTable table;
@@ -68,17 +66,16 @@ public class InventoryInformation extends JFrame {
     centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
     table.getColumn("VehicleID").setCellRenderer( centerRenderer );
     table.getColumn("VIN").setCellRenderer( centerRenderer );
-    table.getColumn("Make").setCellRenderer( leftRenderer );
-    table.getColumn("Model").setCellRenderer( leftRenderer );
+    table.getColumn("Make").setCellRenderer( centerRenderer );
+    table.getColumn("Model").setCellRenderer( centerRenderer );
     table.getColumn("Price").setCellRenderer( centerRenderer );
     table.getColumn("Mileage").setCellRenderer( centerRenderer );
   }
 
   private void initialFrame() {
-
     JFrame frame = new JFrame("Inventory of Dealer" + this.dID);
     frame.setSize(570, 520);
-    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     JPanel panel = new JPanel(null);
     panel.setBackground(new Color(0, 0, 0, 0));
     frame.add(panel);
@@ -105,16 +102,21 @@ public class InventoryInformation extends JFrame {
     renderer.setHorizontalAlignment(SwingConstants.CENTER);
     //table.setCellRenderer(renderer);
     panel.add(js);
-    JButton btn1 = new JButton("Modify");
-    btn1.setBounds(80, 320, 160, 40);
-    JButton btn2 = new JButton("Delete");
-    btn2.setBounds(319, 320, 160, 40);
-    JButton btn3 = new JButton("Add Vehicles");
-    btn3.setBounds(80, 380, 160, 40);
-    JButton btn4 = new JButton("Back");
-    btn4.setBounds(319, 380, 160, 40);
-    
-    JButton[] jButtons = new JButton[]{btn1, btn2, btn3, btn4};
+
+    JButton modifyBtn = new JButton("Modify");
+    modifyBtn.setBounds(80, 320, 160, 40);
+
+    JButton deleteBtn = new JButton("Delete");
+    deleteBtn.setBounds(319, 320, 160, 40);
+
+    JButton addBtn = new JButton("Add Vehicles");
+    addBtn.setBounds(80, 380, 160, 40);
+
+    JButton backBtn = new JButton("Back");
+    backBtn.setBounds(319, 380, 160, 40);
+
+    JButton[] jButtons = new JButton[]{modifyBtn, deleteBtn, addBtn, backBtn};
+
     Dimension preferredSize = new Dimension(120, 40);
     for (JButton jButton : jButtons) {
       jButton.setPreferredSize(preferredSize);
@@ -124,7 +126,8 @@ public class InventoryInformation extends JFrame {
       panel.add(jButton);
     }
 
-    btn1.addActionListener(e -> {
+
+    modifyBtn.addActionListener(e -> {
       //Get the VehicleID selected vehicle
       try {
         int rowIndex = table.getSelectedRow();
@@ -144,7 +147,8 @@ public class InventoryInformation extends JFrame {
 
     });
     //(Ekie)Delete vehicles
-    btn2.addActionListener(e -> {
+
+    deleteBtn.addActionListener(e -> {
       try {
         //Step1: Delete the vehicle from the db
         int rowIndex = (int) table.getSelectedRow();
@@ -164,7 +168,7 @@ public class InventoryInformation extends JFrame {
         vModel.removeRow(rowIndex);
         int size = vModel.getRowCount();
         if (size == 0) { //No vehicles left, disable delete.
-          btn2.setEnabled(false);
+          deleteBtn.setEnabled(false);
         } else { //Select an index.
           if (rowIndex == size) {
             rowIndex--;
@@ -175,15 +179,14 @@ public class InventoryInformation extends JFrame {
       }
     });
 
-    btn3.addActionListener(e -> {
+
+    addBtn.addActionListener(e -> {
       new AddVehicles(dID);
       frame.dispose();
     });
-
-    btn4.addActionListener(e -> {
+    backBtn.addActionListener(e -> {
       frame.dispose();
       new OperationOptions(dID);
     });
   }
 }
-
