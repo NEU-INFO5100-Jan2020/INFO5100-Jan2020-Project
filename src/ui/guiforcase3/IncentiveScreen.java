@@ -41,6 +41,7 @@ public class IncentiveScreen {
 			row.add(inc.getIncentiveId()+"");
 			row.add(inc.getTitle());
 			row.add(inc.getDiscountType());
+			row.add(inc.getDiscountValue() + "");
 			row.add(inc.getEndDate() + "");
 			model.addRow(row);
 		}
