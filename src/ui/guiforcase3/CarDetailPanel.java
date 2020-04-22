@@ -4,6 +4,7 @@ import dto.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.MalformedURLException;
 import java.util.Collection;
 import java.net.URL;
 
@@ -66,6 +67,8 @@ public class CarDetailPanel extends JPanel {
         carMake = v.getMake();
 
         imgFilename = "CarImages/" + carMake + ".png";
+//        imgFilename = "https://5100finalproject.blob.core.windows.net/vehicleimages/" + make;
+        imgFilename = "CarImages/" + carMake + ".png";
 
         // Try Image
         ImageIcon icon = null;
@@ -75,6 +78,7 @@ public class CarDetailPanel extends JPanel {
             icon = new ImageIcon(imgURL);
         } else {
             imgFilename = "CarImages/" + carMake + ".jpg";
+
             imgURL = getClass().getClassLoader().getResource(imgFilename);
             if (imgURL != null){
                 icon = new ImageIcon(imgURL);
@@ -88,7 +92,17 @@ public class CarDetailPanel extends JPanel {
                 }
             }
         }
-        img = icon.getImage();
+         img = icon.getImage();
+
+        // file extension is not required as long as the expected file(with no extension) exists
+//        String uri = "https://5100finalproject.blob.core.windows.net/vehicleimages/1";
+//        ImageIcon ii = null;
+//        try {
+//            ii = new ImageIcon(new URL(uri));
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//        img = ii.getImage();
 
         // Draw Image
         g.drawImage(img,x, x,  width-x*2, height*1/2, null);
