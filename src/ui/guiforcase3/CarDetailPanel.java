@@ -62,7 +62,7 @@ public class CarDetailPanel extends JPanel {
         g.setColor(Color.darkGray);
         g.setFont(new Font("default", Font.BOLD,14));
         g.drawString(String.valueOf(v.getMake()),x*5 + dis_info, y + dis*2);
-        g.drawString(String.format("$%,.2f", v.getPrice()- discount), x*10 + dis_info, y + dis);
+        g.drawString(String.format("$%,.2f", discount), x*10 + dis_info, y + dis);
         g.drawString(v.getModel(), x*5 + dis_info, y + dis*3);
         g.drawString(v.getCategory(), x*5 + dis_info, y + dis*4);
         g.drawString(v.getColor(), x*5 + dis_info, y + dis*5);

@@ -253,6 +253,7 @@ public class IncentivesManagerImpl implements IncentivesManager {
 	//CheckIncentives of a specific VehicleId
 	public Collection<Incentives> checkIncentives(int VehicleId) {
 		ArrayList<ArrayList> result = new ArrayList<ArrayList>();
+		Float discountedPrice = null;
 		try {
 			ConnectionToSql connect = new ConnectionToSql();
 			Connection connection = connect.connectToDB();
@@ -283,9 +284,12 @@ public class IncentivesManagerImpl implements IncentivesManager {
 				temp.add(rs.getBoolean("IsDeleted")); // IsDeleted
 				temp.add(rs.getString("FilterList")); // FilterList
 				temp.add(rs.getString("VehicleIdList")); // VehicleIdList
-				Float discountedPrice=calculateDiscountedPrice(rs.getFloat("price"),rs.getInt("DiscountValue"),rs.getString("DiscountType"));
-				if(discountedPrice!=null)
-					temp.add(discountedPrice); // Price
+				if(discountedPrice==null)
+					discountedPrice = calculateDiscountedPrice(rs.getFloat("price"),rs.getInt("DiscountValue"),rs.getString("DiscountType"));
+				else
+					discountedPrice = calculateDiscountedPrice(discountedPrice,rs.getInt("DiscountValue"),rs.getString("DiscountType"));
+
+				temp.add(discountedPrice); // Price
 				result.add(temp);
 			}
 			/* Convert to Incentives object */
@@ -319,7 +323,6 @@ private ArrayList<Incentives> convToIncObjForShowingDisPrice(ArrayList<ArrayList
             ArrayList temp = sqlQueryOutput.get(i);
 
             Incentives in = new Incentives();
-
             in.setIncentiveId((Integer)temp.get(0));
             in.setTitle(temp.get(1).toString());
             in.setDescription(temp.get(2).toString());
@@ -333,8 +336,6 @@ private ArrayList<Incentives> convToIncObjForShowingDisPrice(ArrayList<ArrayList
             in.setFilterList(temp.get(10).toString());
             in.setVehicleIdList(temp.get(11).toString());
             in.setDiscountedPrice(Float.parseFloat((temp.get(12).toString())));
-
-
             incentivesResult.add(in);
         }
 

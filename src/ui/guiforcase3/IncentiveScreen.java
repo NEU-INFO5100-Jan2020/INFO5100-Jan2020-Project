@@ -33,7 +33,7 @@ public class IncentiveScreen {
 		else {
 		JFrame frame = new JFrame("Incentive Details");		
 		frame.setSize(1000, 300);
-		String[] columns = {"Sr no","Title", "Type", " Discount value ","Final Discounted Price","Valid Till"};
+		String[] columns = {"Sr no","Title", "Type", " Discount value ","Valid Till"};
 		DefaultTableModel model = new DefaultTableModel(columns, 0);
 		
 		for (Incentives inc : result) {
@@ -41,8 +41,6 @@ public class IncentiveScreen {
 			row.add(inc.getIncentiveId()+"");
 			row.add(inc.getTitle());
 			row.add(inc.getDiscountType());
-			row.add(inc.getDiscountValue() + "");	
-			row.add(inc.getDiscountedPrice() + "");	
 			row.add(inc.getEndDate() + "");
 			model.addRow(row);
 		}
@@ -88,7 +86,7 @@ public class IncentiveScreen {
 		table.getTableHeader().setPreferredSize(new Dimension(400, table.getRowHeight())
 
 		);
-		setJTableColumnsWidth(table, 400, 10, 20, 20, 20, 10,20);
+		setJTableColumnsWidth(table, 400, 10, 20, 20, 20,20);
 		JScrollPane jScrollPane = new JScrollPane(table);
 		frame.add(jScrollPane);
 		frame.getContentPane().setLayout(new BorderLayout());	 
