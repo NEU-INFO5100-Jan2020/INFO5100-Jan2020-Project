@@ -28,7 +28,6 @@ public class CarDetailGUI extends JPanel {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 frame.dispose();
-                new DummyFirstPage();
             }
         });
 
@@ -37,7 +36,7 @@ public class CarDetailGUI extends JPanel {
 
     public JPanel panelDiscountDetails(JFrame frame){
         JPanel panel = new JPanel();
-        JButton button = new JButton("Discount Details");
+        JButton button = new JButton("Click here For more Discount Details");
         panel.add(button);
         button.addActionListener(new ActionListener() {
              public void actionPerformed(ActionEvent ae) {
@@ -87,7 +86,6 @@ public class CarDetailGUI extends JPanel {
         frame.getContentPane().add(panelDiscountDetails, BorderLayout.LINE_END);
         frame.getContentPane().add(ratingPanel, BorderLayout.LINE_START);
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(CarDetailPanel.width, CarDetailPanel.height+100);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
