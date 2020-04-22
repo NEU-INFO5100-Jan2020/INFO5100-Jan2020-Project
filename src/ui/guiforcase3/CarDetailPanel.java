@@ -111,9 +111,8 @@ public class CarDetailPanel extends JPanel {
                 }
             }
         }
-<<<<<<< HEAD
-         img = icon.getImage();
 
+         img = icon.getImage();
         // file extension is not required as long as the expected file(with no extension) exists
 //        String uri = "https://5100finalproject.blob.core.windows.net/vehicleimages/1";
 //        ImageIcon ii = null;
@@ -123,9 +122,9 @@ public class CarDetailPanel extends JPanel {
 //            e.printStackTrace();
 //        }
 //        img = ii.getImage();
-=======
 
->>>>>>> 884ea364018a85e46ba30eb85fda6927865536f1
+
+
 
         // Draw Image
         g.drawImage(img,x, x,  width-x*2, height*1/2, null);
