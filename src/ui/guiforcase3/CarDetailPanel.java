@@ -5,6 +5,7 @@ import persist.IncentivesManagerImpl;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.MalformedURLException;
 import java.util.Collection;
 import java.net.URL;
 
@@ -39,11 +40,16 @@ public class CarDetailPanel extends JPanel {
         Vehicle v = (Vehicle) vehicleResult.toArray()[0];
         IncentivesManagerImpl incImpl = new IncentivesManagerImpl();
         Collection<Incentives> result = incImpl.checkIncentives(v.getVehicleId());
+
+        if(result.size()>0){
         for (Incentives inc : result){
-            if (inc.getDiscountType().equals("Cash")) {
-                discount = inc.getDiscountValue();
-            }
+            discount = inc.getDiscountedPrice();
         }
+        }else{
+            discount=v.getPrice();
+        }
+
+
         // Draw Details
         g.setColor(Color.gray);
         g.setFont(new Font("default", Font.ITALIC,16));
@@ -62,7 +68,7 @@ public class CarDetailPanel extends JPanel {
         g.setColor(Color.darkGray);
         g.setFont(new Font("default", Font.BOLD,14));
         g.drawString(String.valueOf(v.getMake()),x*5 + dis_info, y + dis*2);
-        g.drawString(String.format("$%,.2f", v.getPrice()- discount), x*10 + dis_info, y + dis);
+        g.drawString(String.format("$%,.2f", discount), x*10 + dis_info, y + dis);
         g.drawString(v.getModel(), x*5 + dis_info, y + dis*3);
         g.drawString(v.getCategory(), x*5 + dis_info, y + dis*4);
         g.drawString(v.getColor(), x*5 + dis_info, y + dis*5);
@@ -76,6 +82,8 @@ public class CarDetailPanel extends JPanel {
         carMake = v.getMake();
 
         imgFilename = "CarImages/" + carMake + ".png";
+//        imgFilename = "https://5100finalproject.blob.core.windows.net/vehicleimages/" + make;
+        imgFilename = "CarImages/" + carMake + ".png";
 
         // Try Image
         ImageIcon icon = null;
@@ -86,6 +94,7 @@ public class CarDetailPanel extends JPanel {
             img = icon.getImage();
         } else {
             imgFilename = "CarImages/" + carMake + ".jpg";
+
             imgURL = getClass().getClassLoader().getResource(imgFilename);
             if (imgURL != null){
                 icon = new ImageIcon(imgURL);
@@ -102,6 +111,19 @@ public class CarDetailPanel extends JPanel {
                 }
             }
         }
+
+         img = icon.getImage();
+        // file extension is not required as long as the expected file(with no extension) exists
+//        String uri = "https://5100finalproject.blob.core.windows.net/vehicleimages/1";
+//        ImageIcon ii = null;
+//        try {
+//            ii = new ImageIcon(new URL(uri));
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//        img = ii.getImage();
+
+
 
 
         // Draw Image

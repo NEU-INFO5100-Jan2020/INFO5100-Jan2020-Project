@@ -32,8 +32,8 @@ public class IncentiveScreen {
 		}
 		else {
 		JFrame frame = new JFrame("Incentive Details");		
-		frame.setSize(700, 300);
-		String[] columns = {"IncentiveId","Title", "Type", "Value", "End Date"};
+		frame.setSize(1000, 300);
+		String[] columns = {"Serial No.","Title", " Discount Type", "Discount Value ","Valid Till"};
 		DefaultTableModel model = new DefaultTableModel(columns, 0);
 		
 		for (Incentives inc : result) {
@@ -41,7 +41,7 @@ public class IncentiveScreen {
 			row.add(inc.getIncentiveId()+"");
 			row.add(inc.getTitle());
 			row.add(inc.getDiscountType());
-			row.add(inc.getDiscountValue() + "");						
+			row.add(inc.getDiscountValue() + "");
 			row.add(inc.getEndDate() + "");
 			model.addRow(row);
 		}
@@ -61,7 +61,6 @@ public class IncentiveScreen {
 			}
 		};
 
-		table.setPreferredSize(new Dimension(700, 500));
 		table.setForeground(Color.WHITE);
 		table.setBackground(new Color(222, 249, 250));
 		table.setShowGrid(false);
@@ -81,12 +80,13 @@ public class IncentiveScreen {
 		header.setFont(new Font("Dialog", Font.BOLD, 18));
 		header.setBackground(new Color(0, 30, 54));
 		header.setForeground(Color.WHITE);
-		
-		// set header size
+		((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+
+			// set header size
 		table.getTableHeader().setPreferredSize(new Dimension(400, table.getRowHeight())
 
 		);
-		setJTableColumnsWidth(table, 400, 10, 30, 30, 20, 10);
+		setJTableColumnsWidth(table, 400, 5, 30, 15, 20,20);
 		JScrollPane jScrollPane = new JScrollPane(table);
 		frame.add(jScrollPane);
 		frame.getContentPane().setLayout(new BorderLayout());	 
@@ -98,7 +98,7 @@ public class IncentiveScreen {
 	
 	//Show message dialog when there is no incentive
 	public static void showMessageDialog() {
-		String message= "Oops, there is no valide incentive aviliable on this vechile";
+		String message= "Oops, there is no valid incentive available on this vehicle";
 		JOptionPane.showMessageDialog(null, message,"Incentive",JOptionPane.INFORMATION_MESSAGE);
 	}
 	
