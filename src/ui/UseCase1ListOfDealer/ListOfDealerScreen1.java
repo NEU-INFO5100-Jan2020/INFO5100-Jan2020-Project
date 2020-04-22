@@ -208,7 +208,7 @@ public class ListOfDealerScreen1 {
                 String zipCode=textFieldZipCode.getText();
                 try {
                 if((!textFieldZipCode.getText().isEmpty()) && !Validation.isAValidZipCodeCharacters(zipCode)) {
-                    JOptionPane.showMessageDialog(frame, "This is a invalid zip code, Please enter again"); // if zipcode is invalid
+                    JOptionPane.showMessageDialog(frame, "This is a invalid Zip Code, Please enter again \nHint: Zip Code should be 5-digit or 9-digit (ZIP+4)."); // if zipcode is invalid
                 }
                 }
                 catch(Exception e) {
@@ -255,15 +255,15 @@ public class ListOfDealerScreen1 {
                 if ((textFieldZipCode.getText().isEmpty())) {
                     JOptionPane.showMessageDialog(frame, "ZipCode is a mandatory field!"); // if any textfield is empty
                 } else if (!Validation.isAValidZipCodeCharacters(textFieldZipCode.getText())) {
-                    JOptionPane.showMessageDialog(frame, "This is a invalid zip code, Please enter again");
+                    JOptionPane.showMessageDialog(frame, "This is a invalid Zip Code, Please enter again \nHint: Zip Code should be 5-digit or 9-digit (ZIP+4). ");
 
                 } else { //call method to get list of dealers
                     frame.getContentPane().remove(panelRight);
                     initializeRightPanel();
                     panelRight.revalidate();
                     panelRight.repaint();
-                    System.out.println(textFieldDealerName.getText() + " " + textFieldZipCode.getText() + " "
-                            + 0 + " " + Integer.parseInt(comboBox.getSelectedItem().toString()));
+//                    System.out.println(textFieldDealerName.getText() + " " + textFieldZipCode.getText() + " "
+//                            + 0 + " " + Integer.parseInt(comboBox.getSelectedItem().toString()));
                     try {
                         initialiseAndCreateTable();
                     } catch (Exception e) {
@@ -282,7 +282,7 @@ public class ListOfDealerScreen1 {
         DealerSearchFilter dsf= new DealerSearchFilter();
         dealerList = (ArrayList<Dealer>) dsf.dealerZipSearch(textFieldDealerName.getText(),textFieldZipCode.getText(),0,Integer.parseInt(comboBox.getSelectedItem().toString()));
         if(dealerList==null) {
-            JLabel lblIncorrectUSZipcode= new JLabel(textFieldZipCode.getText() + " is not a valid US Zipcode.");
+            JLabel lblIncorrectUSZipcode= new JLabel(textFieldZipCode.getText() + " is not a USA Zip Code.");
 
             lblIncorrectUSZipcode.setForeground(new Color(0, 113, 238));
             lblIncorrectUSZipcode.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -317,7 +317,7 @@ public class ListOfDealerScreen1 {
                 }
             };
 
-            table.setPreferredSize(new Dimension(700,650));
+
             table.setForeground(Color.WHITE);
             table.setShowGrid(false);
             table.setShowHorizontalLines(true);
@@ -359,9 +359,9 @@ public class ListOfDealerScreen1 {
                     }}
                 }
             });
-            System.out.println(table.getHeight());
+//            System.out.println(table.getHeight());
        }  else  {
-             JLabel lblNoDataFound= new JLabel("No Record Available" + ((textFieldDealerName.getText().length()>0)?(" with Dealer Name " +textFieldDealerName.getText().toUpperCase()):" ") +
+             JLabel lblNoDataFound= new JLabel("No Record Available" + ((textFieldDealerName.getText().length()>0)?(" with Dealer Name " +textFieldDealerName.getText().toUpperCase()):"") +
                      " within " + (comboBox.getSelectedItem().toString()) + " Miles of ZipCode "+ textFieldZipCode.getText());
 
              lblNoDataFound.setForeground(new Color(0, 113, 238));
