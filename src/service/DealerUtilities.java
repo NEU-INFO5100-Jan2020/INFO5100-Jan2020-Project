@@ -4,9 +4,13 @@ package service;
 import dto.Vehicle;
 import persist.ConnectionToSql;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+
+import persist.ConnectionToAzureBlob;
 
 public class DealerUtilities {
 
@@ -31,4 +35,21 @@ public class DealerUtilities {
       return resultSet.next();
     }
   }
+
+  public String getImageFromAzureBlob(){
+
+    return null;
+  }
+
+  public void addImageToAzureBlob(String path, int VIN){
+    ConnectionToAzureBlob.initBlob(ConnectionToAzureBlob.connectString);
+    File imageFile = new File(path);
+//    String extension = "";
+//    if (path.contains(".")){
+//      extension = path.substring(path.lastIndexOf(".") + 1);
+//    }
+    String fileName = String.format("%d", VIN);
+    ConnectionToAzureBlob.uploadFile(imageFile,fileName);
+  }
+
 }
