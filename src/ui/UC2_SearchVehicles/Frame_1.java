@@ -4,6 +4,8 @@ package ui.UC2_SearchVehicles;
 //import dto.*;
 
 import dto.Dealer;
+import service.MakeModel;
+import service.MakeModelContainerPopulator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,24 +19,23 @@ public class Frame_1 extends JFrame {
 
     private Dealer dealer;
 
-    private ArrayList<MakeDTO> makeList;
+    private ArrayList<MakeModel> makeList;
 
     ArrayList<JLabel> lblList;
     JLabel lbl_headline, lbl_make, lbl_model, lbl_year, lbl_gif, lbl_price, lbl_Err_YearEnd, lbl_to;
-    ImageIcon icon;
     ArrayList<JComboBox<String>> cbbList;
-    JComboBox cbb_make, cbb_model, cbb_price;
-    JComboBox<Integer> cbb_yearStart, cbb_yearEnd;
+    JComboBox<String> cbb_make, cbb_model, cbb_price;
+    JComboBox<String> cbb_yearStart, cbb_yearEnd;
     ArrayList<JButton> jbList;
-    ArrayList<ImageIcon> imageList;
-    JFrame jf;
+    JFrame jf, previousPage;
+    ImageIcon icon;
 
     final static int yInternal = 100;
     final static int xInterval = 100;
 
-    public Frame_1(Dealer dealer) {
+    public Frame_1(Dealer dealer, JFrame previousPage) {
         this.dealer = dealer;
-
+        this.previousPage = previousPage;
         InitData();
         InitialComponents();
         AddComponents();
@@ -43,7 +44,7 @@ public class Frame_1 extends JFrame {
     }
 
     private void InitData() {
-        makeList = FrameUtilities.getMakeModelFromDb();
+        makeList = (ArrayList<MakeModel>) FrameUtilities.getMakeModelFromDb();
     }
 
 
@@ -69,7 +70,7 @@ public class Frame_1 extends JFrame {
         InitImageIcon();
     }
     private void InitImageIcon(){
-        ImageIcon icon = new ImageIcon("src/ui/UC2_SearchVehicles/Dealer.png");
+        icon = new ImageIcon("src/ui/UC2_SearchVehicles/Dealer.png");
         lbl_gif = new JLabel(icon);
         lbl_gif.setBounds(350, 100, 400, 400);
         getContentPane().add(lbl_gif);
@@ -90,16 +91,33 @@ public class Frame_1 extends JFrame {
                     price = price.substring(1);
                 }
 
-                Frame_2 f2 = new Frame_2(dealer,
-                        cbb_make.getSelectedItem().toString(),
-                        cbb_model.getSelectedItem().toString(),
-                        cbb_yearStart.getSelectedItem().toString(),
-                        price);
+                String year = cbb_yearStart.getSelectedItem().toString();
+                if (year.equals("All Year")) {
+                    year = "";
+                }
 
-                f2.setBounds(100, 100, 600, 700);
+                String make = cbb_make.getSelectedItem().toString();
+                if (make.equals("All Make") ) {
+                    make = "";
+                }
+
+                String model = "";
+                if (cbb_model.getSelectedItem() == null || model.equals("All Model") || make.isEmpty() || make == null) {
+                    model = "";
+                } else {
+                    model = cbb_model.getSelectedItem().toString();
+                }
+
+                Frame_2 f2 = new Frame_2(dealer,
+                        make,
+                        model,
+                        year,
+                        price);
+                getContentPane().add(f2);
+                f2.setBounds(400, 100, 600, 700);
+                lbl_gif.setVisible(false);
                 f2.setVisible(true);
             }
-
         });
         jbList.add(search);
     }
@@ -117,7 +135,7 @@ public class Frame_1 extends JFrame {
 
         cbb_yearStart = new JComboBox<>(FrameUtilities.initStartYearModel());
         //cbb_yearStart.setBounds(lbl_year.getX() + xInterval - 30, lbl_year.getY(), 60, 20);
-        cbb_yearStart.setBounds(lbl_year.getX() + xInterval , lbl_year.getY(), 60, 20);
+        cbb_yearStart.setBounds(lbl_year.getX() + xInterval , lbl_year.getY(), 100, 20);
         cbb_yearStart.setMaximumRowCount(8);
         this.add(cbb_yearStart);
 
@@ -144,15 +162,25 @@ public class Frame_1 extends JFrame {
         this.add(cbb_price);
 
 
-        cbb_make.setModel(new DefaultComboBoxModel(FrameUtilities.getMake(makeList)));
-        cbb_model.setModel(new DefaultComboBoxModel(FrameUtilities.getModelOnMake(makeList,cbb_make.getSelectedItem().toString())));
+        DefaultComboBoxModel<String> makeModel = new DefaultComboBoxModel<>(FrameUtilities.getMake(makeList));
+        cbb_make.setModel(makeModel);
 
+        DefaultComboBoxModel<String> modelModel = new DefaultComboBoxModel<>(FrameUtilities.getModelOnMake(makeList,cbb_make.getSelectedItem().toString()));
+
+        cbb_model.setModel(modelModel);
+        cbb_model.setEnabled(false);
         cbb_make.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     System.out.println("User Select" + cbb_make.getSelectedItem());
                 }
+                if (cbb_make.getSelectedItem().toString() == "All Make") {
+                    cbb_model.setEnabled(false);
+                } else {
+                    cbb_model.setEnabled(true);
+                }
+
                 cbb_model.setModel(new DefaultComboBoxModel(FrameUtilities.getModelOnMake(makeList,cbb_make.getSelectedItem().toString())));
             }
         });
@@ -194,20 +222,21 @@ public class Frame_1 extends JFrame {
     }
 
     private void InitFrame() {
-        setBounds(00, 00, 800, 650);
-        setLocationRelativeTo(null);
+        setBounds(00, 00, 1100, 800);
+        setLocationRelativeTo(previousPage);
         setResizable(false);
         setTitle("5100 Final Project UserCase 2");
 
         getContentPane().setLayout(null);
-        jf =this;
+        jf = this;
     }
 
     public static void main(String[] args) {
         Dealer d = new Dealer();
-        d.setDealerId(10);
+        d.setDealerId(1);
         d.setDealerName("default");
-        new Frame_1(d);
+
+        new Frame_1(d, new JFrame());
     }
 
 }

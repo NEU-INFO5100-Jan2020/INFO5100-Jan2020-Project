@@ -1,4 +1,7 @@
-package ui.UC2_SearchVehicles;
+package persist;
+
+import dto.Dealer;
+import dto.Vehicle;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class ConnectionToSqlUC2 {
+public class ExtractSingleColumnFromDB {
     private static final String hostName = "is-swang01.ischool.uw.edu";
     private static final String dbName = "Jan2020_Info5100";
     private static final String user = "INFO6210";
@@ -16,7 +19,7 @@ public class ConnectionToSqlUC2 {
     private static final String linkForConnection = "jdbc:sqlserver://%s:1433;database=%s;user=%s;password=%s;encrypt=true;trustServerCertificate=true;"
             + "hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
 
-   public Connection connectToDB() {
+    public Connection connectToDB() {
         try {
             Class.forName(jdbcDriver);
             String url = String.format(linkForConnection, hostName, dbName, user, password);
@@ -41,36 +44,60 @@ public class ConnectionToSqlUC2 {
             return;
         }
     }
-    
-    public ArrayList<ArrayList<String>> executeVehicleQuery(String queryToExecute, String queryType) {
-        ArrayList<ArrayList<String>> result = new ArrayList<>();
-
+    public ArrayList<Vehicle> executeVehicleQuery() {
+        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
+        Vehicle v = null;
         /*Connect to database*/
         connectToDB();
-
         try {
             /*Execute the query*/
             try (Statement statement = connection.createStatement();
-                 ResultSet resultSet = statement.executeQuery(queryToExecute)) {
+                 ResultSet resultSet = statement.executeQuery("SELECT DISTINCT Year, Make, Color FROM VehicleTable" +
+                         " ORDER BY Year DESC" )) {
 
                 while (resultSet.next()) {
-                    ArrayList<String> temp = new ArrayList<>();
-                    temp.add(resultSet.getString("MakeName")); // Make
-                    temp.add(resultSet.getString("ModelName"));
-                    //Adding each row to the result
-                    result.add(temp);
+                    v = new Vehicle();
+                    v.setYear(resultSet.getInt("Year"));
+                    v.setColor(resultSet.getString("Color"));
+                    v.setMake(resultSet.getString("Make"));
+                    result.add(v);
                 }
             }
         } catch (Exception e) {
             System.out.println("Exception :" + e.getMessage());
             return null;
         }
-
         /*Disconnect from DB*/
         disconnectFromDB();
 
         /*Return result*/
         return result;
     }
+//    public ArrayList<Vehicle> executeVehicleQuery1(int dealerId) {
+//        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
+//        Dealer d = null;
+//        /*Connect to database*/
+//        connectToDB();
+//        try {
+//            /*Execute the query*/
+//            try (Statement statement = connection.createStatement();
+//                 ResultSet resultSet = statement.executeQuery("SELECT DealerName FROM Dealer WHERE DealerId = dealerId" )) {
+//
+//                while (resultSet.next()) {
+//                    d = new Dealer();
+//                    d.setDealerName(resultSet.getString("DealerName"));
+//                    result.add(d);
+//                }
+//            }
+//        } catch (Exception e) {
+//            System.out.println("Exception :" + e.getMessage());
+//            return null;
+//        }
+//        /*Disconnect from DB*/
+//        disconnectFromDB();
+//
+//        /*Return result*/
+//        return result;
+//    }
 
 }
