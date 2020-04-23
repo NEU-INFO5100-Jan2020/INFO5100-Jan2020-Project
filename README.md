@@ -5,6 +5,9 @@ This repository is for all members of INFO 5100 - Jan 2020 class collaborative p
 # Dependencies Required for running this project
 lib/mssql-jdbc-8.2.2.jre8.jar
 lib/java-json.jar
+lib/azure-storage.jar
+lib/jackson-core.jar
+maven
 
 
 # What you should do to compile and run the code
