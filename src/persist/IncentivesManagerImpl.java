@@ -252,6 +252,9 @@ public class IncentivesManagerImpl implements IncentivesManager {
 	@Override
 	//CheckIncentives of a specific VehicleId
 	public Collection<Incentives> checkIncentives(int VehicleId) {
+		long millis=System.currentTimeMillis();
+		java.sql.Date date=new java.sql.Date(millis);
+
 		ArrayList<ArrayList> result = new ArrayList<ArrayList>();
 		Float discountedPrice = null;
 		try {
@@ -263,12 +266,13 @@ public class IncentivesManagerImpl implements IncentivesManager {
 					+ "	 VehicleIncentivesMap map,VehicleTable veh "
 					+ "	 where map.IncentiveId = inc.IncentiveId"
 					+ "	 and veh.VehicleId=map.VehicleId"
-					+ "	 and inc.EndDate>=GETDATE()" 
+					+ "	 and inc.EndDate>=?"
 					+"   and inc.Isdeleted=0"
 					+ "	 and map.VehicleId= ?";
 
 			PreparedStatement pstmt = connection.prepareStatement(query);
-			pstmt.setInt(1, VehicleId);
+			pstmt.setDate(1,date);
+			pstmt.setInt(2, VehicleId);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				ArrayList temp = new ArrayList();
