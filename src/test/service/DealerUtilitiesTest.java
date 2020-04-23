@@ -51,4 +51,10 @@ class DealerUtilitiesTest {
     assert !dealerUtilities.validateDealerID(-217979873);
 
   }
+
+  @Test
+  void testAddImageToAzureBlob(){
+    String testPath = "src\\main\\resources\\CarImages\\1.jpeg";
+    dealerUtilities.addImageToAzureBlob(testPath , 10000);
+  }
 }
