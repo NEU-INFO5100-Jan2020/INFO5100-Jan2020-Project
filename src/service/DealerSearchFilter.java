@@ -16,15 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class DealerSearchFilter implements SearchFilter {
-  /*String dealerName;
-  String zipCode;*/
   List<DealerSearchFilterElement> elements;
-/*
-
-  public DealerSearchFilter(String dealerName, String zipCode) {
-    elements = new ArrayList<>();
-  }
-*/
 
   public DealerSearchFilter() {
     elements = new ArrayList<>();
@@ -41,7 +33,7 @@ public class DealerSearchFilter implements SearchFilter {
     con.setRequestProperty("User-Agent", "Mozilla/5.0");
     BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
     String inputLine;
-    StringBuffer response = new StringBuffer();
+    StringBuilder response = new StringBuilder();
     while ((inputLine = in.readLine()) != null) {
       response.append(inputLine);
     }
@@ -73,12 +65,5 @@ public class DealerSearchFilter implements SearchFilter {
   public void addElement(DealerSearchFilterElement dsfe) {
     elements.add(dsfe);
   }
-/*
-  public String getDealerName() {
-    return dealerName;
-  }
-  public String getZipCode() {
-    return zipCode;
-  }*/
 }
 
