@@ -57,4 +57,11 @@ class DealerUtilitiesTest {
     String testPath = "src\\main\\resources\\CarImages\\1.jpeg";
     dealerUtilities.addImageToAzureBlob(testPath , 10000);
   }
+
+//  @Test
+//  void testGetImageFromAzure(){
+//    for (int i = 1; i <= 9; i++){
+//      dealerUtilities.getImageFromAzureBlob(i);
+//    }
+//  }
 }
