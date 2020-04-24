@@ -136,17 +136,6 @@ public class Frame_1 extends JFrame {
         cbb_yearStart.setMaximumRowCount(8);
         this.add(cbb_yearStart);
 
-        cbb_yearStart.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    int startYear = Integer.parseInt(e.getItem().toString());
-                    cbb_yearEnd.setModel(new DefaultComboBoxModel(FrameUtilities.initEndYearModel(startYear)));
-                }
-
-            }
-        });
-
         cbb_yearEnd = new JComboBox<>();
         cbb_yearEnd.setBounds(lbl_year.getX() + xInterval + 70, lbl_year.getY(), 60, 20);
         cbb_yearEnd.setModel(new DefaultComboBoxModel(FrameUtilities.initEndYearModel(1990)));

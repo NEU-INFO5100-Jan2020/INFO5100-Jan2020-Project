@@ -155,6 +155,7 @@ public class TablePagingPanel extends JPanel {
 
         // update buttons
         final boolean canGoBack = currPageNum != 1;
+
         final boolean canGoFwd = currPageNum != lastPageNum;
         first.setEnabled(canGoBack);
         prev.setEnabled(canGoBack);
@@ -164,8 +165,13 @@ public class TablePagingPanel extends JPanel {
 
     public void refreshTable(DefaultTableModel tableModel) {
         this.tableModel = tableModel;
-        this.lastPageNum = tableModel.getRowCount() / pageSize
-                + (tableModel.getRowCount() % pageSize != 0 ? 1 : 0);
+        if (tableModel.getRowCount() == 0) {
+            this.lastPageNum = 1;
+        } else {
+            this.lastPageNum = tableModel.getRowCount() / pageSize
+                    + (tableModel.getRowCount() % pageSize != 0 ? 1 : 0);
+        }
+
         this.currPageNum = 1;
         updatePage();
     }
