@@ -36,14 +36,15 @@ public class CreatePage {
 
     private IncentiveMainPage parentPage;
     private int dealerID;
+    private String dealerName;
     private int min, max;
     private static int[] vehicleIDList;
 
     Font botton = new Font("Helvetica", Font.BOLD, 21);
 
-    protected CreatePage(int dealerID,IncentiveMainPage parentPage) {
+    protected CreatePage(int dealerID,String dealerName, IncentiveMainPage parentPage) {
         this.parentPage = parentPage;
-        setDealerID(dealerID);
+        setDealer(dealerID, dealerName);
         createComponents(dealerID);
         placeComponents();
         addComponents();
@@ -52,7 +53,8 @@ public class CreatePage {
         jframe.setVisible(true);
     }
 
-    private void setDealerID(int dealerID) {
+    private void setDealer(int dealerID, String dealerName) {
+        this.dealerName = dealerName;
         this.dealerID = dealerID;
     }
 
@@ -245,7 +247,7 @@ public class CreatePage {
         makeLabel.setFont(mainCommonFont);
         minimumInt = new JTextField(17);
         maximumInt = new JTextField(17);
-        welcomeLabel = new JLabel("Welcome, " + dealerID);
+        welcomeLabel = new JLabel("Welcome, " + dealerName);
         welcomeLabel.setFont(mainCommonFont);
         cautionLabel = new JLabel("Enter in integers.");
         Font cautionFont = new Font("Helvetica", Font.PLAIN,12);
@@ -367,7 +369,7 @@ public class CreatePage {
         int mainLabelX = 50;
         int mainTextX = 180;
         mainTitle.setBounds(325, 40, 800, 40);
-        welcomeLabel.setBounds(750,10,150,20);
+        welcomeLabel.setBounds(600,10,300,20);
 
         oneRadioButton.setBounds(20, 130,300,40);
         vehicleIDLabel.setBounds(mainLabelX, 180, 150, 40);

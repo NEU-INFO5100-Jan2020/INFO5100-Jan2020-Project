@@ -76,7 +76,7 @@ public class OperationOptions extends JFrame {
         btn3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new IncentiveMainPage(dID).setVisible(true);
+                new IncentiveMainPage(dID, dealerName).setVisible(true);
                 frame.dispose();
             }
         });

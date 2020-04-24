@@ -19,25 +19,27 @@ public class IncentiveMainPage extends JFrame {
     private JTabbedPane jTabbedPane1;
     private JTable jTable1;
     private int dealerID;
+    private String dealerName;
     private IncentiveMainPage thisPage;
     ui.guiforcase5.CreatePage cp;
     ui.guiforcase5.EditPage ep;
 
-    public IncentiveMainPage(int dealerID) {
+    public IncentiveMainPage(int dealerID, String dealerName) {
         thisPage = this;
-        setDealerID(dealerID);
+        setDealer(dealerID, dealerName);
         initComponents();
         addActionListener();
         refreshTableContents();
     }
 
-    private void setDealerID(int dealerID) {
+    private void setDealer(int dealerID, String dealerName) {
         this.dealerID = dealerID;
+        this.dealerName = dealerName;
     }
     private void addActionListener() {
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cp = new CreatePage(dealerID,thisPage);
+                cp = new CreatePage(dealerID,dealerName, thisPage);
             }
         });
 
@@ -49,7 +51,7 @@ public class IncentiveMainPage extends JFrame {
                         throw new Exception();
                     }
                     Incentives incentives=extract(rowIndex);
-                    ep = new ui.guiforcase5.EditPage(dealerID,incentives, thisPage);
+                    ep = new ui.guiforcase5.EditPage(dealerID,dealerName, incentives, thisPage);
                 }catch (Exception e1){
                     JOptionPane.showMessageDialog(null,"plesae select a row");
                 }
