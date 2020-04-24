@@ -3,6 +3,7 @@ package ui.guiforcase5;
 import dto.Incentives;
 import persist.IncentivesManager;
 import persist.IncentivesManagerImpl;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -19,6 +20,8 @@ public class IncentiveMainPage extends JFrame {
     private JTable jTable1;
     private int dealerID;
     private IncentiveMainPage thisPage;
+    ui.guiforcase5.CreatePage cp;
+    ui.guiforcase5.EditPage ep;
 
     public int getDealerID() {
         return dealerID;
@@ -43,8 +46,7 @@ public class IncentiveMainPage extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
 //                new CreatePageWithSearchButton(dealerID);
-                thisPage.dispose();
-                new CreatePage(dealerID,thisPage);
+                cp = new CreatePage(dealerID,thisPage);
             }
         });
         editButton.addActionListener(new ActionListener() {
@@ -56,10 +58,9 @@ public class IncentiveMainPage extends JFrame {
                         throw new Exception();
                     }
                     Incentives incentives=extract(rowIndex);
-                    thisPage.dispose();
 
 
-                    new ui.guiforcase5.EditPage(dealerID,incentives, thisPage);
+                    ep = new ui.guiforcase5.EditPage(dealerID,incentives, thisPage);
                 }catch (Exception e1){
                     JOptionPane.showMessageDialog(null,"plesae select a row");
                 }
@@ -241,7 +242,14 @@ public class IncentiveMainPage extends JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        if (cp != null) {
+            cp.disposePage();
+        }
+        if (ep != null) {
+            ep.disposePage();
+        }
         thisPage.dispose();
+
         new ui.guiforcase4.OperationOptions(dealerID);
     }
 
