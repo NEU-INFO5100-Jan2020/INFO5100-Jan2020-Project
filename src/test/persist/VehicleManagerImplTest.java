@@ -1,5 +1,6 @@
 package persist;
 
+import dto.Vehicle;
 import org.junit.jupiter.api.Test;
 import service.VehicleSearchFilter;
 import service.VehicleSearchFilterElement;
@@ -28,5 +29,15 @@ class VehicleManagerImplTest {
     vsf.addElement(vsfe2);
     vmi.getVehicles(vsf);
 
+  }
+
+  @Test
+  void testGetVehicle(){
+    initialize();
+    Vehicle v = new Vehicle();
+    v.setDealerId(1);
+    v.setVin(1019);
+    Vehicle nv = vmi.getVehicle(v.getVin(),v.getDealerId());
+    assert nv.getMake().equals("Jeep");
   }
 }

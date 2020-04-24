@@ -33,7 +33,7 @@ public class OperationOptions extends JFrame {
         jl.setBounds(50, 20, 280, 30);
         panel.add(jl);
         JButton btn1 = new JButton("log out");
-        btn1.setBounds(325,5,70,20);
+        btn1.setBounds(315,5,70,20);
         btn1.setFont(new Font("Arial", Font.PLAIN, 15));
         JButton btn2 = new JButton("View Inventory");
         btn2.setBounds(110, 80, 160, 40);
