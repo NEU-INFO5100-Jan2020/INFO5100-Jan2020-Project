@@ -13,7 +13,7 @@ import java.util.Collection;
 //        import lombok.Data;
 
 public class IncentiveMainPage extends JFrame {
-    private JButton createButton, editButton, deleteButton;
+    private JButton createButton, editButton, deleteButton, backButton;
     private JScrollPane jScrollPane1;
     private JTabbedPane jTabbedPane1;
     private JTable jTable1;
@@ -89,6 +89,7 @@ public class IncentiveMainPage extends JFrame {
         };
         createButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
 
         // pageTitle = new javax.swing.JLabel("Manage Incentives");
         editButton = new javax.swing.JButton();
@@ -130,6 +131,14 @@ public class IncentiveMainPage extends JFrame {
         jTable1.setShowGrid(true);
         jScrollPane1.setViewportView(jTable1);
 
+        backButton.setText("Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+
+            }
+        });
+
         createButton.setText("Create");
         createButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,7 +164,7 @@ public class IncentiveMainPage extends JFrame {
                                 .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup().addGap(216, 216, 216).addComponent(createButton)
                                         .addGap(117, 117, 117).addComponent(deleteButton).addGap(144, 144, 144)
-                                        .addComponent(editButton))
+                                        .addComponent(editButton).addGap(100, 100, 100).addComponent(backButton))
                                 .addGroup(layout.createSequentialGroup().addContainerGap()
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1064,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -174,7 +183,7 @@ public class IncentiveMainPage extends JFrame {
                                 javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(createButton)
-                        .addComponent(deleteButton).addComponent(editButton))
+                        .addComponent(deleteButton).addComponent(editButton).addComponent(backButton))
                 .addContainerGap(52, Short.MAX_VALUE)));
 
         pack();
@@ -226,6 +235,12 @@ public class IncentiveMainPage extends JFrame {
 //        jTable1.editCellAt(ERROR, 0);
 //        jTable1.editCellAt(ERROR, 1);
     }// GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        thisPage.dispose();
+        new ui.guiforcase4.OperationOptions(dealerID);
+    }
 
     /**
      * @param args the command line arguments
