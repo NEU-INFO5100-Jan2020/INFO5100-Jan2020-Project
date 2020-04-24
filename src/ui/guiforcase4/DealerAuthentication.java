@@ -119,6 +119,7 @@ public class DealerAuthentication extends JFrame {
         Matcher m = r.matcher(text);
         if (m.matches()) {
             message.setForeground(jf.getBackground());
+            loginButton.setEnabled(true);
             return true;
         } else {
             message.setForeground(Color.RED);
