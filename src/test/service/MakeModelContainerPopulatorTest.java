@@ -2,7 +2,7 @@
 obsolete, going to remove soon
  */
 
-package test.service;
+package service;
 
 import org.junit.jupiter.api.Test;
 import service.*;
