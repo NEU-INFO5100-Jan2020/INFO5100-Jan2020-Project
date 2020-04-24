@@ -13,6 +13,7 @@ import static java.awt.Font.PLAIN;
 
 public class InventoryInformation extends JFrame {
   int dID;
+  String dealerName;
   private JTable table;
   private VehicleManagerImpl vmi;
 
@@ -34,8 +35,9 @@ public class InventoryInformation extends JFrame {
     }
   };
 
-  public InventoryInformation(int dID) {
+  public InventoryInformation(int dID, String dealerName) {
     this.dID = dID;
+    this.dealerName = dealerName;
     vmi = new VehicleManagerImpl();
     create();
     populate();
@@ -73,7 +75,7 @@ public class InventoryInformation extends JFrame {
   }
 
   private void initialFrame() {
-    JFrame frame = new JFrame("Inventory of Dealer" + this.dID);
+    JFrame frame = new JFrame("Inventory of Dealer" + this.dealerName);
     frame.setSize(570, 520);
     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     frame.setLocationRelativeTo(null);
@@ -85,11 +87,11 @@ public class InventoryInformation extends JFrame {
   }
 
   private void addComponents(JFrame frame, JPanel panel) {
-    JLabel jl = new JLabel("Inventory of Dealer" + this.dID);
+    JLabel jl = new JLabel(this.dealerName + " 's Inventory");
     jl.setFont(new Font("Arial", PLAIN, 20));
     jl.setForeground(Color.BLACK);
-    jl.setHorizontalAlignment(JTextField.CENTER);
-    jl.setBounds(140, 15, 280, 30);
+    jl.setHorizontalAlignment(SwingConstants.CENTER);
+    jl.setBounds(0, 15, 570, 30);
     panel.add(jl);
     //Show the VehicleTable based on DealerID
     JScrollPane js = new JScrollPane(table);
@@ -140,7 +142,7 @@ public class InventoryInformation extends JFrame {
             modifyV = v;
           }
         }
-        new ModifyInventory(modifyV);
+        new ModifyInventory(modifyV, dID, dealerName);
         frame.dispose();
       } catch (Exception ex) {
         JOptionPane.showMessageDialog(panel, "Please select one vehicle to modify!");
@@ -182,12 +184,12 @@ public class InventoryInformation extends JFrame {
 
 
     addBtn.addActionListener(e -> {
-      new AddVehicles(dID);
+      new AddVehicles(dID, dealerName);
       frame.dispose();
     });
     backBtn.addActionListener(e -> {
       frame.dispose();
-      new OperationOptions(dID);
+      new OperationOptions(dID, dealerName);
     });
   }
 }
