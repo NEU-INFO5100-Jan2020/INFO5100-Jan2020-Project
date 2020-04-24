@@ -30,7 +30,7 @@ public class AddVehicles extends JFrame {
     private void initialFrame() {
         JFrame frame = new JFrame("Managing Inventory of Dealer " + this.dID);
         JPanel panel = new JPanel(null);
-        frame.setSize(400, 480);
+        frame.setSize(450, 650);
         frame.setLocationRelativeTo(null);
         frame.add(panel);
         addComponents(frame, panel);
@@ -46,24 +46,38 @@ public class AddVehicles extends JFrame {
         jl.setBounds(160, 10, 80, 30);
         panel.add(jl);
         String[] jLabelTexts = new String[]{"VIN:", "Make:", "Model:", "Year:", "Category:", "Price:",
-                "Color:", "Miles:", "Image:"};
-        JLabel[] jls = new JLabel[9];
+                "Color:", "Miles:","Ratings","Image:"};
+        JLabel[] jls = new JLabel[10];
         for (int i = 0; i < jls.length; i++) {
             jls[i] = new JLabel();
             jls[i].setText(jLabelTexts[i]);
-            jls[i].setBounds(60, 50 + i * 30, 80, 25);
+            jls[i].setBounds(60, 50 + i * 50, 80,25);
             jls[i].setFont(new Font("Arial", Font.PLAIN, 15));
             panel.add(jls[i]);
         }
+        JLabel jl1 = new JLabel("The VIN You Entered Already Exists! Please Enter A New VIN");
+        jl1.setBounds(165, 70, 300, 25);
+        jl1.setFont(new Font("Arial", Font.PLAIN, 10));
+        jl1.setForeground(Color.RED);
+        JLabel jl2 = new JLabel("");
+        jl2.setBounds(165, 320, 300, 25);
+        jl2.setFont(new Font("Arial", Font.PLAIN, 10));
+        jl2.setForeground(Color.RED);
+        JLabel jl3 = new JLabel("");
+        jl3.setBounds(165, 420, 300, 25);
+        jl3.setFont(new Font("Arial", Font.PLAIN, 10));
+        jl3.setForeground(Color.RED);
+        panel.add(jl2);
+        panel.add(jl3);
 
         JTextField tf1 = new JTextField(10);
         tf1.setBounds(160, 50, 160, 25);
         JTextField tf2 = new JTextField(10);
-        tf2.setBounds(160, 200, 160, 25);
+        tf2.setBounds(160, 300, 160, 25);
         JTextField tf3 = new JTextField(10);
-        tf3.setBounds(160, 260, 160, 25);
+        tf3.setBounds(160, 400, 160, 25);
         JTextField tf4 = new JTextField(10);
-        tf4.setBounds(160, 290, 160, 25);
+        tf4.setBounds(160, 500, 160, 25);
         JTextField[] jtfs = new JTextField[]{tf1, tf2, tf3, tf4};
         for (int i = 0; i < jtfs.length; i++) {
             jtfs[i].setFont(new Font("Arial", Font.PLAIN, 15));
@@ -78,6 +92,8 @@ public class AddVehicles extends JFrame {
         CheckInput c3 = new CheckInput();
         c3.setLength(10);
         tf3.setDocument(c3);
+
+
 //        if(tf1.getText().length() == 4) {
 //            tf1.addKeyListener(new KeyListener() {
 //            public void keyTyped(KeyEvent e) {
@@ -94,7 +110,7 @@ public class AddVehicles extends JFrame {
         tf1.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent e) {
                 if (Character.isLetter(e.getKeyChar())) {
-                    JOptionPane.showMessageDialog(null, "Please Enter A Number In Four Digits");
+                    jl1.setText("Please Enter A Valid Number For VIN");
                 }
             }
             public void keyPressed(KeyEvent e) {
@@ -105,7 +121,7 @@ public class AddVehicles extends JFrame {
         tf2.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent e) {
                 if (Character.isLetter(e.getKeyChar())) {
-                    JOptionPane.showMessageDialog(null, "Please Enter A Valid Number For Price!");
+                    jl2.setText("Please Enter A Valid Number For Price!");
                 }
             }
             public void keyPressed(KeyEvent e) {
@@ -116,7 +132,7 @@ public class AddVehicles extends JFrame {
         tf3.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent e) {
                 if (Character.isLetter(e.getKeyChar())) {
-                    JOptionPane.showMessageDialog(null, "Please Enter A Valid Number For Mileage!");
+                    jl3.setText("Please Enter A Valid Number For Mileage!");
                 }
             }
                 public void keyPressed (KeyEvent e){
@@ -126,9 +142,9 @@ public class AddVehicles extends JFrame {
         });
 
         JButton btn1 = new JButton("Add");
-        btn1.setBounds(60, 380, 120, 40);
+        btn1.setBounds(60, 550, 120, 40);
         JButton btn2 = new JButton("Back");
-        btn2.setBounds(220, 380, 120, 40);
+        btn2.setBounds(220, 550, 120, 40);
         Dimension preferredSize = new Dimension(120, 40);
         JButton[] jButtons = new JButton[]{btn1, btn2};
         for (int i = 0; i < jButtons.length; i++) {
@@ -147,7 +163,7 @@ public class AddVehicles extends JFrame {
         });
 
         JYearChooser yc = new JYearChooser();
-        yc.setBounds(165, 140, 155, 23);
+        yc.setBounds(165, 200, 155, 23);
         yc.setEndYear(2020);
         yc.setStartYear(1985);
         yc.setValue(2020);
@@ -156,7 +172,7 @@ public class AddVehicles extends JFrame {
         panel.add(yc);
 
         JComboBox cmb1 = new JComboBox();
-        cmb1.setBounds(160, 230, 160, 25);
+        cmb1.setBounds(160, 350, 160, 25);
         cmb1.setFont(new Font("Arial", Font.PLAIN, 15));
         for (Map.Entry<String, String> entry : colors.entrySet()) {
             int r = Integer.parseInt(entry.getValue().substring(1,3),16);
@@ -165,36 +181,34 @@ public class AddVehicles extends JFrame {
             Color c = new Color(r,g,b);
             p = new ColorCell(c,entry.getKey());
             cmb1.addItem(p);
-
         }
         ListCellRenderer renderer = new PanelComboBoxCellRenderer();
 		    cmb1.setRenderer(renderer);
         JComboBox cmb2 = new JComboBox();
-        cmb2.setBounds(160, 170, 160, 25);
+        cmb2.setBounds(160, 250, 160, 25);
         cmb2.addItem("New");
         cmb2.addItem("Used");
         cmb2.setFont(new Font("Arial", Font.PLAIN, 15));
+        String[] nums = new String[]{String.valueOf(5),String.valueOf(4),String.valueOf(3),String.valueOf(2),String.valueOf(1)};
+        JComboBox cmb3 = new JComboBox(nums);
+        cmb3.setBounds(160, 450, 160, 25);
+        cmb3.setFont(new Font("Arial", Font.PLAIN, 15));
         panel.add(cmb1);
         panel.add(cmb2);
-//        if(cmb1.getSelectedItem().equals("New")) {
-//            tf3.setText("0");
-//            tf3.
-//
-//        }
-
+        panel.add(cmb3);
         String[] makes = new String[makeModelVer2s.size()];
         for(int i = 0; i < makeModelVer2s.size(); i++) {
             makes[i] = makeModelVer2s.get(i).getBrand();
         }
         JComboBox make = new JComboBox(makes);
-        make.setBounds(160, 80, 160, 25);
+        make.setBounds(160, 100, 160, 25);
         make.setFont(new Font("Arial", Font.PLAIN, 15));
         String makeValue = make.getSelectedItem().toString();
         List<String> models = makeModel(makeValue).getModels();
         JComboBox model = new JComboBox();
         String[] models1 = models.toArray(new String[models.size()]);
         model.setModel(new DefaultComboBoxModel(models1));
-        model.setBounds(160, 110, 160, 25);
+        model.setBounds(160, 150, 160, 25);
         model.setFont(new Font("Arial", Font.PLAIN, 15));
         make.addItemListener(new ItemListener() {
             @Override
@@ -226,7 +240,6 @@ public class AddVehicles extends JFrame {
                     JOptionPane.showMessageDialog(null, "Please Enter A Number In Four Digits For VIN!");
                     btn1.setEnabled(true);
                 } else {
-
                     try {
                         vehicle.setVin(Integer.parseInt(tf1.getText()));
                         vehicle.setDealerId(dID);
@@ -236,14 +249,17 @@ public class AddVehicles extends JFrame {
                         vehicle.setCategory(cmb2.getSelectedItem().toString());
                         vehicle.setPrice(Float.parseFloat(tf2.getText()));
                         vehicle.setColor(cmb1.getSelectedItem().toString());
+                        vehicle.setRatings(Integer.parseInt(cmb3.getSelectedItem().toString()));
                         vehicle.setMileage(Integer.parseInt(tf3.getText()));
-                        if (du.validateVin(vehicle) == true) {
+                        if (du.validateVin(vehicle) == false) {
                             btn1.setEnabled(false);
-                            JOptionPane.showMessageDialog(null, "The VIN You Entered Already " +
-                                "Exists! \nPlease Enter A New VIN");
+                            JOptionPane.showMessageDialog(null,"The VIN You Entered Already Exists! Please Enter A New VIN");
                             btn1.setEnabled(true);
                         } else {
-                            vmi.addVehicle(vehicle);
+                            int vin1 = vmi.addVehicle(vehicle).getVin();
+                            if(vin1 == Integer.parseInt(tf1.getText())) {
+                                JOptionPane.showMessageDialog(null,"You have successfully added a car！");
+                            }
                         }
                     } catch (SQLException ex) {
                         ex.printStackTrace();

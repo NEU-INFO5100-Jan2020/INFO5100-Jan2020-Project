@@ -14,7 +14,7 @@ public class DealerAuthentication extends JFrame {
     DealerUtilities du = new DealerUtilities();
     public DealerAuthentication() {
         JFrame jf = new JFrame("Dealer Authentication");
-        jf.setSize(320, 160);
+        jf.setSize(400, 160);
         jf.setLocationRelativeTo(null);
         jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JPanel panel = new JPanel();
@@ -29,6 +29,9 @@ public class DealerAuthentication extends JFrame {
         JLabel message = new JLabel(" ");
         userLabel.setFont(new Font("Arial", Font.PLAIN, 15));
         userLabel.setBounds(40, 20, 80, 25);
+        message.setFont(new Font("Arial", Font.PLAIN, 10));
+        message.setBounds(125,40,280,25);
+        message.setForeground(Color.RED);
         panel.add(userLabel);
         panel.add(message);
 
@@ -41,7 +44,7 @@ public class DealerAuthentication extends JFrame {
         userText.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent e) {
                 if (Character.isLetter(e.getKeyChar())) {
-                    JOptionPane.showMessageDialog(null, "Please Enter A Valid Number For Id!");
+                    message.setText("Please Enter A Valid Number For Id!");
                 }
             }
             public void keyPressed(KeyEvent e) {
@@ -52,7 +55,7 @@ public class DealerAuthentication extends JFrame {
         panel.add(userText);
 
         JButton loginButton = new JButton("login");
-        loginButton.setBounds(80, 70, 160, 25);
+        loginButton.setBounds(80, 80, 160, 25);
         loginButton.setFont(new Font("Arial", Font.PLAIN, 15));
         loginButton.setBackground(Color.WHITE);
         loginButton.setOpaque(true);
@@ -62,7 +65,7 @@ public class DealerAuthentication extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (userText.getText().equals("")) {
                     loginButton.setEnabled(false);
-                    JOptionPane.showMessageDialog(null, "Please Enter A Valid Id!");
+                    message.setText("Please Enter A Valid Id!");
                     loginButton.setEnabled(true);
                 } else {
                     try {
