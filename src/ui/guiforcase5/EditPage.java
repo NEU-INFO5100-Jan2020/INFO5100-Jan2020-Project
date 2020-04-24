@@ -34,17 +34,18 @@ class EditPage extends JFrame {
 
     private JLabel vinLabel, minLabel, maxLabel, makeMakeLabel, lowLabel, highLabel;
     private int rowIndex;
-    private static int dealerID;
+    private int dealerID;
     public Incentives incentives;
 
+    private IncentiveMainPage parentPage;
 
     Font botton = new Font("Helvetica", Font.BOLD, 21);
 
 
 
-    protected EditPage(int dealerID, Incentives incentives) {
+    protected EditPage(int dealerID, Incentives incentives, IncentiveMainPage parentPage) {
+        this.parentPage = parentPage;
         this.dealerID=dealerID;
-
         this.incentives=incentives;
         createComponents(dealerID);
         placeComponents();
@@ -55,13 +56,14 @@ class EditPage extends JFrame {
         jframe.setVisible(true);
 
     }
+
     private void displayFilterList(){
         String filterList = this.incentives.getFilterList();
         String[] filterArray = filterList.split(" ");
-        vinLabel.setText(filterArray[0]);
-        minLabel.setText(filterArray[1]);
-        maxLabel.setText(filterArray[2]);
-        makeMakeLabel.setText(filterArray[3]);
+        if (! filterArray[0].equals("null")) vinLabel.setText(filterArray[0]);
+        if (! filterArray[1].equals("null")) minLabel.setText(filterArray[1]);
+        if (! filterArray[2].equals("null")) maxLabel.setText(filterArray[2]);
+        if (! filterArray[3].equals("Default")) makeMakeLabel.setText(filterArray[3]);
         if(filterArray[4].equals("true")) {
             newVehicleButton.setSelected(true);
         }else {
@@ -75,8 +77,6 @@ class EditPage extends JFrame {
     }
 
     private void addListeners() {
-
-
         applyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
@@ -88,9 +88,8 @@ class EditPage extends JFrame {
                 incentives.setStartDate(startDateChooser.getDate());
                 incentives.setEndDate(endDateChooser.getDate());
                 incentivesManagerImpl.updateIncentive2(incentives);
-                IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
-                incentiveMainPage.setVisible(true);
-
+                parentPage.refreshTableContents();
+                jframe.dispose();
             }
         });
     }
@@ -98,7 +97,6 @@ class EditPage extends JFrame {
     private void createComponents(int dealerID) {
         jframe = new JFrame("Incentive Management");
         jframe.setLayout(null);
-        // jframe.setDefaultCloseOperation(jframe.EXIT_ON_CLOSE);
 
         Border blackline = BorderFactory.createLineBorder(Color.black, 3);
 
@@ -132,8 +130,6 @@ class EditPage extends JFrame {
         maxLabel = new JLabel("");
         maxLabel.setFont(mainCommonFont);
 
-
-
         makeLabel = new JLabel("Make: ");
         makeMakeLabel = new JLabel("");
         makeLabel.setFont(mainBoldFont);
@@ -141,9 +137,6 @@ class EditPage extends JFrame {
 
         welcomeLabel = new JLabel("Welcome, " + dealerID);
         welcomeLabel.setFont(mainCommonFont);
-
-
-
 
         newVehicleButton = new JCheckBox("New Vehicles");
         newVehicleButton.setFont(mainBoldFont);
@@ -171,14 +164,13 @@ class EditPage extends JFrame {
         disclaimerLabel.setFont(rightCommonFont);
         dateLabel = new JLabel("StartDate - EndDate");
         dateLabel.setFont(rightCommonFont);
-        titleText = new JTextField(17);
+        titleText = new JTextField(37);
         titleText.setText(incentives.getTitle());
-        valueText = new JTextField(17);
+        valueText = new JTextField(37);
         valueText.setText(String.valueOf(incentives.getDiscountValue()));
         descriptionText = new JTextArea(1, 6);
         disclaimerText = new JTextArea(1, 6);
 
-        // date
         slashLabel = new JLabel("-");
         startDateChooser = new JDateChooser();
         startDateChooser.setDate(incentives.getStartDate());
@@ -254,7 +246,6 @@ class EditPage extends JFrame {
         vehicleIDLabel.setBounds(mainLabelX, 85, 60, 20);
         vinLabel.setBounds(filterX,85,150,20);
 
-
         lowLabel.setBounds(mainLabelX,110,60,20);
         minLabel.setBounds(filterX,110,100,20);
         highLabel.setBounds(200,110,60,20);
@@ -290,9 +281,9 @@ class EditPage extends JFrame {
         endDateChooser.setBounds(355, 450, 125,40);
 
         applyButton.setBounds(215, 535, 100, 40);
-
     }
 
-
-
+    public void disposePage() {
+        jframe.dispose();
+    }
 }
