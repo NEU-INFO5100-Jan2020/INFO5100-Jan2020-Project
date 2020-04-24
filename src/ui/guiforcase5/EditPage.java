@@ -33,13 +33,12 @@ class EditPage extends JFrame {
     private JDateChooser startDateChooser, endDateChooser;
 
     private JLabel vinLabel, minLabel, maxLabel, makeMakeLabel, lowLabel, highLabel;
-    private int rowIndex;
     private int dealerID;
     public Incentives incentives;
 
     private IncentiveMainPage parentPage;
 
-    Font botton = new Font("Helvetica", Font.BOLD, 21);
+    Font button = new Font("Helvetica", Font.BOLD, 21);
 
 
 
@@ -64,16 +63,8 @@ class EditPage extends JFrame {
         if (! filterArray[1].equals("null")) minLabel.setText(filterArray[1]);
         if (! filterArray[2].equals("null")) maxLabel.setText(filterArray[2]);
         if (! filterArray[3].equals("Default")) makeMakeLabel.setText(filterArray[3]);
-        if(filterArray[4].equals("true")) {
-            newVehicleButton.setSelected(true);
-        }else {
-            newVehicleButton.setSelected(false);
-        }
-        if(filterArray[5].equals("true")){
-            usedVehicleButton.setSelected(true);
-        }else{
-            usedVehicleButton.setSelected(false);
-        }
+        newVehicleButton.setSelected(filterArray[4].equals("true"));
+        usedVehicleButton.setSelected(filterArray[5].equals("true"));
     }
 
     private void addListeners() {
@@ -178,7 +169,7 @@ class EditPage extends JFrame {
         endDateChooser.setDate(incentives.getEndDate());
 
         applyButton = new JButton("Edit");
-        applyButton.setFont(botton);
+        applyButton.setFont(button);
         incenitveTypeLabel = new JLabel("IncentiveType");
         incenitveTypeLabel.setFont(rightCommonFont);
         incentiveTypeBox = new JComboBox();
