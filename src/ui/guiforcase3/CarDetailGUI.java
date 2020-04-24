@@ -86,7 +86,7 @@ public class CarDetailGUI extends JPanel {
         frame.getContentPane().add(panelDiscountDetails, BorderLayout.LINE_END);
         frame.getContentPane().add(ratingPanel, BorderLayout.LINE_START);
 
-        frame.setSize(CarDetailPanel.width, CarDetailPanel.height+100);
+        frame.setSize(CarDetailPanel.width, CarDetailPanel.height+120);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setResizable(false);

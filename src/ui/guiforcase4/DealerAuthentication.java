@@ -22,6 +22,7 @@ public class DealerAuthentication extends JFrame {
     JFrame jf;
     JLabel message;
     JTextField userText;
+    JButton loginButton;
     private String dealerIdPattern;
     public DealerAuthentication() {
         jf = new JFrame("Dealer Authentication");
@@ -67,7 +68,7 @@ public class DealerAuthentication extends JFrame {
         });
         panel.add(userText);
 
-        JButton loginButton = new JButton("login");
+        loginButton = new JButton("login");
         loginButton.setBounds(80, 80, 160, 25);
         loginButton.setFont(new Font("Arial", Font.PLAIN, 15));
         loginButton.setBackground(Color.WHITE);
@@ -118,9 +119,11 @@ public class DealerAuthentication extends JFrame {
         Matcher m = r.matcher(text);
         if (m.matches()) {
             message.setForeground(jf.getBackground());
+            loginButton.setEnabled(true);
             return true;
         } else {
             message.setForeground(Color.RED);
+            loginButton.setEnabled(false);
             return false;
         }
     }

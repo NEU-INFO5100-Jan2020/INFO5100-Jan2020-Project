@@ -4,6 +4,7 @@ package ui.UC2_SearchVehicles;
 import dto.Dealer;
 import dto.Vehicle;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
@@ -64,7 +65,7 @@ public class Frame_2 extends JPanel{
             panel_main.add(jb);
         }
         // hard coded paging size here
-        int pagingSize = 5;
+        int pagingSize = 10;
         pagedPanel = createPaging(jt, pagingSize, vehicleList);
         panel_main.add(pagedPanel);
 
@@ -100,6 +101,12 @@ public class Frame_2 extends JPanel{
         jt.setSelectionMode(0);
         jt.setShowGrid(false);
         jt.setShowHorizontalLines(false);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        jt.setDefaultRenderer(String.class, centerRenderer);
+        jt.setDefaultRenderer(Integer.class, centerRenderer);
+        jt.setDefaultRenderer(Float.class,centerRenderer);
 
     }
 
