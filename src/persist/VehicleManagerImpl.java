@@ -6,6 +6,9 @@ import service.IncentiveSearchFilterElement;
 import service.VehicleSearchFilter;
 import service.VehicleSearchFilterElement;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -90,6 +93,29 @@ public class VehicleManagerImpl implements VehicleManager {
     return vehicleResult;
   }
 
+  public Vehicle getVehicle(int VIN, int dealerID) {
+    String query = String.format("SELECT * FROM VehicleTable WHERE VIN = '%s' AND dealerID = '%d'", VIN, dealerID);
+    try(Connection connection = connect.connectToDB()) {
+      ResultSet rs = connect.executeValidation(query);
+      while (rs.next()){
+        Vehicle vehicle = new Vehicle();
+        vehicle.setVehicleId(rs.getInt("VehicleID"));
+        vehicle.setVin(rs.getInt("Vin"));
+        vehicle.setDealerId(rs.getInt("DealerId"));
+        vehicle.setMake(rs.getString("Make"));
+        vehicle.setModel(rs.getString("Model"));
+        vehicle.setCategory(rs.getString("Category"));
+        vehicle.setPrice(rs.getInt("Price"));
+        vehicle.setColor(rs.getString("Color"));
+        vehicle.setMileage(rs.getInt("Miles"));
+        return vehicle;
+      }
+    } catch (SQLException e){
+      System.out.println(e.getMessage());
+    }
+    return null;
+  }
+
   @Override
   public Vehicle addVehicle(Vehicle vehicle) {
     String query = "INSERT INTO VehicleTable (VIN , DealerId ,Make , Model , Year , " +
@@ -103,7 +129,7 @@ public class VehicleManagerImpl implements VehicleManager {
     /*Call 'executeQuery' method to run the query*/
     ArrayList<ArrayList> result = connect.executeVehicleQuery(query, "INSERT");
 
-    return vehicle;
+    return getVehicle(vehicle.getVin(),vehicle.getDealerId());
   }
 
   @Override
@@ -118,7 +144,7 @@ public class VehicleManagerImpl implements VehicleManager {
     /*Call 'executeQuery' method to run the query*/
     ArrayList<ArrayList> result = connect.executeVehicleQuery(query, "UPDATE");
 
-    return vehicle;
+    return getVehicle(vehicle.getVin(), vehicle.getDealerId());
   }
 
   @Override

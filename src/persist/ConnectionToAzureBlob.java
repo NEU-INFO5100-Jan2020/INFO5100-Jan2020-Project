@@ -10,6 +10,8 @@ import com.microsoft.azure.storage.blob.ListBlobItem;
 
 import java.io.*;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConnectionToAzureBlob {
 
@@ -61,6 +63,16 @@ public class ConnectionToAzureBlob {
         }
     }
 
+    public static List<String > listBlobWithReturn(String filePrefix, boolean subFolder) {
+        Iterable<ListBlobItem> blobItems = container.listBlobs(filePrefix, subFolder);
+        List<String > urls = new ArrayList<>();
+        for (ListBlobItem blobItem : blobItems) {
+            String uri = blobItem.getUri().toString();
+            urls.add(uri);
+        }
+        return urls;
+    }
+
     // blobPath : relative blob path including all folder.
     // targetPath: target local path;
     public static void downloadToFile(String blobPath, String targetPath) {
@@ -69,8 +81,8 @@ public class ConnectionToAzureBlob {
         try {
             CloudBlockBlob blob = container.getBlockBlobReference(blobPath);
             blob.downloadToFile(finalPath);
-            ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
-            blob.download(byteOutputStream);
+//            ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
+//            blob.download(byteOutputStream);
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -81,7 +93,7 @@ public class ConnectionToAzureBlob {
         }
     }
 
-    public static void downloadToStream(String blobPath) {
+    public static File downloadToStream(String blobPath) {
         try {
             CloudBlockBlob blob = container.getBlockBlobReference(blobPath);
             String targetPath = "src/main/resources/CarImages/downloadFromStream";
@@ -93,6 +105,7 @@ public class ConnectionToAzureBlob {
             byteOutputStream.writeTo(new FileOutputStream(file));
             // blob.downloadToByteArray()
 //            Byte[] bytes = blob.downloadToByteArray();
+            return file;
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -103,6 +116,7 @@ public class ConnectionToAzureBlob {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public static void uploadFile(File file, String fileName) {

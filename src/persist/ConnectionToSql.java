@@ -48,6 +48,12 @@ public class ConnectionToSql {
         connectToDB();
 
         try {
+            if("INSERT".equalsIgnoreCase(queryType)){
+                /*Execute the query*/
+                Statement statement = connection.createStatement();
+                statement.executeUpdate(queryToExecute);
+            }
+            else{
             /*Execute the query*/
             try (Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(queryToExecute)) {
@@ -73,6 +79,7 @@ public class ConnectionToSql {
                     result.add(temp);
                 }
             }
+          }
         } catch (Exception e) {
             System.out.println("Exception :" + e.getMessage());
             return null;
@@ -93,6 +100,12 @@ public class ConnectionToSql {
         connectToDB();
 
         try {
+            if("INSERT".equalsIgnoreCase(queryType)){
+                /*Execute the query*/
+                Statement statement = connection.createStatement();
+                statement.executeUpdate(queryToExecute);
+            }
+            else{
             /*Execute the query*/
             try (Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(queryToExecute)) {
@@ -111,8 +124,8 @@ public class ConnectionToSql {
                     //Adding each row to the result
                     result.add(temp);
                 }
-
             }
+          }
         } catch (Exception e) {
             System.out.println("Exception :" + e.getMessage());
             return null;
@@ -133,6 +146,12 @@ public class ConnectionToSql {
         connectToDB();
 
         try {
+            if("INSERT".equalsIgnoreCase(queryType)){
+                /*Execute the query*/
+                Statement statement = connection.createStatement();
+                statement.executeUpdate(queryToExecute);
+            }
+            else{
             /*Execute the query*/
             try (Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(queryToExecute)) {
@@ -157,6 +176,7 @@ public class ConnectionToSql {
                     result.add(temp);
                 }
             }
+          }
         } catch (Exception e) {
             System.out.println("Exception :" + e.getMessage());
             return null;
