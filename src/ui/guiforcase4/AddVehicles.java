@@ -5,9 +5,12 @@ import dto.Vehicle;
 import persist.ExtractSingleColumnFromDB;
 import persist.VehicleManagerImpl;
 import service.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
@@ -27,6 +30,7 @@ public class AddVehicles extends JFrame {
   String vinPattern;
   String pricePattern;
   String mileagePattern;
+  String path;
   ExtractSingleColumnFromDB connect = new ExtractSingleColumnFromDB();
   Vehicle vehicle = new Vehicle();
   VehicleManagerImpl vmi = new VehicleManagerImpl();
@@ -95,11 +99,36 @@ public class AddVehicles extends JFrame {
     tf3.setBounds(160, 400, 160, 25);
     JTextField tf4 = new JTextField(10);
     tf4.setBounds(160, 500, 160, 25);
+    path = "Please select an image";
     JTextField[] jtfs = new JTextField[]{tf1, tf2, tf3, tf4};
     for (int i = 0; i < jtfs.length; i++) {
       jtfs[i].setFont(new Font("Arial", Font.PLAIN, 15));
       panel.add(jtfs[i]);
     }
+    JButton uploadBtn = new JButton("Upload");
+    uploadBtn.setPreferredSize(new Dimension(75,25));
+    uploadBtn.setBounds(330, 500, 75, 25);
+    uploadBtn.setOpaque(true);
+    uploadBtn.setFont(new Font("Arial", Font.PLAIN, 12));
+    panel.add(uploadBtn);
+    uploadBtn.addActionListener(e -> {
+      {
+        JFileChooser fc=new JFileChooser("C:\\");
+        fc.addChoosableFileFilter(new FileNameExtensionFilter(
+                "Image files", ImageIO.getReaderFileSuffixes()));
+        int val=fc.showOpenDialog(null);    //open the file selection window
+        if(val==fc.APPROVE_OPTION)
+        {
+          tf4.setText(fc.getSelectedFile().toString());
+          path = fc.getSelectedFile().toString();
+        }
+        else
+        {
+          //No selection of images
+          tf4.setText("No image selected");
+        }
+      }
+    });
 //        CheckInput c1 = new CheckInput();
 //        c1.setLength(4);
 //        tf1.setDocument(c1);
@@ -125,7 +154,7 @@ public class AddVehicles extends JFrame {
       public void changedUpdate(DocumentEvent documentEvent) {
       }
     });
-    pricePattern = "^-?\\d*(\\.)?\\d*$";
+    pricePattern = "\\d*(\\.)?\\d*$";
     tf2.getDocument().addDocumentListener(new DocumentListener() {
       @Override
       public void insertUpdate(DocumentEvent documentEvent) {
@@ -361,6 +390,11 @@ public class AddVehicles extends JFrame {
             } else {
               int vin1 = vmi.addVehicle(vehicle).getVin();
               if (vin1 == Integer.parseInt(tf1.getText())) {
+                if (!path.equals("Please select an image")) {
+                  du.addImageToAzureBlob(path, Integer.parseInt(tf1.getText()));
+                }
+                JOptionPane.showMessageDialog(panel, "Vehicle " + vehicle.getVin() + " has been updated");
+                frame.dispose();
                 JOptionPane.showMessageDialog(null, "You have successfully added a car！");
                 new AddVehicles(dID, dealerName);
                 frame.dispose();
@@ -382,6 +416,8 @@ public class AddVehicles extends JFrame {
       if (mm.getBrand().equals(makeValue)) {
         return mm;
       }
+
+
     }
     return null;
   }
