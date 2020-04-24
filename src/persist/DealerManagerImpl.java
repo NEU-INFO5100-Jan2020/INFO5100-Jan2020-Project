@@ -96,7 +96,7 @@ public class DealerManagerImpl implements DealerManager {
         String query = "DELETE FROM Dealer WHERE DealerId ="+dealerId+" ;";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeDealerQuery(query, "UPDATE");
+        ArrayList<ArrayList> result = connect.executeDealerQuery(query, "DELETE");
 
         if(result != null)
             return true;
