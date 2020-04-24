@@ -54,8 +54,8 @@ class DealerUtilitiesTest {
 
   @Test
   void testAddImageToAzureBlob(){
-    String testPath = "src\\main\\resources\\CarImages\\1.jpeg";
-    dealerUtilities.addImageToAzureBlob(testPath , 10000);
+//    String testPath = "src\\main\\resources\\CarImages\\1.jpeg";
+//    dealerUtilities.addImageToAzureBlob(testPath , 10000);
   }
 
 //  @Test
