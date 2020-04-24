@@ -34,13 +34,10 @@ public class IncentiveMainPage extends JFrame {
     private void addActionListener() {
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-//                new CreatePageWithSearchButton(dealerID);
-
                 cp = new CreatePage(dealerID,thisPage);
-
             }
         });
+
         editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try{
@@ -49,13 +46,10 @@ public class IncentiveMainPage extends JFrame {
                         throw new Exception();
                     }
                     Incentives incentives=extract(rowIndex);
-
-
                     ep = new ui.guiforcase5.EditPage(dealerID,incentives, thisPage);
                 }catch (Exception e1){
                     JOptionPane.showMessageDialog(null,"plesae select a row");
                 }
-
             }
         });
     }
