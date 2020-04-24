@@ -3,7 +3,7 @@ package ui.guiforcase4;
 import javax.swing.*;
 import java.awt.*;
 
-class ColorCell extends JPanel {
+public class ColorCell extends JPanel {
   private Color cellColor;
   private JPanel colorLabel;
   private JLabel colorNameLabel;
@@ -37,5 +37,9 @@ class ColorCell extends JPanel {
 
   public void setColorName(String colorName) {
     this.colorName = colorName;
+  }
+  @Override
+  public String toString() {
+    return this.colorName;
   }
 }
