@@ -20,7 +20,8 @@ For now, you should exclude the IncentivesManagerImpl.java to run the code
 There are two ways to create an incentive for your testing or any other purposes.
 1. Using the GUI from Case5 bcreated by Group #3. **(Strongly recommend!!!)**
   * Run src/ui/guiforcase4/Main.java, input your DealerID, then you can click click click to the Create Screen.   
-You can find the Lucidchart for dealer's GUI here: https://www.lucidchart.com/documents/edit/75f3138b-4f63-463c-b1bc-c3d771413586/0_0?shared=true
+You can find the Lucidchart for dealer's GUI here:   
+https://www.lucidchart.com/documents/edit/75f3138b-4f63-463c-b1bc-c3d771413586/0_0?shared=true
   * You can only create incenitves for **either one vehicle or a group of vehicles**
   * All the Incentive Details (on the right side of Create Screen) are mandatory
   
