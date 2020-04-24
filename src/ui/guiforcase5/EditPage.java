@@ -292,6 +292,9 @@ class EditPage extends JFrame {
 
     }
 
+    public void disposePage() {
+        jframe.dispose();
+    }
 
 
 }

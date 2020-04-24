@@ -430,5 +430,8 @@ public class CreatePage {
 
     }
 
+    public void disposePage() {
+        jframe.dispose();
+    }
 
 }
