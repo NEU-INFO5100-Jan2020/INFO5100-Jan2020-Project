@@ -3,10 +3,7 @@ package persist;
 
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageException;
-import com.microsoft.azure.storage.blob.CloudBlobClient;
-import com.microsoft.azure.storage.blob.CloudBlobContainer;
-import com.microsoft.azure.storage.blob.CloudBlockBlob;
-import com.microsoft.azure.storage.blob.ListBlobItem;
+import com.microsoft.azure.storage.blob.*;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -141,6 +138,23 @@ public class ConnectionToAzureBlob {
         return false;
     }
 
+    public static void SetPublicContainerPermission() {
+        try {
+            BlobContainerPermissions permissions = container.downloadPermissions();
+
+            // permits anonymous read access to blob resources, container metadata, and the list of blobs in the container
+            permissions.setPublicAccess(BlobContainerPublicAccessType.CONTAINER);
+
+            // prevents anonymous access
+            // permissions.setPublicAccess(BlobContainerPublicAccessType.OFF);
+
+
+            container.uploadPermissions(permissions);
+
+        } catch (StorageException e) {
+            e.printStackTrace();
+        }
+    }
     public static void initBlob(String conString) {
         try {
             storageAccount = CloudStorageAccount.parse(conString);
@@ -150,6 +164,4 @@ public class ConnectionToAzureBlob {
             e.printStackTrace();
         }
     }
-
-
 }

@@ -10,7 +10,6 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class TablePagingPanel extends JPanel {
@@ -18,11 +17,11 @@ public class TablePagingPanel extends JPanel {
 
     private int pageSize;
     private JTable jTable;
-    private final TableModel tableModel;
+    private TableModel tableModel;
 
-    private final int lastPageNum;
+    private int lastPageNum;
     private int currPageNum;
-    private JLabel countLabel;
+    private JLabel countLabel, sizeLabel;
     private JButton first, prev, next, last, middle;
 
     public TablePagingPanel(JTable jTable, int pageSize, List<Vehicle> vehicles) {
@@ -38,8 +37,9 @@ public class TablePagingPanel extends JPanel {
         JPanel countPanel = new JPanel();
         countLabel = new JLabel();
         countPanel.add(countLabel, BorderLayout.CENTER);
+        sizeLabel = new JLabel();
+        countPanel.add(sizeLabel, BorderLayout.CENTER);
         add(countPanel, BorderLayout.NORTH);
-        // add(countLabel, BorderLayout.CENTER);
         add(new JScrollPane(jTable), BorderLayout.CENTER);
         add(createControls(), BorderLayout.SOUTH);
         updatePage();
@@ -114,11 +114,25 @@ public class TablePagingPanel extends JPanel {
         // replace the original model with a new model
         // containing only the entries in the current page.
         // Sorting and Paging has to be done here
-        DefaultTableModel page = new DefaultTableModel();
+        DefaultTableModel page = new DefaultTableModel() {
+            Class[] types = {String.class, String.class, Float.class, Integer.class, Integer.class};
+
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return this.types[columnIndex];
+            }
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
+        };
+        // add Column
         int count = tableModel.getColumnCount();
         for (int i = 0; i < count; i++) {
             page.addColumn(tableModel.getColumnName(i));
         }
+
         int start = (currPageNum - 1) * pageSize;
         int end = start + pageSize;
         if (end >= tableModel.getRowCount()) {
@@ -126,17 +140,18 @@ public class TablePagingPanel extends JPanel {
         }
         for (int rowNum = start; rowNum < end; rowNum++) {
             int columnNum = tableModel.getColumnCount();
-            String[] rowData = new String[columnNum];
+            Object[] rowData = new Object[columnNum];
             for (int j = 0; j < columnNum; j++) {
-                rowData[j] = tableModel.getValueAt(rowNum, j).toString();
+                rowData[j] = tableModel.getValueAt(rowNum, j);
             }
             page.addRow(rowData);
         }
-        jTable.setRowSorter(new TableRowSorter<TableModel>(page));
         jTable.setModel(page);
+        jTable.setRowSorter(new TableRowSorter<TableModel>(page));
 
         // update the label
         countLabel.setText("Page " + currPageNum + "/" + lastPageNum);
+        sizeLabel.setText(" |  " + pageSize +" per page");
 
         // update buttons
         final boolean canGoBack = currPageNum != 1;
@@ -145,6 +160,13 @@ public class TablePagingPanel extends JPanel {
         prev.setEnabled(canGoBack);
         next.setEnabled(canGoFwd);
         last.setEnabled(canGoFwd);
+    }
 
+    public void refreshTable(DefaultTableModel tableModel) {
+        this.tableModel = tableModel;
+        this.lastPageNum = tableModel.getRowCount() / pageSize
+                + (tableModel.getRowCount() % pageSize != 0 ? 1 : 0);
+        this.currPageNum = 1;
+        updatePage();
     }
 }
