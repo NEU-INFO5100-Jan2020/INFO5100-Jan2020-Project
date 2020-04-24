@@ -35,7 +35,7 @@ class DealerUtilitiesTest {
     assert !dealerUtilities.validateVin(v);
     assert dealerUtilities.validateVin(v2);
     assert !dealerUtilities.validateVin(v3);
-    assert dealerUtilities.validateVin(v4);
+    assert !dealerUtilities.validateVin(v4);
   }
 
   @Test
