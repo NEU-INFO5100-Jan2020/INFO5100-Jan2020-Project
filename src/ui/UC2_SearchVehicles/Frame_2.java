@@ -128,7 +128,7 @@ public class Frame_2 extends JPanel{
             });
         }
 
-        pagedPanel.refreshTable(vModel);
+        pagedPanel.refreshTable(vModel, vehicleList);
     }
 
     public void refreshDataModel(Dealer dealer, SearchFilterDTO searchFilter) {

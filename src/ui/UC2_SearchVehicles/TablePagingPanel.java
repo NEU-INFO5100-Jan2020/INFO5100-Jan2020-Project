@@ -91,10 +91,15 @@ public class TablePagingPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (jTable.getSelectedRow() >= 0) {
                     int selectIndex = jTable.getSelectedRow();
-                    Vehicle selectedVehicle = vehicles.get(selectIndex);
-                    ArrayList<Vehicle> parameters = new ArrayList<>();
-                    parameters.add(selectedVehicle);
-                    new CarDetailGUI(parameters);
+                    int selectedVin = (Integer) jTable.getValueAt(selectIndex, 3);
+                    ArrayList<Vehicle> paraVehicles = new ArrayList<>();
+                    for (Vehicle vehicle : vehicles) {
+                        if (vehicle.getVin() == selectedVin) {
+                            paraVehicles.add(vehicle);
+                            break;
+                        }
+                    }
+                    new CarDetailGUI(paraVehicles);
                 }
                 else {
                     JOptionPane.showMessageDialog(null, "Please Select A Vehicle", "Warning",JOptionPane.WARNING_MESSAGE);
@@ -163,7 +168,8 @@ public class TablePagingPanel extends JPanel {
         last.setEnabled(canGoFwd);
     }
 
-    public void refreshTable(DefaultTableModel tableModel) {
+    public void refreshTable(DefaultTableModel tableModel, List<Vehicle> vehicleList) {
+        this.vehicles = vehicleList;
         this.tableModel = tableModel;
         if (tableModel.getRowCount() == 0) {
             this.lastPageNum = 1;
