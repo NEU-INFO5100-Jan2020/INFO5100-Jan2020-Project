@@ -391,7 +391,11 @@ public class AddVehicles extends JFrame {
               int vin1 = vmi.addVehicle(vehicle).getVin();
               if (vin1 == Integer.parseInt(tf1.getText())) {
                 if (!path.equals("Please select an image")) {
-                  du.addImageToAzureBlob(path, Integer.parseInt(tf1.getText()));
+                  if (path.endsWith(".jpg") || path.endsWith(".jpeg") ||path.endsWith(".bmp") || path.endsWith(".png")) {
+                    du.addImageToAzureBlob(path, Integer.parseInt(tf1.getText()));
+                  } else {
+                    JOptionPane.showMessageDialog(panel, "Please select a valid image to upload (jpg, jpeg, bmp, png)");
+                  }
                 }
                 JOptionPane.showMessageDialog(panel, "Vehicle " + vehicle.getVin() + " has been updated");
                 frame.dispose();
