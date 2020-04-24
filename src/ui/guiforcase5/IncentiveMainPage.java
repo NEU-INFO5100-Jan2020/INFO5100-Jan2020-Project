@@ -1,8 +1,11 @@
 package ui.guiforcase5;
 
+import dto.Dealer;
 import dto.Incentives;
+import persist.DealerManager;
 import persist.IncentivesManager;
 import persist.IncentivesManagerImpl;
+import persist.DealerManagerImpl;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -221,8 +224,9 @@ public class IncentiveMainPage extends JFrame {
             ep.disposePage();
         }
         thisPage.dispose();
-
-        new ui.guiforcase4.OperationOptions(dealerID);
+        DealerManagerImpl dealerManager = new DealerManagerImpl();
+        Dealer curDealer = dealerManager.getDealer(dealerID);
+        new ui.guiforcase4.OperationOptions(dealerID, curDealer.getDealerName());
     }
 
     protected void refreshTableContents(){

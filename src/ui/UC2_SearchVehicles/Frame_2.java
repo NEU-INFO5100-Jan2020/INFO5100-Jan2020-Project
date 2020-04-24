@@ -3,47 +3,42 @@ package ui.UC2_SearchVehicles;
 
 import dto.Dealer;
 import dto.Vehicle;
-
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Frame_2 extends JPanel{
 
+    private Dealer dealer;
     private List<Vehicle> vehicleList;
 
-    public List<Vehicle> getVehicleList(int dealerID, String make, String model, String year, String maxPrice) {
-        if (vehicleList == null) {
-            vehicleList = FrameUtilities.vehicleSearchAndSort(dealerID, make, model, year,maxPrice);
-        }
-        return vehicleList;
+    public List<Vehicle> getVehicleList(int dealerID, SearchFilterDTO filter) {
+        return FrameUtilities.vehicleSearchAndSort(dealerID, filter);
     }
-    private String dealerName;
-    private JScrollPane jsp;
+    private TablePagingPanel pagedPanel;
     private JTable jt;
     ArrayList<JLabel> label_list;
     ArrayList<JPanel> panel_list;
     ArrayList<JButton> button_list;
 
 
-    public Frame_2(Dealer dealer, String make, String model, String year, String maxPrice){
-        getVehicleList(dealer.getDealerId(), make, model, year,maxPrice);
+    public Frame_2(Dealer dealer, SearchFilterDTO filter){
+        this.vehicleList = getVehicleList(dealer.getDealerId(), filter);
 
-        dealerName = dealer.getDealerName();
+        this.dealer = dealer;
         label_list = new ArrayList<>();
         panel_list = new ArrayList<>();
         button_list = new ArrayList<>();
         createComponents();
         addComponents();
 
-        vehicleList = FrameUtilities.createTestVehicles();
     }
 
     public void createComponents(){
-//        createFrame();
-//        createLabel();
         createTable();
         createPanel();
     }
@@ -69,39 +64,31 @@ public class Frame_2 extends JPanel{
             panel_main.add(jb);
         }
         // hard coded paging size here
-        int pagingSize = 20;
-        JPanel tempPanel = createPaging(jt, pagingSize, vehicleList);
-        panel_main.add(tempPanel);
-
-
-
-    }
-    public void createLabel(){
-
-        JLabel lbl_header = new JLabel("Vehicles of " + dealerName);
-        lbl_header.setFont(new Font("Arial", Font.BOLD, 15));
-        label_list.add(lbl_header);
+        int pagingSize = 5;
+        pagedPanel = createPaging(jt, pagingSize, vehicleList);
+        panel_main.add(pagedPanel);
 
     }
 
     public void createTable(){
         String[] header = {"Make", "Model", "Price", "Vin", "Year"};
-        //vehicleList = FrameUtilities.createTestVehicles();
-
-        String[][] jt_data = new String[vehicleList.size()][header.length];
-        int row = 0;
-        for (Vehicle vehicle : vehicleList) {
-            jt_data[row++] = new String[]{vehicle.getMake(),
-                    String.valueOf(vehicle.getModel()),
-                    String.valueOf(vehicle.getPrice()),
-                    String.valueOf(vehicle.getVin()),
-                    String.valueOf(vehicle.getYear())};
-        }
-        jt = new JTable(jt_data, header){
-            public boolean editCellAt(int row, int column, java.util.EventObject e) {
+        DefaultTableModel vModel = new DefaultTableModel(header, 0) {
+            Class[] types = {String.class, String.class, Float.class, Integer.class, Integer.class};
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return this.types[columnIndex];
+            }
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return false;
             }
         };
+        for (Vehicle vehicle : vehicleList) {
+            vModel.addRow(new Object[]{
+                    vehicle.getModel(), vehicle.getMake(), vehicle.getPrice(), vehicle.getVin(), vehicle.getYear()
+            });
+        }
+        jt = new JTable(vModel);
         JTableHeader jtHeader = jt.getTableHeader();
         jtHeader.setFont(new Font("Arial", Font.CENTER_BASELINE, 15));
         jtHeader.setForeground(Color.BLACK);
@@ -116,8 +103,36 @@ public class Frame_2 extends JPanel{
 
     }
 
-    private JPanel createPaging(JTable jt, int size, List<Vehicle> vehicles) {
+
+    private TablePagingPanel createPaging(JTable jt, int size, List<Vehicle> vehicles) {
         return new TablePagingPanel(jt, size, vehicles);
     }
 
+    private void refreshPanel() {
+        DefaultTableModel vModel = new DefaultTableModel(new String[] {"Make", "Model", "Price", "Vin", "Year"}, 0) {
+            Class[] types = {String.class, String.class, Float.class, Integer.class, Integer.class};
+
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return this.types[columnIndex];
+            }
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
+        };
+        for (Vehicle vehicle : vehicleList) {
+            vModel.addRow(new Object[]{
+                vehicle.getModel(), vehicle.getMake(), vehicle.getPrice(), vehicle.getVin(), vehicle.getYear()
+            });
+        }
+
+        pagedPanel.refreshTable(vModel, vehicleList);
+    }
+
+    public void refreshDataModel(Dealer dealer, SearchFilterDTO searchFilter) {
+        vehicleList = getVehicleList(dealer.getDealerId(), searchFilter);
+        refreshPanel();
+    }
 }

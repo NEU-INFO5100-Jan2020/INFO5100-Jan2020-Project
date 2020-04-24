@@ -9,13 +9,15 @@ import java.awt.event.ActionListener;
 
 public class OperationOptions extends JFrame {
     int dID;
-    public OperationOptions(int dID) {
+    String dealerName;
+    public OperationOptions(int dID, String dealerName) {
         this.dID = dID;
+        this.dealerName = dealerName;
         initialFrame();
     }
 
     private void initialFrame() {
-        JFrame frame = new JFrame("Dealer's Account");
+        JFrame frame = new JFrame("Dealer " + this.dealerName +"'s Account");
         JPanel panel = new JPanel(null);
         frame.setSize(400, 280);
         frame.setLocationRelativeTo(null);
@@ -26,11 +28,11 @@ public class OperationOptions extends JFrame {
     }
 
     private void addComponents(JFrame frame, JPanel panel) {
-        JLabel jl = new JLabel("Dealer " + this.dID + "'s Account");
+        JLabel jl = new JLabel(this.dealerName + "'s Account");
         jl.setFont(new Font("Arial", Font.PLAIN, 18));
         jl.setForeground(Color.BLACK);
-        jl.setHorizontalAlignment(JTextField.CENTER);
-        jl.setBounds(50, 20, 280, 30);
+        jl.setBounds(0,30,400,30);
+        jl.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(jl);
         JButton btn1 = new JButton("log out");
         btn1.setBounds(315,5,70,20);
@@ -66,7 +68,7 @@ public class OperationOptions extends JFrame {
         btn2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new InventoryInformation(dID);
+                new InventoryInformation(dID, dealerName);
                 frame.dispose();
             }
         });

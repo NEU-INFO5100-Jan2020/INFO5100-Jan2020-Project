@@ -1,7 +1,11 @@
 package persist;
 
 import dto.Dealer;
+import dto.Vehicle;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -20,6 +24,27 @@ public class DealerManagerImpl implements DealerManager {
 
         return dealerResult;
     }
+
+    public Dealer getDealer(int dealerID) {
+    String query = String.format("SELECT * FROM Dealer WHERE dealerID = '%d'", dealerID);
+    try(Connection connection = connect.connectToDB()) {
+      ResultSet rs = connect.executeValidation(query);
+      while (rs.next()){
+        Dealer dealer = new Dealer();
+        dealer.setDealerId(rs.getInt("DealerID"));
+        dealer.setDealerName(rs.getString("DealerName"));
+        dealer.setDealerAddress(rs.getString("DealerAddress"));
+        dealer.setPhoneNumber(rs.getString("PhoneNumber"));
+        dealer.setZipCode(rs.getString("ZipCode"));
+        dealer.setCity(rs.getString("City"));
+        dealer.setCountry(rs.getString("Country"));
+        return dealer;
+      }
+    } catch (SQLException e){
+      System.out.println(e.getMessage());
+    }
+    return null;
+  }
 
     @Override
     public Collection<Dealer> getDealerDetails(int dealerId) {
@@ -96,7 +121,7 @@ public class DealerManagerImpl implements DealerManager {
         String query = "DELETE FROM Dealer WHERE DealerId ="+dealerId+" ;";
 
         /*Call 'executeQuery' method to run the query*/
-        ArrayList<ArrayList> result = connect.executeDealerQuery(query, "UPDATE");
+        ArrayList<ArrayList> result = connect.executeDealerQuery(query, "DELETE");
 
         if(result != null)
             return true;

@@ -2,39 +2,48 @@ package ui.guiforcase4;
 
 import dto.Vehicle;
 import persist.VehicleManagerImpl;
+import service.ColorJsonPopulator;
 import service.DealerUtilities;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.util.Collection;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ModifyInventory extends JFrame {
   int dID;
+  String path;
+  String dealerName;
   Vehicle modifyV;
   DealerUtilities dealerU;
   private JFrame frame;
   private JPanel panel;
+  private JPanel p;
   private JLabel vinErrorMsg;
   private JLabel priceErrorMsg;
   private JLabel mileageErrorMsg;
   private String vinPattern;
   private String pricePattern;
   private String mileagePattern;
+  Map<String,String> colors = ColorJsonPopulator.populateColorContainer();
 
-  public ModifyInventory(Vehicle modifyV) {
+  public ModifyInventory(Vehicle modifyV, int dID, String dealerName) {
     this.modifyV = modifyV;
-    this.dID = modifyV.getDealerId();
+    this.dID = dID;
+    this.dealerName = dealerName;
     initialFrame();
   }
 
   private void initialFrame() {
-    frame = new JFrame("Modifying Inventory of DealerID " + dID);
+    frame = new JFrame("Modifying Vehicles of Dealer " + this.dealerName);
     panel = new JPanel(null);
-    frame.setSize(570, 480);
+    frame.setSize(460, 720);
     frame.setLocationRelativeTo(null);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.add(panel);
@@ -43,21 +52,21 @@ public class ModifyInventory extends JFrame {
   }
 
   private void addComponents() {
-    JLabel jl = new JLabel("Dealer" + dID);
+    JLabel jl = new JLabel(this.dealerName);
     jl.setFont(new Font("Arial", Font.PLAIN, 18));
     jl.setForeground(Color.BLACK);
-    jl.setHorizontalAlignment(JTextField.CENTER);
-    jl.setBounds(160, 10, 80, 30);
+    jl.setHorizontalAlignment(SwingConstants.CENTER);
+    jl.setBounds(0, 10, 570, 30);
 
     panel.add(jl);
     String[] jLabelTexts = new String[]{"VehicleId:", "VIN:", "Make:", "Model:", "Year:", "Category:", "Price:",
-        "Color:", "Miles:"};//delete the image button, since db team says the field isn't working
+        "Color:", "Miles:", "Rating:", "Image:"};//delete the image button, since db team says the field isn't working
 
-    JLabel[] jls = new JLabel[9];
+    JLabel[] jls = new JLabel[11];
     for (int i = 0; i < jls.length; i++) {
       jls[i] = new JLabel();
       jls[i].setText(jLabelTexts[i]);
-      jls[i].setBounds(60, 50 + i * 30, 80, 25);
+      jls[i].setBounds(60, 50 + i * 50, 80, 25);
       jls[i].setFont(new Font("Arial", Font.PLAIN, 15));
       panel.add(jls[i]);
     }
@@ -70,12 +79,13 @@ public class ModifyInventory extends JFrame {
 
     //VIN textField
     JTextField vinText = new JTextField(10);
-    vinText.setBounds(160, 80, 160, 25);
+    vinText.setBounds(160, 100, 160, 25);
     vinText.setText(Integer.toString(modifyV.getVin()));
 
     // Give a hint when having wrong input with VIN
     vinErrorMsg = new JLabel("VIN must have four digits");
-    vinErrorMsg.setBounds(330, 80, 180, 25);
+    vinErrorMsg.setBounds(160, 118, 180, 25);
+    vinErrorMsg.setFont(new Font("Arial", Font.PLAIN, 10));
     vinErrorMsg.setForeground(frame.getBackground());
     panel.add(vinErrorMsg);
     vinPattern = "\\d{4}";
@@ -94,29 +104,30 @@ public class ModifyInventory extends JFrame {
 
     //Vehicle Make textField
     JTextField makeText = new JTextField(10);
-    makeText.setBounds(160, 110, 160, 25);
+    makeText.setBounds(160, 150, 160, 25);
     makeText.setText(modifyV.getMake());
     makeText.setEditable(false);
     //Vehicle Model textField
     JTextField modelText = new JTextField(10);
-    modelText.setBounds(160, 140, 160, 25);
+    modelText.setBounds(160, 200, 160, 25);
     modelText.setText(modifyV.getModel());
     modelText.setEditable(false);
     //Vehicle Year textField
     JTextField yearText = new JTextField(10);
-    yearText.setBounds(160, 170, 160, 25);
+    yearText.setBounds(160, 250, 160, 25);
     yearText.setText(Integer.toString(modifyV.getYear()));
     yearText.setEditable(false);
     //Vehicle Price textField
     JTextField priceText = new JTextField(10);
-    priceText.setBounds(160, 230, 160, 25);
+    priceText.setBounds(160, 350, 160, 25);
     priceText.setText(Float.toString(modifyV.getPrice()));
     // Give a hint when having wrong input with Price
-    priceErrorMsg = new JLabel("Price must be positive with one decimal");
-    priceErrorMsg.setBounds(330, 230, 250, 25);
+    priceErrorMsg = new JLabel("Price must be non-negative");
+    priceErrorMsg.setBounds(160, 368, 250, 25);
+    priceErrorMsg.setFont(new Font("Arial", Font.PLAIN, 10));
     priceErrorMsg.setForeground(frame.getBackground());
     panel.add(priceErrorMsg);
-    pricePattern = "\\d+\\.\\d+$";
+    pricePattern = "\\d*(\\.)?\\d*$";
     priceText.getDocument().addDocumentListener(new DocumentListener() {
       @Override
       public void insertUpdate(DocumentEvent documentEvent) {
@@ -131,11 +142,12 @@ public class ModifyInventory extends JFrame {
     });
     //Vehicle Mileage textField
     JTextField mileageText = new JTextField(10);
-    mileageText.setBounds(160, 290, 160, 25);
+    mileageText.setBounds(160, 450, 160, 25);
     mileageText.setText(Integer.toString(modifyV.getMileage()));
     // Give a hint when having wrong input with Mileage
     mileageErrorMsg = new JLabel("Mileage must be zero or bigger");
-    mileageErrorMsg.setBounds(330, 290, 220, 25);
+    mileageErrorMsg.setBounds(160, 468, 220, 25);
+    mileageErrorMsg.setFont(new Font("Arial", Font.PLAIN, 10));
     mileageErrorMsg.setForeground(frame.getBackground());
     panel.add(mileageErrorMsg);
     mileagePattern = "\\d+$";
@@ -152,29 +164,92 @@ public class ModifyInventory extends JFrame {
       public void changedUpdate(DocumentEvent documentEvent) { }
     });
 
+    //Vehicle Image textField
+    path = "Please select an image";
+    JTextField imageText = new JTextField(10);
+    imageText.setBounds(160, 550, 160, 25);
+    imageText.setText(path);
     //Add textField to the panel
-    JTextField[] jtfs = new JTextField[]{vehIDText, vinText, makeText, modelText, yearText, priceText, mileageText};
+    JTextField[] jtfs = new JTextField[]{vehIDText, vinText, makeText, modelText, yearText, priceText, mileageText, imageText};
     for (int i = 0; i < jtfs.length; i++) {
       jtfs[i].setFont(new Font("Arial", Font.PLAIN, 15));
       panel.add(jtfs[i]);
     }
 
-    //Two combobox for color and category
-    JComboBox colorText = new JComboBox();
-    colorText.setBounds(160, 260, 160, 25);
-    colorText.addItem("White");
-    colorText.addItem("Red");
-    colorText.addItem("Gray");
-    colorText.setSelectedItem(modifyV.getColor());
-
+    //Three combobox for color and category
     JComboBox categoryText = new JComboBox();
-    categoryText.setBounds(160, 200, 160, 25);
+    categoryText.setBounds(160, 300, 160, 25);
     categoryText.addItem("New");
     categoryText.addItem("Used");
+    /*categoryText.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+          if(categoryText.getSelectedItem().toString().equals("New")) {
+            mileageText.setText("0");
+            mileageText.setEditable(false);
+          }else{
+            mileageText.setText("");
+            mileageText.setEditable(true);
+          }
+        }
+      }
+    });*/
     categoryText.setSelectedItem(modifyV.getCategory());
+
+    JComboBox colorText = new JComboBox();
+    colorText.setBounds(160, 400, 160, 25);
+    colorText.setFont(new Font("Arial", Font.PLAIN, 15));
+    for (Map.Entry<String, String> entry : colors.entrySet()) {
+      int r = Integer.parseInt(entry.getValue().substring(1,3),16);
+      int g = Integer.parseInt(entry.getValue().substring(3,5),16);
+      int b = Integer.parseInt(entry.getValue().substring(5,7),16);
+      Color c = new Color(r,g,b);
+      p = new ColorCell(c,entry.getKey());
+      colorText.addItem(p);
+
+    }
+    ListCellRenderer renderer = new PanelComboBoxCellRenderer();
+    colorText.setRenderer(renderer);
+    colorText.setSelectedItem(modifyV.getColor());
+
+    JComboBox ratingText = new JComboBox();
+    ratingText.setBounds(160, 500, 160, 25);
+    ratingText.addItem("1");
+    ratingText.addItem("2");
+    ratingText.addItem("3");
+    ratingText.addItem("4");
+    ratingText.addItem("5");
+    ratingText.setSelectedItem(modifyV.getRatings());
 
     panel.add(colorText);
     panel.add(categoryText);
+    panel.add(ratingText);
+
+    JButton uploadBtn = new JButton("Upload");
+    uploadBtn.setPreferredSize(new Dimension(75,25));
+    uploadBtn.setBounds(330, 550, 75, 25);
+    uploadBtn.setOpaque(true);
+    uploadBtn.setFont(new Font("Arial", Font.PLAIN, 12));
+    panel.add(uploadBtn);
+    uploadBtn.addActionListener(e -> {
+      {
+        JFileChooser fc=new JFileChooser("C:\\");
+        fc.addChoosableFileFilter(new FileNameExtensionFilter(
+                "Image files", ImageIO.getReaderFileSuffixes()));
+        int val=fc.showOpenDialog(null);    //open the file selection window
+        if(val==fc.APPROVE_OPTION)
+        {
+          imageText.setText(fc.getSelectedFile().toString());
+          path = fc.getSelectedFile().toString();
+        }
+        else
+        {
+          //No selection of images
+          imageText.setText("No image selected");
+        }
+      }
+    });
 
     JButton confirmBtn = new JButton("Confirm");
     JButton backBtn = new JButton("Back");
@@ -183,7 +258,7 @@ public class ModifyInventory extends JFrame {
     JButton[] jButtons = new JButton[]{confirmBtn, backBtn};
     for (int i = 0; i < jButtons.length; i++) {
       jButtons[i].setPreferredSize(preferredSize);
-      jButtons[i].setBounds(60 + i * 160, 350, 120, 40);
+      jButtons[i].setBounds(60 + i * 160, 600, 120, 40);
       jButtons[i].setBackground(Color.WHITE);
       jButtons[i].setOpaque(true);
       jButtons[i].setFont(new Font("Arial", Font.PLAIN, 15));
@@ -212,19 +287,23 @@ public class ModifyInventory extends JFrame {
             modifyV.setVin(Integer.parseInt(vinText.getText()));
             modifyV.setPrice(Float.parseFloat(priceText.getText()));
             modifyV.setMileage(Integer.parseInt(mileageText.getText()));
-            modifyV.setColor((String) colorText.getSelectedItem());
+            modifyV.setColor(colorText.getSelectedItem().toString());
             modifyV.setCategory((String) categoryText.getSelectedItem());
             vmi.updateVehicle(modifyV);
+            if(!path.equals("Please select an image"))
+            {
+              dealerU.addImageToAzureBlob(path, Integer.parseInt(vinText.getText()));
+            }
             JOptionPane.showMessageDialog(panel, "Vehicle " + modifyV.getVehicleId() + " has been updated");
             frame.dispose();
-            new InventoryInformation(dID);
+            new InventoryInformation(dID, dealerName);
           }
           else {
             JOptionPane.showMessageDialog(panel, "Duplicate VIN! Please reenter");
           }
         }
-       else{
-          JOptionPane.showMessageDialog(panel, "Please check all the input");
+       else {
+          JOptionPane.showMessageDialog(panel, "Please check the input");
         }
       }catch (Exception ex){
         JOptionPane.showMessageDialog(panel, "Please input valid numbers!");
@@ -233,7 +312,7 @@ public class ModifyInventory extends JFrame {
 
     //back button actionListener
     backBtn.addActionListener(e -> {
-      new InventoryInformation(dID);
+      new InventoryInformation(dID, dealerName);
       frame.dispose();
     });
   }

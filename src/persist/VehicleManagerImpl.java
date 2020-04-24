@@ -135,8 +135,8 @@ public class VehicleManagerImpl implements VehicleManager {
   public Vehicle updateVehicle(Vehicle vehicle) {
     String query = "UPDATE VehicleTable SET VIN='" + vehicle.getVin() + "' , DealerId=" + vehicle.getDealerId() +
             " , Make='" + vehicle.getMake() + "' , Model='" + vehicle.getModel() + "' , Year= " + vehicle.getYear() +
-            " , Category = '" + vehicle.getCategory() + "' , Price = " + vehicle.getPrice() + " , Color = '" + vehicle.getColor() +
-            "' , Miles = " + vehicle.getMileage() +
+            " , Category = '" + vehicle.getCategory() + "' , Price = " + vehicle.getPrice() + " , Color = '" + vehicle.getColor() + "' , Ratings = " + vehicle.getRatings() +
+            " , Miles = " + vehicle.getMileage() +
             " WHERE VehicleId=" + vehicle.getVehicleId() +
             " ;";
 
@@ -151,7 +151,7 @@ public class VehicleManagerImpl implements VehicleManager {
     String query = "DELETE FROM VehicleTable WHERE VehicleId = " + vehicle.getVehicleId() + " ;";
 
     /*Call 'executeQuery' method to run the query*/
-    ArrayList<ArrayList> result = connect.executeVehicleQuery(query, "UPDATE");
+    ArrayList<ArrayList> result = connect.executeVehicleQuery(query, "DELETE");
     return vehicle;
   }
 
@@ -166,10 +166,10 @@ public class VehicleManagerImpl implements VehicleManager {
       v.setVehicleId((Integer) temp.get(0));
       v.setVin((Integer) temp.get(1));
       v.setDealerId((Integer) temp.get(2));
-      v.setMake(temp.get(3).toString());
-      v.setModel(temp.get(4).toString());
+      v.setMake((String)temp.get(3));
+      v.setModel((String)temp.get(4));
       v.setYear((Integer) temp.get(5));
-      v.setCategory(temp.get(6).toString());
+      v.setCategory((String)temp.get(6));
       v.setPrice((Float) temp.get(7));
       v.setColor(temp.get(8).toString());
       v.setMileage((Integer) temp.get(9));
