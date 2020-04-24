@@ -82,59 +82,38 @@ public class FrameUtilities {
         return dataMode;
     }
 
-    public static Collection<MakeModel> getMakeModelFromDb() {
-        mmc = mmcp.getMakeModels();
+    public static Collection<MakeModel> getMakeModelFromDb(int dealerID) {
+        mmc = mmcp.getMakeModels(dealerID);
         return mmc.getMakeModels();
 
     }
 
 
-    public static List<Vehicle> vehicleSearchAndSort(int dealerID, String make, String model, String year, String maxPrice) {
+    public static List<Vehicle> vehicleSearchAndSort(int dealerID, SearchFilterDTO filter) {
         VehicleSearchFilter vsf = new VehicleSearchFilter(dealerID);
         // VehicleSearchFilterElement vsfe1 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.MODEL, "Infiniti");
-        if (!make.isEmpty() && make != null) {
-            VehicleSearchFilterElement vsfe2 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.MAKE, make);
+        if (!filter.getMake().isEmpty() && filter.getMake() != null) {
+            VehicleSearchFilterElement vsfe2 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.MAKE, filter.getMake());
             vsf.addElement(vsfe2);
         }
-        if (!model.isEmpty() && model != null) {
-            VehicleSearchFilterElement vsfe1 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.MODEL, model);
+        if (!filter.getModel().isEmpty() && filter.getModel() != null) {
+            VehicleSearchFilterElement vsfe1 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.MODEL, filter.getModel());
             vsf.addElement(vsfe1);
         }
-        if (!year.isEmpty() && year != null) {
-            VehicleSearchFilterElement vsfe3 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.YEAR, year);
+        if (!filter.getYear().isEmpty() && filter.getYear() != null) {
+            VehicleSearchFilterElement vsfe3 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.YEAR, filter.getYear());
             vsf.addElement(vsfe3);
         }
 
-        VehicleSearchFilterElement vsfe4 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.PRICE, maxPrice);
-        vsf.addElement(vsfe4);
+        if (!filter.getMaxPrice().isEmpty() && filter.getMaxPrice() != null) {
+            VehicleSearchFilterElement vsfe4 = new VehicleSearchFilterElement(VehicleSearchFilterElement.VehicleSearchCriterion.PRICE, filter.getMaxPrice());
+            vsf.addElement(vsfe4);
+        }
 
         VehicleManager vhcManager = new VehicleManagerImpl();
         ArrayList<Vehicle> vehicleList = (ArrayList<Vehicle>) vhcManager.getVehicles(vsf);
 
         return vehicleList;
-    }
-
-    public static List<Vehicle> createTestVehicles() {
-        List<Vehicle> vGroups = new ArrayList<>();
-        Random r = new Random(1);
-        for (int i = 0; i < 20; i++) {
-            Vehicle v = new Vehicle();
-            v.setMake(createMake()[r.nextInt(3)]);
-            v.setPrice(1000+i*100);
-            v.setVin(i*100323+i);
-            v.setDiscountPrice(v.getPrice() - 1000);
-            v.setModel(v.getMake());
-            v.setYear(1000+ i * 10);
-            v.setCategory("test Category");
-            v.setColor("Black");
-            v.setIncentiveId("33");
-            vGroups.add(v);
-        }
-        return vGroups;
-    }
-
-    public static String[] createMake() {
-        return new String[] {"Toyota", "Nissan", "Ford"};
     }
 
 }

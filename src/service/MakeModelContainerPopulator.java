@@ -14,10 +14,9 @@ public class MakeModelContainerPopulator {
     final static int make = 3;
     final static int model = 4;
 
-    public MakeModelContainer getMakeModels() {
+    public MakeModelContainer getMakeModels(int dealerID) {
 
-
-        String query = "SELECT * FROM VehicleTable;";
+        String query = "SELECT * FROM VehicleTable where DealerId = " + dealerID;
 
         System.out.println(query);
 
