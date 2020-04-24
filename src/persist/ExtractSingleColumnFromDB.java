@@ -1,5 +1,6 @@
 package persist;
 
+import dto.Dealer;
 import dto.Vehicle;
 
 import java.sql.Connection;
@@ -72,32 +73,31 @@ public class ExtractSingleColumnFromDB {
         /*Return result*/
         return result;
     }
-    public ArrayList<Vehicle> executeVehicleQuery1(String makeValue) {
-        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
-        Vehicle v = null;
-        /*Connect to database*/
-        connectToDB();
-        try {
-            /*Execute the query*/
-            try (Statement statement = connection.createStatement();
-                 ResultSet resultSet = statement.executeQuery("SELECT DISTINCT Model FROM VehicleTable WHERE " +
-                         "Make =" + makeValue)) {
-
-                while (resultSet.next()) {
-                    v = new Vehicle();
-                    v.setModel(resultSet.getString("Model"));
-                    result.add(v);
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Exception :" + e.getMessage());
-            return null;
-        }
-        /*Disconnect from DB*/
-        disconnectFromDB();
-
-        /*Return result*/
-        return result;
-    }
+//    public ArrayList<Vehicle> executeVehicleQuery1(int dealerId) {
+//        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
+//        Dealer d = null;
+//        /*Connect to database*/
+//        connectToDB();
+//        try {
+//            /*Execute the query*/
+//            try (Statement statement = connection.createStatement();
+//                 ResultSet resultSet = statement.executeQuery("SELECT DealerName FROM Dealer WHERE DealerId = dealerId" )) {
+//
+//                while (resultSet.next()) {
+//                    d = new Dealer();
+//                    d.setDealerName(resultSet.getString("DealerName"));
+//                    result.add(d);
+//                }
+//            }
+//        } catch (Exception e) {
+//            System.out.println("Exception :" + e.getMessage());
+//            return null;
+//        }
+//        /*Disconnect from DB*/
+//        disconnectFromDB();
+//
+//        /*Return result*/
+//        return result;
+//    }
 
 }

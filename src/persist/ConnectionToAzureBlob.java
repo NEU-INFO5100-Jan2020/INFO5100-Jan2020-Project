@@ -7,8 +7,6 @@ import com.microsoft.azure.storage.blob.*;
 
 import java.io.*;
 import java.net.URISyntaxException;
-import java.security.InvalidKeyException;
-import java.text.MessageFormat;
 
 public class ConnectionToAzureBlob {
 
@@ -17,31 +15,31 @@ public class ConnectionToAzureBlob {
     private static CloudBlobClient blobClient = null;
     private static CloudBlobContainer container = null;
 
-    static String connecString = "DefaultEndpointsProtocol=https;AccountName=5100finalproject;AccountKey=XrHxHbmPgucTuHaCURBunGNj6QPTBYEX8n65ihU8WyExpMafbr8z3oKDe8CA5gMo2qyAeLRAcIbtOO7AFjQqpQ==;EndpointSuffix=core.windows.net";
-//    static String blobAccount = "5100finalproject";
-//    static String blobKey = "XrHxHbmPgucTuHaCURBunGNj6QPTBYEX8n65ihU8WyExpMafbr8z3oKDe8CA5gMo2qyAeLRAcIbtOO7AFjQqpQ==";
-//    static String end_point = "https://5100finalproject.blob.core.windows.net/vehicleimages";
-//    static String PROTOCOL = "https";
-//    static String format = "DefaultEndpointsProtocol={0};AccountName={1};AccountKey={2};EndpointSuffix={3}";
+    public static String connectString = "DefaultEndpointsProtocol=https;AccountName=5100finalproject;AccountKey=XrHxHbmPgucTuHaCURBunGNj6QPTBYEX8n65ihU8WyExpMafbr8z3oKDe8CA5gMo2qyAeLRAcIbtOO7AFjQqpQ==;EndpointSuffix=core.windows.net";
+    static String blobAccount = "5100finalproject";
+    static String blobKey = "XrHxHbmPgucTuHaCURBunGNj6QPTBYEX8n65ihU8WyExpMafbr8z3oKDe8CA5gMo2qyAeLRAcIbtOO7AFjQqpQ==";
+    static String end_point = "https://5100finalproject.blob.core.windows.net/vehicleimages";
+    static String PROTOCOL = "https";
+    static String format = "DefaultEndpointsProtocol={0};AccountName={1};AccountKey={2};EndpointSuffix={3}";
     static String containerName = "vehicleimages";
 
     public static void main(String[] args) {
 
-        initBlob(connecString);
+        initBlob(connectString);
 
 //        1.download to local targetPath from URL
-//          String blobPath = "src/main/resources/CarImages/testImage.png";
-//        String targetPath = "src/main/resources/CarImages/";
-//         downloadToFile(blobPath, targetPath);
+//        String blobPath = "1.jpeg";
+//        String targetPath = "src\\main\\resources\\CarImages\\";
+//        downloadToFile(blobPath, targetPath);
 
 //        2.Upload from File object
-//        String relativePath = "";
-//        File file = new File(relativePath);
-//        uploadFile(file);
+        String relativePath = "src\\main\\resources\\CarImages\\1.jpeg";
+        File file = new File(relativePath);
+        uploadFile(file, "1.jpeg");
 
 //        3.file existance(check if URL is valid)
-//         String fileName = "file.jpg" / "file"
-//        imageExist(fileName);
+//         String fileName = "";
+//         imageExist(fileName);
 
 
 //          4.list all files
@@ -104,9 +102,9 @@ public class ConnectionToAzureBlob {
         }
     }
 
-    public static void uploadFile(File file) {
+    public static void uploadFile(File file, String fileName) {
         try {
-            CloudBlockBlob blob = container.getBlockBlobReference("testImage");
+            CloudBlockBlob blob = container.getBlockBlobReference(fileName);
             blob.uploadFromFile(file.getPath());
             blob.downloadAttributes();
             long blobSize = blob.getProperties().getLength();
