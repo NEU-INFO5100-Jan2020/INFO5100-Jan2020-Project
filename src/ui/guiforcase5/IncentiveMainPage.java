@@ -3,45 +3,41 @@ package ui.guiforcase5;
 import dto.Incentives;
 import persist.IncentivesManager;
 import persist.IncentivesManagerImpl;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
-// import javax.swing.JOptionPane;
-
-//        import lombok.Data;
 
 public class IncentiveMainPage extends JFrame {
-
-    private JButton createButton, editButton, deleteButton;
+    private JButton createButton, editButton, deleteButton, backButton;
     private JScrollPane jScrollPane1;
     private JTabbedPane jTabbedPane1;
     private JTable jTable1;
     private int dealerID;
-
+    private IncentiveMainPage thisPage;
+    ui.guiforcase5.CreatePage cp;
+    ui.guiforcase5.EditPage ep;
 
     public IncentiveMainPage(int dealerID) {
+        thisPage = this;
         setDealerID(dealerID);
         initComponents();
         addActionListener();
         refreshTableContents();
     }
 
-
-
-
     private void setDealerID(int dealerID) {
         this.dealerID = dealerID;
     }
-    private void addActionListener( ) {
+    private void addActionListener() {
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-//                new CreatePageWithSearchButton(dealerID);
-                new CreatePage(dealerID);
+                cp = new CreatePage(dealerID,thisPage);
             }
         });
+
         editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try{
@@ -50,17 +46,15 @@ public class IncentiveMainPage extends JFrame {
                         throw new Exception();
                     }
                     Incentives incentives=extract(rowIndex);
-
-
-                    new ui.guiforcase5.EditPage(dealerID,incentives);
+                    ep = new ui.guiforcase5.EditPage(dealerID,incentives, thisPage);
                 }catch (Exception e1){
                     JOptionPane.showMessageDialog(null,"plesae select a row");
                 }
-
             }
         });
     }
-    public Incentives extract(int rowIndex){
+
+    private Incentives extract(int rowIndex){
         rowIndex = jTable1.getSelectedRow();
         int ID = Integer.parseInt(jTable1.getValueAt(rowIndex, 0).toString()) ;
         IncentivesManagerImpl incentivesManagerImpl =new IncentivesManagerImpl();
@@ -73,11 +67,8 @@ public class IncentiveMainPage extends JFrame {
         return null;
     }
 
-//    public IncentiveMainPage incentiveMainPage;
     private void initComponents() {
-
         jScrollPane1 = new javax.swing.JScrollPane();
-
         jTable1 = new javax.swing.JTable(){
             public boolean isCellEditable(int row, int column)
             {
@@ -85,8 +76,8 @@ public class IncentiveMainPage extends JFrame {
         };
         createButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
 
-        // pageTitle = new javax.swing.JLabel("Manage Incentives");
         editButton = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
 
@@ -126,6 +117,14 @@ public class IncentiveMainPage extends JFrame {
         jTable1.setShowGrid(true);
         jScrollPane1.setViewportView(jTable1);
 
+        backButton.setText("Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+
+            }
+        });
+
         createButton.setText("Create");
         createButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -151,7 +150,7 @@ public class IncentiveMainPage extends JFrame {
                                 .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup().addGap(216, 216, 216).addComponent(createButton)
                                         .addGap(117, 117, 117).addComponent(deleteButton).addGap(144, 144, 144)
-                                        .addComponent(editButton))
+                                        .addComponent(editButton).addGap(100, 100, 100).addComponent(backButton))
                                 .addGroup(layout.createSequentialGroup().addContainerGap()
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1064,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -170,7 +169,7 @@ public class IncentiveMainPage extends JFrame {
                                 javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(createButton)
-                        .addComponent(deleteButton).addComponent(editButton))
+                        .addComponent(deleteButton).addComponent(editButton).addComponent(backButton))
                 .addContainerGap(52, Short.MAX_VALUE)));
 
         pack();
@@ -203,7 +202,6 @@ public class IncentiveMainPage extends JFrame {
                 fail += " " + incentiveID + " ";
             }
         }
-
         String message = "";
         if (!success.isEmpty()) {
             message += "Successful deleted IncentiveID: " + success + '\n';
@@ -211,30 +209,23 @@ public class IncentiveMainPage extends JFrame {
         if (!fail.isEmpty()) {
             message += "Failed deleted IncentiveID: " + fail;
         }
-
         JOptionPane.showMessageDialog(null, message);
-
     }
 
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton3ActionPerformed
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-//        jTable1.editCellAt(ERROR, 0);
-//        jTable1.editCellAt(ERROR, 1);
-    }// GEN-LAST:event_jButton3ActionPerformed
+        if (cp != null) {
+            cp.disposePage();
+        }
+        if (ep != null) {
+            ep.disposePage();
+        }
+        thisPage.dispose();
 
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[])  {
-//
-//        new IncentiveMainPage(1).setVisible(true);
-//
-//    }
-
+        new ui.guiforcase4.OperationOptions(dealerID);
+    }
 
     protected void refreshTableContents(){
-
         DefaultTableModel tableModel=new DefaultTableModel();
         tableModel.addColumn("Incentive ID");
         tableModel.addColumn("Title");
@@ -260,7 +251,10 @@ public class IncentiveMainPage extends JFrame {
                     i.getDisclaimer()});
         }
         jTable1.setModel(tableModel);
-
     }
+
+//    public static void main(String args[])  {
+//        new IncentiveMainPage(1).setVisible(true);
+//    }
 
 }
