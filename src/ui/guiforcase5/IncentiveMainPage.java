@@ -46,12 +46,13 @@ public class IncentiveMainPage extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
 //                new CreatePageWithSearchButton(dealerID);
+
                 cp = new CreatePage(dealerID,thisPage);
+
             }
         });
         editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 try{
                     int rowIndex = jTable1.getSelectedRow();
                     if(rowIndex==-1){

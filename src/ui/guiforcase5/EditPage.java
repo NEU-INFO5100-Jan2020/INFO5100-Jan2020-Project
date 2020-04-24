@@ -60,10 +60,10 @@ class EditPage extends JFrame {
     private void displayFilterList(){
         String filterList = this.incentives.getFilterList();
         String[] filterArray = filterList.split(" ");
-        vinLabel.setText(filterArray[0]);
-        minLabel.setText(filterArray[1]);
-        maxLabel.setText(filterArray[2]);
-        makeMakeLabel.setText(filterArray[3]);
+        if (! filterArray[0].equals("null")) vinLabel.setText(filterArray[0]);
+        if (! filterArray[1].equals("null")) minLabel.setText(filterArray[1]);
+        if (! filterArray[2].equals("null")) maxLabel.setText(filterArray[2]);
+        if (! filterArray[3].equals("Default")) makeMakeLabel.setText(filterArray[3]);
         if(filterArray[4].equals("true")) {
             newVehicleButton.setSelected(true);
         }else {
@@ -136,8 +136,6 @@ class EditPage extends JFrame {
         maxLabel = new JLabel("");
         maxLabel.setFont(mainCommonFont);
 
-
-
         makeLabel = new JLabel("Make: ");
         makeMakeLabel = new JLabel("");
         makeLabel.setFont(mainBoldFont);
@@ -145,9 +143,6 @@ class EditPage extends JFrame {
 
         welcomeLabel = new JLabel("Welcome, " + dealerID);
         welcomeLabel.setFont(mainCommonFont);
-
-
-
 
         newVehicleButton = new JCheckBox("New Vehicles");
         newVehicleButton.setFont(mainBoldFont);
