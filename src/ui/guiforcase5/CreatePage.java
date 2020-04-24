@@ -294,8 +294,12 @@ public class CreatePage {
         dateLabel.setFont(rightCommonFont);
         titleText = new JTextField(37);
         valueText = new JTextField(37);
-        descriptionText = new JTextArea(1, 6);
-        disclaimerText = new JTextArea(1, 6);
+        descriptionText = new JTextArea(10, 60);
+        disclaimerText = new JTextArea(10, 60);
+        descriptionText.setLineWrap(true);
+        descriptionText.setWrapStyleWord(true);
+        disclaimerText.setLineWrap(true);
+        disclaimerText.setWrapStyleWord(true);
 
         slashLabel = new JLabel("-");
         startDateChooser = new JDateChooser();
