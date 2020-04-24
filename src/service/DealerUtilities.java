@@ -13,7 +13,7 @@ import java.util.List;
 
 import persist.ConnectionToAzureBlob;
 
-public class DealerUtilities {
+public class  DealerUtilities {
 
   public DealerUtilities(){
 
