@@ -292,7 +292,11 @@ public class ModifyInventory extends JFrame {
             vmi.updateVehicle(modifyV);
             if(!path.equals("Please select an image"))
             {
-              dealerU.addImageToAzureBlob(path, Integer.parseInt(vinText.getText()));
+              if (path.endsWith(".jpg") || path.endsWith(".jpeg") ||path.endsWith(".bmp") || path.endsWith(".png")) {
+                dealerU.addImageToAzureBlob(path, Integer.parseInt(vinText.getText()));
+              } else {
+                JOptionPane.showMessageDialog(panel, "Please select a valid image to upload (jpg, jpeg, bmp, png)");
+              }
             }
             JOptionPane.showMessageDialog(panel, "Vehicle " + modifyV.getVehicleId() + " has been updated");
             frame.dispose();
