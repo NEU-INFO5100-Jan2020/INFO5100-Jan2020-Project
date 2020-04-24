@@ -161,8 +161,12 @@ class EditPage extends JFrame {
         titleText.setText(incentives.getTitle());
         valueText = new JTextField(37);
         valueText.setText(String.valueOf(incentives.getDiscountValue()));
-        descriptionText = new JTextArea(1, 6);
-        disclaimerText = new JTextArea(1, 6);
+        descriptionText = new JTextArea(10, 60);
+        disclaimerText = new JTextArea(10, 60);
+        descriptionText.setLineWrap(true);
+        descriptionText.setWrapStyleWord(true);
+        disclaimerText.setLineWrap(true);
+        disclaimerText.setWrapStyleWord(true);
 
         slashLabel = new JLabel("-");
         startDateChooser = new JDateChooser();
