@@ -52,7 +52,7 @@ class EditPage extends JFrame {
         addComponents();
         addListeners();
         displayFilterList();
-        jframe.setLocation(1200,20);
+        jframe.setLocation(1200,0);
         jframe.setVisible(true);
 
     }
@@ -188,9 +188,9 @@ class EditPage extends JFrame {
     }
 
     private void addComponents() {
-        mainPanel.setBounds(20, 20, 550, 840);
+        mainPanel.setBounds(20, 20, 550, 660);
         jframe.add(mainPanel);
-        rightPanel.setBounds(20, 200, 510, 620);
+        rightPanel.setBounds(20, 200, 510, 440);
         mainPanel.add(rightPanel, null);
         addMainPanel();
         addRightPanel();
@@ -232,7 +232,7 @@ class EditPage extends JFrame {
     }
 
     private void placeComponents() {
-        jframe.setSize(590, 900);
+        jframe.setSize(590, 720);
         placeMainComponents();
         placeRightComponents();
     }
@@ -261,26 +261,29 @@ class EditPage extends JFrame {
         int rightLabelX = 25;
         int rightTextX = 150;
         rightTitle.setBounds(65, 25, 500, 40);
-        titleLabel.setBounds(rightLabelX, 100, 130, 30);
-        valueLabel.setBounds(rightLabelX, 215, 130, 30);
-        descriptionLabel.setBounds(rightLabelX, 285, 130, 50);
-        disclaimerLabel.setBounds(rightLabelX, 370, 130, 50);
-        dateLabel.setBounds(rightLabelX, 450, 175, 40);
-        incenitveTypeLabel.setBounds(rightLabelX,155,130,30);
 
-        titleText.setBounds(rightTextX, 100, 150, 30);
-        valueText.setBounds(rightTextX, 215, 150, 30);
-        descriptionText.setBounds(rightTextX, 285, 250, 50);
+        titleLabel.setBounds(rightLabelX, 80, 130, 30);
+        incenitveTypeLabel.setBounds(rightLabelX,120,130,30);
+        valueLabel.setBounds(rightLabelX, 160, 130, 30);
+        descriptionLabel.setBounds(rightLabelX, 200, 130, 50);
+        disclaimerLabel.setBounds(rightLabelX, 260, 130, 50);
+        dateLabel.setBounds(rightLabelX, 320, 175, 40);
+
+
+        titleText.setBounds(rightTextX, 80, 150, 30);
+        incentiveTypeBox.setBounds(rightTextX,120,150,30);
+        valueText.setBounds(rightTextX, 160, 150, 30);
+        descriptionText.setBounds(rightTextX, 200, 250, 50);
         descriptionText.setText(incentives.getDescription());
-        disclaimerText.setBounds(rightTextX, 380, 250, 50);
+        disclaimerText.setBounds(rightTextX, 260, 250, 50);
         disclaimerText.setText(incentives.getDisclaimer());
-        incentiveTypeBox.setBounds(rightTextX,155,150,30);
 
-        slashLabel.setBounds(340, 450, 10, 40);
-        startDateChooser.setBounds(210,450, 125,40);
-        endDateChooser.setBounds(355, 450, 125,40);
 
-        applyButton.setBounds(215, 535, 100, 40);
+        slashLabel.setBounds(340, 320, 10, 40);
+        startDateChooser.setBounds(210,320, 125,40);
+        endDateChooser.setBounds(355, 320, 125,40);
+
+        applyButton.setBounds(215, 370, 100, 40);
     }
 
     public void disposePage() {
