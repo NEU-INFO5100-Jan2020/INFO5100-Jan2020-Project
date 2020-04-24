@@ -9,20 +9,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class AddVehicles extends JFrame {
     int dID;
+    JPanel p;
     ExtractSingleColumnFromDB connect = new ExtractSingleColumnFromDB();
     Vehicle vehicle = new Vehicle();
     VehicleManagerImpl vmi = new VehicleManagerImpl();
     DealerUtilities du = new DealerUtilities();
     List<MakeModelVer2> makeModelVer2s = MakeModelJsonPopulator.populateMakeModel();
+    Map<String,String> colors = ColorJsonPopulator.populateColorContainer();
     public AddVehicles(int dID) {
         this.dID = dID;
         this.vehicle = vehicle;
-
         initialFrame();
     }
 
@@ -154,9 +155,20 @@ public class AddVehicles extends JFrame {
         yc.setHorizontalAlignment(SwingConstants.LEFT);
         panel.add(yc);
 
-        JComboBox cmb1 = new JComboBox(removeDuplicates(getColorsFromDatabase()));
+        JComboBox cmb1 = new JComboBox();
         cmb1.setBounds(160, 230, 160, 25);
         cmb1.setFont(new Font("Arial", Font.PLAIN, 15));
+        for (Map.Entry<String, String> entry : colors.entrySet()) {
+            int r = Integer.parseInt(entry.getValue().substring(1,3),16);
+            int g = Integer.parseInt(entry.getValue().substring(3,5),16);
+            int b = Integer.parseInt(entry.getValue().substring(5,7),16);
+            Color c = new Color(r,g,b);
+            p = new ColorCell(c,entry.getKey());
+            cmb1.addItem(p);
+
+        }
+        ListCellRenderer renderer = new PanelComboBoxCellRenderer();
+		    cmb1.setRenderer(renderer);
         JComboBox cmb2 = new JComboBox();
         cmb2.setBounds(160, 170, 160, 25);
         cmb2.addItem("New");
@@ -225,7 +237,7 @@ public class AddVehicles extends JFrame {
                         vehicle.setPrice(Float.parseFloat(tf2.getText()));
                         vehicle.setColor(cmb1.getSelectedItem().toString());
                         vehicle.setMileage(Integer.parseInt(tf3.getText()));
-                        if (du.validateVin(vehicle) == false) {
+                        if (du.validateVin(vehicle) == true) {
                             btn1.setEnabled(false);
                             JOptionPane.showMessageDialog(null, "The VIN You Entered Already " +
                                 "Exists! \nPlease Enter A New VIN");
@@ -248,35 +260,6 @@ public class AddVehicles extends JFrame {
         }
         return null;
     }
-
-    public String[] getColorsFromDatabase() {
-        ArrayList<Vehicle> vehicles = connect.executeVehicleQuery();
-        String[] color = new String[vehicles.size()];
-        for (int i = 0; i < vehicles.size(); i++) {
-            color[i] = vehicles.get(i).getColor();
-        }
-        return color;
-    }
-
-    public String[] removeDuplicates(String[] array) {
-        ArrayList<String> result = new ArrayList<>();
-        boolean flag;
-        for (int i = 0; i < array.length; i++) {
-            flag = false;
-            for (int j = 0; j < result.size(); j++) {
-                if (array[i].equals(result.get(j))) {
-                    flag = true;
-                    break;
-                }
-            }
-            if (!flag) {
-                result.add(array[i]);
-            }
-        }
-        String[] arrayResult = (String[]) result.toArray(new String[result.size()]);
-        return arrayResult;
-    }
-
 }
 
 
