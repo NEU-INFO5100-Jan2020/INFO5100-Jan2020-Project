@@ -135,8 +135,8 @@ public class VehicleManagerImpl implements VehicleManager {
   public Vehicle updateVehicle(Vehicle vehicle) {
     String query = "UPDATE VehicleTable SET VIN='" + vehicle.getVin() + "' , DealerId=" + vehicle.getDealerId() +
             " , Make='" + vehicle.getMake() + "' , Model='" + vehicle.getModel() + "' , Year= " + vehicle.getYear() +
-            " , Category = '" + vehicle.getCategory() + "' , Price = " + vehicle.getPrice() + " , Color = '" + vehicle.getColor() +
-            "' , Miles = " + vehicle.getMileage() +
+            " , Category = '" + vehicle.getCategory() + "' , Price = " + vehicle.getPrice() + " , Color = '" + vehicle.getColor() + "' , Ratings = " + vehicle.getRatings() +
+            " , Miles = " + vehicle.getMileage() +
             " WHERE VehicleId=" + vehicle.getVehicleId() +
             " ;";
 
