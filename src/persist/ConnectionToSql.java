@@ -48,7 +48,7 @@ public class ConnectionToSql {
         connectToDB();
 
         try {
-            if("INSERT".equalsIgnoreCase(queryType) || "DELETE".equalsIgnoreCase(queryType)){
+            if("INSERT".equalsIgnoreCase(queryType) || "DELETE".equalsIgnoreCase(queryType) || "UPDATE".equalsIgnoreCase(queryType)){
                 /*Execute the query*/
                 Statement statement = connection.createStatement();
                 statement.executeUpdate(queryToExecute);
@@ -100,7 +100,7 @@ public class ConnectionToSql {
         connectToDB();
 
         try {
-            if("INSERT".equalsIgnoreCase(queryType) || "DELETE".equalsIgnoreCase(queryType)){
+            if("INSERT".equalsIgnoreCase(queryType) || "DELETE".equalsIgnoreCase(queryType) || "UPDATE".equalsIgnoreCase(queryType)){
                 /*Execute the query*/
                 Statement statement = connection.createStatement();
                 statement.executeUpdate(queryToExecute);
@@ -146,7 +146,7 @@ public class ConnectionToSql {
         connectToDB();
 
         try {
-            if("INSERT".equalsIgnoreCase(queryType) || "DELETE".equalsIgnoreCase(queryType)){
+            if("INSERT".equalsIgnoreCase(queryType) || "DELETE".equalsIgnoreCase(queryType) || "UPDATE".equalsIgnoreCase(queryType)){
                 /*Execute the query*/
                 Statement statement = connection.createStatement();
                 statement.executeUpdate(queryToExecute);
