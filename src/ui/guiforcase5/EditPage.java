@@ -34,6 +34,7 @@ class EditPage extends JFrame {
 
     private JLabel vinLabel, minLabel, maxLabel, makeMakeLabel, lowLabel, highLabel;
     private int dealerID;
+    private String dealerName;
     public Incentives incentives;
 
     private IncentiveMainPage parentPage;
@@ -42,9 +43,10 @@ class EditPage extends JFrame {
 
 
 
-    protected EditPage(int dealerID, Incentives incentives, IncentiveMainPage parentPage) {
+    protected EditPage(int dealerID, String dealerName, Incentives incentives, IncentiveMainPage parentPage) {
         this.parentPage = parentPage;
         this.dealerID=dealerID;
+        this.dealerName = dealerName;
         this.incentives=incentives;
         createComponents(dealerID);
         placeComponents();
@@ -126,7 +128,7 @@ class EditPage extends JFrame {
         makeLabel.setFont(mainBoldFont);
         makeMakeLabel.setFont(mainCommonFont);
 
-        welcomeLabel = new JLabel("Welcome, " + dealerID);
+        welcomeLabel = new JLabel("Welcome, " + dealerName);
         welcomeLabel.setFont(mainCommonFont);
 
         newVehicleButton = new JCheckBox("New Vehicles");
@@ -232,7 +234,7 @@ class EditPage extends JFrame {
         int mainLabelX = 40;
         int filterX = 100;
         mainTitle.setBounds(150, 40, 250, 30);
-        welcomeLabel.setBounds(300,10,200,20);
+        welcomeLabel.setBounds(300,10,250,20);
 
         vehicleIDLabel.setBounds(mainLabelX, 85, 60, 20);
         vinLabel.setBounds(filterX,85,150,20);

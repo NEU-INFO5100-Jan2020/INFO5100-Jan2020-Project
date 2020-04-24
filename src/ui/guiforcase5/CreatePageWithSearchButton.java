@@ -39,13 +39,15 @@ public class CreatePageWithSearchButton extends JFrame {
     private JTextArea descriptionText, disclaimerText;
     private JDateChooser startDateChooser, endDateChooser;
 
+    private String dealerName;
+
     private int dealerID;
     private static int[] vid;
 
     Font botton = new Font("Courier", Font.BOLD, 21);
 
-    public CreatePageWithSearchButton(int dealerID) {
-        setDealerID(dealerID);
+    public CreatePageWithSearchButton(int dealerID, String dealerName) {
+        setDealerID(dealerID, dealerName);
         createComponents(dealerID);
         placeComponents();
         addComponents();
@@ -54,8 +56,9 @@ public class CreatePageWithSearchButton extends JFrame {
 
 
     }
-    private void setDealerID(int dealerID) {
+    private void setDealerID(int dealerID, String dealerName) {
         this.dealerID = dealerID;
+        this.dealerName = dealerName;
     }
 
     private void addListeners() {
@@ -75,7 +78,7 @@ public class CreatePageWithSearchButton extends JFrame {
                 Incentives incentive=new Incentives();
                 setIncentiveApplyData(incentive);
                 IncentivesManagerImpl incentivesManagerImpl=new IncentivesManagerImpl();
-                IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID);
+                IncentiveMainPage incentiveMainPage=new IncentiveMainPage(dealerID, dealerName);
 
                 try {
                     setSearchFilter();
