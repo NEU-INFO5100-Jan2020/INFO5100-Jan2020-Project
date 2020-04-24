@@ -27,6 +27,6 @@ https://www.lucidchart.com/documents/edit/75f3138b-4f63-463c-b1bc-c3d771413586/0
   
 2. **(Please don't do this way)** Manually adding all the details of an incentive into the database, but **you should add it in the same format like we create it**, or dealers will have problems managing their incentives.
   * The "FilterList" column in the database contains the information of all the searching filters, **it's not "null" or empty String like ""**, it's a **long String joined by six meaningful Strings from a String Array** , like "null 100 100000 Default true true"  
-So, use the first approach to create incentives, or you will have to read the code for the *"convertFilterListToString()"* method in scr/ui/guiforcase5/CreatePage.java 
+So, use the first approach to create incentives, or you will have to **read the code for the *"convertFilterListToString()"* method** in scr/ui/guiforcase5/CreatePage.java 
   * The *"vehicleIdList"* column in the database is an empty String like this -> ""
 
